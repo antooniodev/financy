@@ -1,6 +1,5 @@
-import { PrismaClient } from "@prisma/client"
-import { Transaction, TransactionRequestBody } from "../modules/transaction/transaction"
-const prisma = new PrismaClient()
+import { Transaction, TransactionRequestBody } from "./transaction.entity"
+
 export class TransactionRepository {
   async getAll(
     user_id: string,

@@ -1,4 +1,4 @@
-import { CategoryRequestBody, CategoryResponse } from "../entities/category";
+import { CategoryRequestBody, CategoryResponse } from "./category.entity"
 
 export interface CreateCategoryModel {
     create: (dto:CategoryRequestBody) => Promise<string>

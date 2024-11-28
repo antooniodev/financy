@@ -1,4 +1,4 @@
-import { User, UserRequestBody } from "../modules/user/user";
+import { UserRequestBody, User } from "./user.entity"
 
 export interface CreateUserModel {
     create: (dto: UserRequestBody) => Promise<string>

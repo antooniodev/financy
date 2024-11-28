@@ -1,7 +1,7 @@
-import { User } from "./user"
-import { ListUserByIdModel } from "../../models/UserModel"
-import { UserRepository } from "../../repositories/UserRepository"
-import { HandleError } from "../../shared/errors/handleError"
+import { HandleError } from "../../../shared/errors/handleError"
+import  { User } from "../user.entity"
+import  { ListUserByIdModel } from "../user.model"
+import { UserRepository } from "../user.repository"
 const repository = new UserRepository()
 export class ListUserById implements ListUserByIdModel {
   async findById(id: string): Promise<User> {

@@ -1,9 +1,10 @@
 import { Request, Response } from "express"
-import { HandleError } from "../shared/errors/handleError"
-import { CreateCategoryService } from "../modules/category/categories/CreateCategoryService"
-import { ListCategoriesService } from "../modules/category/categories/ListCategoriesService"
-import { UpdateCategoryService } from "../modules/category/categories/UpdateCategoryService"
-import { DeleteCategoryService } from "../modules/category/categories/DeleteCategoryService"
+import { HandleError } from "../../shared/errors/handleError"
+import { CreateCategoryService } from "./services/CreateCategoryService"
+import { DeleteCategoryService } from "./services/DeleteCategoryService"
+import { ListCategoriesService } from "./services/ListCategoriesService"
+import { UpdateCategoryService } from "./services/UpdateCategoryService"
+
 export default class CategoryController {
   async list(req: Request, res: Response) {
     const service = new ListCategoriesService()

@@ -1,5 +1,5 @@
+import { TransactionRepository } from "../transaction.repository"
 import { DeleteTransactionModel } from "../TransactionModel"
-import { TransactionRepository } from "../../repositories/TransactionRepository"
 
 const repository = new TransactionRepository()
 export class DeleteTransactionService implements DeleteTransactionModel {

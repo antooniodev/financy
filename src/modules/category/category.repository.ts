@@ -1,6 +1,4 @@
-import { PrismaClient } from "@prisma/client"
-import { Category, CategoryRequestBody } from "../entities/category"
-const prisma = new PrismaClient()
+import { Category, CategoryRequestBody } from "./category.entity"
 
 export class CategoryRepository {
   public async getAll(user_id: string): Promise<Category[]> {

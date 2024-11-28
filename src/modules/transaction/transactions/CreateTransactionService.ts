@@ -1,6 +1,6 @@
-import { TransactionRequestBody } from "../transaction"
+import { TransactionRequestBody } from "../transaction.entity"
+import { TransactionRepository } from "../transaction.repository"
 import { CreateTransactionModel } from "../TransactionModel"
-import { TransactionRepository } from "../../repositories/TransactionRepository"
 const repository = new TransactionRepository()
 
 export class CreateTransactionService implements CreateTransactionModel {

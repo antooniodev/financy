@@ -1,7 +1,7 @@
 import { Request, Response } from "express"
-import { HandleError } from "../shared/errors/handleError"
-import { CreateUserService } from "../services/users/CreateUserService"
-import { ListUserById } from "../services/users/ListUserById"
+import { HandleError } from "../../shared/errors/handleError"
+import { CreateUserService } from "./services/CreateUserService"
+import { ListUserById } from "./services/ListUserById"
 
 export class UserController {
   async create(req: Request, res: Response) {

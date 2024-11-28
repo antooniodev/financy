@@ -1,5 +1,5 @@
+import { TransactionRepository } from "../transaction.repository";
 import { ListTransactionsModel } from "../TransactionModel";
-import { TransactionRepository } from "../../repositories/TransactionRepository";
 const repository = new TransactionRepository()
 export class ListTransactionListService implements ListTransactionsModel {
     async findMany (user_id: string,

@@ -1,7 +1,6 @@
-import { PrismaClient } from "@prisma/client"
-import { User, UserRequestBody } from "../entities/user"
+import { UserRequestBody, User } from "./user.entity"
 
-const prisma = new PrismaClient()
+
 export class UserRepository {
   async post({ name, email }: UserRequestBody): Promise<User> {
     const data = prisma.user.create({

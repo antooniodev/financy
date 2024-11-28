@@ -1,9 +1,9 @@
 import { Request, Response } from "express"
-import { HandleError } from "../utils/handleError"
 import { ListTransactionListService } from "./transactions/ListTransactionsService"
 import { ListTransactionService } from "./transactions/ListTransactionService"
 import { CreateTransactionService } from "./transactions/CreateTransactionService"
 import { DeleteTransactionService } from "./transactions/DeleteTransactionService"
+import { HandleError } from "../../shared/errors/handleError"
 
 export class TransactionController {
   async list(req: Request, res: Response) {

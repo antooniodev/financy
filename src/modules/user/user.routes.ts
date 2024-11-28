@@ -1,8 +1,9 @@
-import { Request, Response, Router } from "express"
-import UserController from "../controllers/UserController"
+import { type Request, type Response, Router } from "express"
+import UserController from "./user.controller"
 
 const userRouter = Router()
 const controller = new UserController()
+
 userRouter.post("/user", (req: Request, res: Response) => {
   controller.create(req, res)
 })

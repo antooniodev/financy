@@ -1,8 +1,10 @@
-import { UserRequestBody, User } from "./user";
-import { CreateUserModel } from "../../models/UserModel";
-import { UserRepository } from "../../repositories/UserRepository";
-import { HandleError } from "../../shared/errors/handleError";
+
+import { HandleError } from "../../../shared/errors/handleError";
+import  { UserRequestBody } from "../user.entity";
+import  { CreateUserModel } from "../user.model";
+import { UserRepository } from "../user.repository";
 const repository = new UserRepository()
+
 export class CreateUserService implements CreateUserModel {
     async create({ name, email }: UserRequestBody): Promise<string> {
         const emailExist = await repository.getOneByEmail(email)
