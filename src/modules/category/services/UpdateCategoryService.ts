@@ -1,6 +1,7 @@
-import { CategoryRequestBody } from "../../../entities/category"
-import { UpdateCategoryModel } from "../../../models/CategoryModels"
-import { CategoryRepository } from "../../repositories/CategoryRepository"
+import { CategoryRequestBody } from "../category.entity"
+import { UpdateCategoryModel } from "../category.model"
+import { CategoryRepository } from "../category.repository"
+
 
 const repository = new CategoryRepository()
 export class UpdateCategoryService implements UpdateCategoryModel {

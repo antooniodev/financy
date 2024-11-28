@@ -1,7 +1,8 @@
-import { CategoryRequestBody } from "../../../entities/category"
-import { CreateCategoryModel } from "../../../models/CategoryModels"
-import { CategoryRepository } from "../../repositories/CategoryRepository"
+
 import { HandleError } from "../../../shared/errors/handleError"
+import { CategoryRequestBody } from "../category.entity"
+import { CreateCategoryModel } from "../category.model"
+import { CategoryRepository } from "../category.repository"
 const repository = new CategoryRepository()
 export class CreateCategoryService implements CreateCategoryModel {
   async create(dto: CategoryRequestBody): Promise<string> {

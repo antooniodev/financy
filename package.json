@@ -5,7 +5,7 @@
   "scripts": {
     "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "tsx --env-file .env watch src/http/server.ts",
+    "dev": "tsx watch --env-file .env src/app/server.ts",
     "seed": "tsx --env-file .env src/db/seed.ts"
   },
   "keywords": [],

@@ -1,7 +1,8 @@
-import { CategoryResponse } from "../../../entities/category"
-import { ListCategoriesModel } from "../../../models/CategoryModels"
-import { CategoryRepository } from "../../repositories/CategoryRepository"
+
 import { HandleError } from "../../../shared/errors/handleError"
+import { CategoryResponse } from "../category.entity"
+import { ListCategoriesModel } from "../category.model"
+import { CategoryRepository } from "../category.repository"
 const repository = new CategoryRepository()
 export class ListCategoriesService implements ListCategoriesModel {
   async findMany(user_id: string, type: string): Promise<CategoryResponse[]> {
