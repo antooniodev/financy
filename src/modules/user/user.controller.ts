@@ -1,28 +1,26 @@
-import { Request, Response } from "express"
-import { HandleError } from "../../shared/errors/handleError"
-import { CreateUserService } from "./services/CreateUserService"
-import { ListUserById } from "./services/ListUserById"
+import { Request, Response } from 'express'
+import { HandleError } from '../../shared/errors/handleError'
+import { UserService } from './user.service'
+
+const service = new UserService()
 
 export class UserController {
   async create(req: Request, res: Response) {
-    const service = new CreateUserService()
     try {
       const dto = req.body
       const userId: string = await service.create(dto)
       res.status(201).json({ id: userId })
-    } catch (error: any) {
-      console.log(error);
-      
+    } catch (error) {
+      console.log(error)
       if (error instanceof HandleError) {
         res.status(error.statusCode).json({ message: error.message })
       } else {
-        res.status(500).json({ message: "Ocorreu um erro ao criar a conta." })
+        res.status(500).json({ message: 'Ocorreu um erro ao criar a conta.' })
       }
     }
   }
 
   async listById(req: Request, res: Response) {
-    const service = new ListUserById()
     try {
       const { id } = req.params
       const user = await service.findById(id)
@@ -31,7 +29,7 @@ export class UserController {
       if (error instanceof HandleError) {
         res.status(error.statusCode).json({ message: error.message })
       } else {
-        res.status(500).json({ message: "Ocorreu um erro ao buscar os dados." })
+        res.status(500).json({ message: 'Ocorreu um erro ao buscar os dados.' })
       }
     }
   }
