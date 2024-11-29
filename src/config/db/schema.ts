@@ -23,6 +23,9 @@ export const categorySchema = pgTable('categories', {
   icon: text('icon').notNull(),
   type: boolean('type').notNull(),
   userId: text('user_id').references(() => userSchema.id),
+  createdAt: timestamp('created_at', { withTimezone: true })
+    .notNull()
+    .defaultNow(),
 })
 
 export const transcationSchema = pgTable('transactions', {
