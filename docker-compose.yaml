@@ -1,0 +1,25 @@
+version: '1.0'
+services:
+  db-postgres:
+    image: postgres:17
+    restart: always
+    container_name: database-postgres
+    ports:
+      - "5432:5432"
+    env_file:
+      - .env
+  dcs-pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: dcs-pgadmin
+    restart: always
+    depends_on:
+      - db-postgres
+    env_file:
+      - .env
+    ports:
+      - 8080:80
+networks:
+  default:
+    name: database-network
+    external: true    
+    
