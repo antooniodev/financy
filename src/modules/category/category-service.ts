@@ -1,6 +1,6 @@
-import { HandleError } from '../../shared/errors/handleError'
-import { CategoryResponse, CategoryRequestBody } from './category.entity'
-import { CategoryRepository } from './category.repository'
+import { CustomError } from '../../shared/errors/custom-error'
+import { CategoryResponse, CategoryRequestBody } from './category-entity'
+import { CategoryRepository } from './category-repository'
 
 const repository = new CategoryRepository()
 
@@ -9,7 +9,7 @@ export class CategoryService {
     const categoryList = await repository.getAll(user_id)
 
     if (categoryList.length === 0)
-      throw new HandleError(404, 'Não há categorias para serem exibidas.')
+      throw new CustomError(404, 'Não há categorias para serem exibidas.')
     const totalValueExpensesTransactions = categoryList
       .flatMap(category => {
         if (category.type === false) return category.transactions
@@ -77,7 +77,7 @@ export class CategoryService {
       category => category.title.toLowerCase() === dto.title.toLowerCase()
     )
     if (categoryExist)
-      throw new HandleError(400, 'Já existe uma categoria com esse nome.')
+      throw new CustomError(400, 'Já existe uma categoria com esse nome.')
 
     const categoryCreated = await repository.postOne(dto)
 
@@ -91,12 +91,12 @@ export class CategoryService {
 
   async delete(id: string, user_id: string): Promise<void> {
     const categoryExist = await repository.getOne(id, user_id)
-    if (!categoryExist) throw new HandleError(400, 'Essa categoria não existe.')
+    if (!categoryExist) throw new CustomError(400, 'Essa categoria não existe.')
     if (
       categoryExist?.transactions.length &&
       categoryExist?.transactions.length > 0
     )
-      throw new HandleError(400, 'Essa categoria possui transações.')
+      throw new CustomError(400, 'Essa categoria possui transações.')
     await repository.deleteOne(id, user_id)
   }
 }

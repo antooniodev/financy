@@ -1,4 +1,4 @@
-import { Category, CategoryRequestBody } from "./category.entity"
+import { Category, CategoryRequestBody } from './category-entity'
 
 export class CategoryRepository {
   public async getAll(user_id: string): Promise<Category[]> {
@@ -23,10 +23,10 @@ export class CategoryRepository {
         user_id,
       },
       include: {
-        transactions: true
-      }
+        transactions: true,
+      },
     })
-    if(!data) return null
+    if (!data) return null
     return data
   }
 
@@ -40,10 +40,7 @@ export class CategoryRepository {
     return data
   }
 
-  public async putOne(
-    id: string,
-    dto: CategoryRequestBody
-  ): Promise<Category> {
+  public async putOne(id: string, dto: CategoryRequestBody): Promise<Category> {
     const data = await prisma.category.update({
       where: {
         id,

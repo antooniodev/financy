@@ -39,6 +39,7 @@ export const transcationSchema = pgTable('transactions', {
   categoryId: text('category_id').references(() => categorySchema.id),
   value: real('value').notNull(),
   type: boolean('type').notNull(),
+  date: timestamp('date', { withTimezone: true }).notNull(),
   createdAt: timestamp('created_at', { withTimezone: true })
     .notNull()
     .defaultNow(),

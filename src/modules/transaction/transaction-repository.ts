@@ -1,4 +1,4 @@
-import { Transaction, TransactionRequestBody } from "./transaction.entity"
+import { Transaction, TransactionRequestBody } from './transaction-entity'
 
 export class TransactionRepository {
   async getAll(
@@ -33,10 +33,7 @@ export class TransactionRepository {
     return data
   }
 
-  async getOneById(
-    id: string,
-    user_id: string
-  ): Promise<Transaction | null> {
+  async getOneById(id: string, user_id: string): Promise<Transaction | null> {
     const data = await prisma.transaction.findUnique({
       where: {
         id,
@@ -62,32 +59,32 @@ export class TransactionRepository {
 
   async postOne(dto: TransactionRequestBody): Promise<Transaction> {
     const data = prisma.transaction.create({
-        data: {
-            title: dto.title,
-            date: new Date(dto.date),
-            value: dto.value,
-            type: dto.type,
-            category_id: dto.category_id,
-            user_id: dto.user_id,   
+      data: {
+        title: dto.title,
+        date: new Date(dto.date),
+        value: dto.value,
+        type: dto.type,
+        category_id: dto.category_id,
+        user_id: dto.user_id,
+      },
+      include: {
+        category: {
+          select: {
+            id: true,
+            color: true,
+          },
         },
-        include: {
-            category: {
-                select: {
-                    id: true,
-                    color: true
-                }
-            }
-        }
+      },
     })
     return data
-  } 
+  }
 
-  async deleteOne(id: string, user_id:string): Promise<void> {
+  async deleteOne(id: string, user_id: string): Promise<void> {
     await prisma.transaction.delete({
-        where: {
-            id,
-            user_id
-        }
+      where: {
+        id,
+        user_id,
+      },
     })
   }
 }

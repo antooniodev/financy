@@ -1,13 +1,13 @@
-import { HandleError } from '../../shared/errors/handleError'
-import { Transaction, TransactionRequestBody } from './transaction.entity'
-import { TransactionRepository } from './transaction.repository'
+import { CustomError } from '../../shared/errors/custom-error'
+import { Transaction, TransactionRequestBody } from './transaction-entity'
+import { TransactionRepository } from './transaction-repository'
 
 const repository = new TransactionRepository()
 
 export class TransactionService {
   async findOne(id: string, user_id: string): Promise<Transaction> {
     const transaction = await repository.getOneById(id, user_id)
-    if (!transaction) throw new HandleError(404, 'Essa transação não existe.')
+    if (!transaction) throw new CustomError(404, 'Essa transação não existe.')
 
     return transaction
   }

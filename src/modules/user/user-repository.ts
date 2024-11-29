@@ -1,5 +1,4 @@
-import { UserRequestBody, User } from "./user.entity"
-
+import { UserRequestBody, User } from './user-entity'
 
 export class UserRepository {
   async post({ name, email }: UserRequestBody): Promise<User> {
@@ -19,7 +18,7 @@ export class UserRepository {
       },
     })
 
-    if(!data) return null
+    if (!data) return null
     return data
   }
 
@@ -29,7 +28,7 @@ export class UserRepository {
         id,
       },
     })
-    if(!data) return null
+    if (!data) return null
     return data
   }
 }
