@@ -1,3 +1,6 @@
+import { eq } from 'drizzle-orm'
+import { db } from '../../config/db'
+import { categorySchema, transactionSchema } from '../../config/db/schema'
 import { Transaction, TransactionRequestBody } from './transaction-entity'
 
 export class TransactionRepository {
@@ -6,31 +9,7 @@ export class TransactionRepository {
     startDate: Date,
     endDate: Date
   ): Promise<Transaction[]> {
-    const data = await prisma.transaction.findMany({
-      where: {
-        user_id,
-        date: {
-          gte: startDate,
-          lte: endDate,
-        },
-      },
-      select: {
-        id: true,
-        title: true,
-        date: true,
-        value: true,
-        type: true,
-        category: {
-          select: {
-            color: true,
-            id: true,
-            title: true,
-          },
-        },
-      },
-    })
-
-    return data
+    // const data = await db.s
   }
 
   async getOneById(id: string, user_id: string): Promise<Transaction | null> {
@@ -57,26 +36,36 @@ export class TransactionRepository {
     return data
   }
 
-  async postOne(dto: TransactionRequestBody): Promise<Transaction> {
-    const data = prisma.transaction.create({
-      data: {
+  async postOne(dto: TransactionRequestBody): Promise<any> {
+    const data = await db
+      .insert(transactionSchema)
+      .values({
         title: dto.title,
-        date: new Date(dto.date),
         value: dto.value,
         type: dto.type,
-        category_id: dto.category_id,
-        user_id: dto.user_id,
-      },
-      include: {
-        category: {
-          select: {
-            id: true,
-            color: true,
+        date: new Date(),
+        categoryId: dto.categoryId,
+        userId: dto.userId,
+      })
+      .returning()
+      .then(async result => {
+        const category = await db
+          .select({
+            id: categorySchema.id,
+            color: categorySchema.color,
+          })
+          .from(categorySchema)
+          .where(eq(categorySchema.id, dto.categoryId))
+          .limit(1)
+
+        return {
+          ...result,
+          category: {
+            id: category[0].id,
+            color: category[0].color,
           },
-        },
-      },
-    })
-    return data
+        }
+      })
   }
 
   async deleteOne(id: string, user_id: string): Promise<void> {

@@ -30,8 +30,8 @@ export class TransactionController {
   async create(req: Request, res: Response, next: NextFunction) {
     try {
       await transactionValidator.body.validate(req.body)
-      const transactionId = await service.create(req.body)
-      res.status(201).json({ id: transactionId })
+      const transaction = await service.create(req.body)
+      res.status(201).json({ data: transaction })
     } catch (error) {
       next(error)
     }

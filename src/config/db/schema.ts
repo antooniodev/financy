@@ -28,7 +28,7 @@ export const categorySchema = pgTable('categories', {
     .defaultNow(),
 })
 
-export const transcationSchema = pgTable('transactions', {
+export const transactionSchema = pgTable('transactions', {
   id: text('id')
     .primaryKey()
     .$defaultFn(() => createId()),

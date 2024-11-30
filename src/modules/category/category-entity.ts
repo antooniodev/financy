@@ -3,9 +3,7 @@ export type Category = {
   title: string
   color: string
   icon: string
-  // transactions: {
-  //     value: number
-  // }[]
+  transactionPercentage?: number
   type: boolean
 }
 

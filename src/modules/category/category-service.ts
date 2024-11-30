@@ -18,6 +18,8 @@ export class CategoryService {
   }
 
   async update(id: string, dto: CategoryRequestBody) {
+    const categoryExist = await repository.getOne(id, dto.userId)
+    if (!categoryExist) throw new CustomError(400, 'Essa categoria não existe.')
     return await repository.putOne(id, dto)
   }
 
