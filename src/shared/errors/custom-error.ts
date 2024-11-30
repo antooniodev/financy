@@ -6,5 +6,3 @@ export class CustomError {
     this.message = message
   }
 }
-
-export type HandleError = InstanceType<typeof CustomError>

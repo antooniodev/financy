@@ -6,10 +6,12 @@ const controller = new CategoryController()
 
 categoryRouter.get('/categories/:userId', controller.list)
 
+categoryRouter.get('/categories/:userId/:id', controller.listOne)
+
 categoryRouter.post('/categories', controller.create)
 
-categoryRouter.delete('/categories', controller.delete)
+categoryRouter.delete('/categories/:userId/:id', controller.delete)
 
-categoryRouter.put('/categories/:id', controller.update)
+categoryRouter.put('/categories/:userId/:id', controller.update)
 
 export default categoryRouter

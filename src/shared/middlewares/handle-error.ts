@@ -11,6 +11,12 @@ const handleError = (
 ) => {
   console.log('ERROR', error.message)
 
+  if (error.code === '23505') {
+    return response.status(409).json({
+      message: 'Já existe uma categoria com este nome.',
+    })
+  }
+
   if (error instanceof CustomError) {
     return response.status(error.statusCode).json({ message: error.message })
   }

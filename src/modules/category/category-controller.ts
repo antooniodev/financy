@@ -12,8 +12,18 @@ export default class CategoryController {
         userId: req.params.userId,
         type: req.query.type,
       })
-      const categories = await service.findMany(userId, type?.toString())
-      res.status(200).json(categories)
+      const categories = await service.findMany(userId, type)
+      res.status(200).json({ data: categories })
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async listOne(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { userId, id } = await paramsValidator.index.validate(req.params)
+      const category = await service.findOne(id, userId)
+      res.status(200).json({ data: category })
     } catch (error) {
       next(error)
     }
@@ -21,9 +31,9 @@ export default class CategoryController {
 
   async create(req: Request, res: Response, next: NextFunction) {
     try {
-      await categoryValidator.body.validate(req.body)
+      await categoryValidator.bodyPost.validate(req.body)
       const categoryId = await service.create(req.body)
-      res.status(201).json({ id: categoryId })
+      res.status(201).json({ data: categoryId })
     } catch (error) {
       next(error)
     }
@@ -31,10 +41,10 @@ export default class CategoryController {
 
   async update(req: Request, res: Response, next: NextFunction) {
     try {
-      const { id } = req.params
-      await categoryValidator.body.validate(req.body)
+      const { id, userId } = await paramsValidator.index.validate(req.params)
+      await categoryValidator.bodyPut.validate(req.body)
       const categoryId = await service.update(id, req.body)
-      res.status(200).json({ id: categoryId })
+      res.status(200).json({ data: categoryId })
     } catch (error) {
       next(error)
     }
@@ -42,10 +52,10 @@ export default class CategoryController {
 
   async delete(req: Request, res: Response, next: NextFunction) {
     try {
-      const { id, userId } = await paramsValidator.index.validate(req.query)
+      const { id, userId } = await paramsValidator.index.validate(req.params)
 
       await service.delete(id, userId)
-      res.status(200).json()
+      res.status(200).json({})
     } catch (error) {
       next(error)
     }

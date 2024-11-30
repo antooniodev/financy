@@ -22,6 +22,13 @@
       "when": 1732911639520,
       "tag": "0002_messy_landau",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1732933716296,
+      "tag": "0003_curly_leper_queen",
+      "breakpoints": true
     }
   ]
 }

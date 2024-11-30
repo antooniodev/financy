@@ -18,7 +18,7 @@ export const categorySchema = pgTable('categories', {
   id: text('id')
     .primaryKey()
     .$defaultFn(() => createId()),
-  title: text('title').notNull(),
+  title: text('title').notNull().unique(),
   color: text('color').notNull(),
   icon: text('icon').notNull(),
   type: boolean('type').notNull(),
