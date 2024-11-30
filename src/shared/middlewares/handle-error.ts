@@ -9,6 +9,8 @@ const handleError = (
   response: Response,
   _: NextFunction
 ) => {
+  console.log('ERROR', error.message)
+
   if (error instanceof CustomError) {
     return response.status(error.statusCode).json({ message: error.message })
   }

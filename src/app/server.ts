@@ -3,6 +3,7 @@ import routes from './routes'
 import cors from 'cors'
 import handleError from '../shared/middlewares/handle-error'
 import { Error as PostgresError } from 'postgres'
+import { testConnection } from '../config/db'
 const app = express()
 const PORT = 3333
 
@@ -22,4 +23,6 @@ app.use(
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`)
+
+  testConnection()
 })

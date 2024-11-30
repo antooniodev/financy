@@ -8,9 +8,10 @@ const service = new CategoryService()
 export default class CategoryController {
   async list(req: Request, res: Response, next: NextFunction) {
     try {
-      const { userId, type } = await categoryValidator.findParams.validate(
-        req.query
-      )
+      const { userId, type } = await categoryValidator.findParams.validate({
+        userId: req.params.userId,
+        type: req.query.type,
+      })
       const categories = await service.findMany(userId, type?.toString())
       res.status(200).json(categories)
     } catch (error) {
