@@ -1,11 +1,7 @@
-export type User = {
+export type IUser = {
   id: string
-  name: string
-  email: string
-}
-
-export type UserRequestBody = {
-  name: string
+  firstName: string
+  lastName: string
   email: string
 }
 
