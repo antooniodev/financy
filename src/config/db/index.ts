@@ -1,14 +1,13 @@
 import { drizzle } from 'drizzle-orm/postgres-js'
 import * as schema from './schema'
 import postgres from 'postgres'
-import { env } from '../../env'
 
 export const client = postgres({
-  host: 'localhost',
+  host: process.env.DATABASE_HOST,
   port: 5432,
-  database: 'financy-db',
-  user: 'victor',
-  password: 'Av81915485',
+  database: process.env.DATABASE_DB,
+  user: process.env.DATABASE_USER,
+  password: process.env.DATABASE_PASS,
 })
 
 export async function testConnection() {
