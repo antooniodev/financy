@@ -2,16 +2,21 @@ import { Category, CategoryRequestBody } from './category-entity'
 import { db } from '../../config/db/index'
 import { categorySchema, transactionSchema } from '../../config/db/schema'
 import { and, eq, sql } from 'drizzle-orm'
-
-// total === 100
-// count === x
-// total*x = count*100
-// x = count*100/total
 export class CategoryRepository {
   public async getAllByType(
     userId: string,
     type: boolean
   ): Promise<Category[]> {
+    const totalTransactions = await db.$count(transactionSchema)
+
+    let transactionPercentage = sql`0`.mapWith(Number)
+
+    if ((totalTransactions as number) > 0) {
+      transactionPercentage = sql`
+      (((SELECT COUNT(*) FROM ${transactionSchema} WHERE ${transactionSchema}.category_id = ${categorySchema}.id) * 100) / ${totalTransactions})
+      `.mapWith(Number)
+    }
+
     const data = db
       .select({
         id: categorySchema.id,
@@ -19,9 +24,7 @@ export class CategoryRepository {
         icon: categorySchema.icon,
         color: categorySchema.color,
         type: categorySchema.type,
-        transactionPercentage: sql`
-        (((SELECT COUNT(*) FROM ${transactionSchema} WHERE ${transactionSchema}.category_id = ${categorySchema}.id) * 100) / (SELECT COUNT(*) FROM ${transactionSchema}) )
-        `.mapWith(Number),
+        transactionPercentage: transactionPercentage,
       })
       .from(categorySchema)
       .where(

@@ -9,10 +9,6 @@ export class UserService {
     return user
   }
   async create(dto: IRegisterUser): Promise<string> {
-    const emailExist = await repository.getOneByEmail(dto.email)
-    if (emailExist)
-      throw new CustomError(409, 'Já existe uma conta vinculada a esse email.')
-
     const user = await repository.post(dto)
     return user
   }
