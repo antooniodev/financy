@@ -5,28 +5,22 @@ import { TransactionRepository } from './transaction-repository'
 const repository = new TransactionRepository()
 
 export class TransactionService {
-  async findOne(id: string, user_id: string): Promise<Transaction> {
-    const transaction = await repository.getOneById(id, user_id)
-    if (!transaction) throw new CustomError(404, 'Essa transação não existe.')
-
-    return transaction
+  async findOne(id: string, userId: string) {
+    return await repository.getOneById(id, userId)
   }
   async findMany(user_id: string, startDate: Date, endDate: Date) {
-    // const newStart = new Date( Date.now())
-    // const newEnd = new Date( Date.now())
-    // newEnd.setMonth(newStart.getMonth() - 7)
-    // console.log(newStart, newEnd);
-
-    const transactions = await repository.getAll(user_id, startDate, endDate)
-
-    return transactions
+    return await repository.getAllInPeriod(user_id, startDate, endDate)
   }
 
   async create(dto: TransactionRequestBody) {
     return await repository.postOne(dto)
   }
 
-  async delete(id: string, user_id: string): Promise<void> {
+  async update(id: string, dto: TransactionRequestBody) {
+    return await repository.putOne(id, dto)
+  }
+
+  async delete(id: string, user_id: string) {
     await repository.deleteOne(id, user_id)
   }
 }

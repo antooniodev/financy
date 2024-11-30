@@ -5,7 +5,7 @@ export type Transaction = {
   value: number
   category: {
     id: string
-    color: string
+    color?: string
   }
   type: boolean
   user_id?: string

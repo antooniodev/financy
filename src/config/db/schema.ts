@@ -36,7 +36,9 @@ export const transactionSchema = pgTable('transactions', {
   userId: text('user_id')
     .notNull()
     .references(() => userSchema.id),
-  categoryId: text('category_id').references(() => categorySchema.id),
+  categoryId: text('category_id')
+    .references(() => categorySchema.id)
+    .notNull(),
   value: real('value').notNull(),
   type: boolean('type').notNull(),
   date: timestamp('date', { withTimezone: true }).notNull(),

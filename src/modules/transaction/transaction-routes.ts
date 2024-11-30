@@ -7,9 +7,11 @@ const controller = new TransactionController()
 
 transactionRouter.get('/transactions/:userId', controller.list)
 
-transactionRouter.get('/transaction/:id', controller.listOne)
+transactionRouter.get('/transactions/:userId/:id', controller.listOne)
 
 transactionRouter.post('/transactions', controller.create)
+
+transactionRouter.put('/transactions/:userId/:id', controller.edit)
 
 transactionRouter.delete('/transactions/:id', controller.delete)
 

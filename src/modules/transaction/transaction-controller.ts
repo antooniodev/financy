@@ -8,7 +8,11 @@ export class TransactionController {
   async list(req: Request, res: Response, next: NextFunction) {
     try {
       const { userId, startDate, endDate } =
-        await transactionValidator.findManyParams.validate(req.query)
+        await transactionValidator.findManyParams.validate({
+          userId: req.params.userId,
+          startDate: req.query.startDate,
+          endDate: req.query.endDate,
+        })
 
       const transactions = await service.findMany(userId, startDate, endDate)
       res.status(200).json(transactions)
@@ -31,6 +35,16 @@ export class TransactionController {
     try {
       await transactionValidator.body.validate(req.body)
       const transaction = await service.create(req.body)
+      res.status(201).json({ data: transaction })
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async edit(req: Request, res: Response, next: NextFunction) {
+    try {
+      await transactionValidator.body.validate(req.body)
+      const transaction = await service.update(req.params.id, req.body)
       res.status(201).json({ data: transaction })
     } catch (error) {
       next(error)
