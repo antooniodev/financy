@@ -57,7 +57,11 @@ export class CategoryRepository {
     return categoryId
   }
 
-  public async putOne(id: string, dto: CategoryRequestBody): Promise<string> {
+  public async putOne(
+    id: string,
+    userId: string,
+    dto: CategoryRequestBody
+  ): Promise<string> {
     const data = await db
       .update(categorySchema)
       .set({
@@ -65,9 +69,7 @@ export class CategoryRepository {
         icon: dto.icon,
         color: dto.color,
       })
-      .where(
-        and(eq(categorySchema.id, id), eq(categorySchema.userId, dto.userId))
-      )
+      .where(and(eq(categorySchema.id, id), eq(categorySchema.userId, userId)))
       .returning({ id: categorySchema.id })
     const categoryId = data[0].id
     return categoryId

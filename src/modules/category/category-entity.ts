@@ -22,5 +22,4 @@ export type CategoryRequestBody = {
   color: string
   icon: string
   type: boolean
-  userId: string
 }

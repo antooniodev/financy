@@ -9,7 +9,7 @@ export class TransactionController {
     try {
       const { userId, startDate, endDate } =
         await transactionValidator.findManyParams.validate({
-          userId: req.params.userId,
+          userId: req.headers.userId,
           startDate: req.query.startDate,
           endDate: req.query.endDate,
         })
@@ -23,7 +23,10 @@ export class TransactionController {
 
   async listOne(req: Request, res: Response, next: NextFunction) {
     try {
-      const { userId, id } = await paramsValidator.index.validate(req.params)
+      const { userId, id } = await paramsValidator.index.validate({
+        userId: req.headers.userId,
+        id: req.params.id,
+      })
       const transaction = await service.findOne(id, userId)
       res.status(200).json(transaction)
     } catch (error) {
@@ -43,8 +46,12 @@ export class TransactionController {
 
   async edit(req: Request, res: Response, next: NextFunction) {
     try {
+      const { userId, id } = await paramsValidator.index.validate({
+        userId: req.headers.userId,
+        id: req.params.id,
+      })
       await transactionValidator.body.validate(req.body)
-      const transaction = await service.update(req.params.id, req.body)
+      const transaction = await service.update(id, userId, req.body)
       res.status(201).json({ data: transaction })
     } catch (error) {
       next(error)
@@ -53,7 +60,10 @@ export class TransactionController {
 
   async delete(req: Request, res: Response, next: NextFunction) {
     try {
-      const { userId, id } = await paramsValidator.index.validate(req.params)
+      const { userId, id } = await paramsValidator.index.validate({
+        userId: req.headers.userId,
+        id: req.params.id,
+      })
       await service.delete(id, userId)
       res.status(200).json({})
     } catch (error) {

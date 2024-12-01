@@ -16,8 +16,8 @@ export class TransactionService {
     return await repository.postOne(dto)
   }
 
-  async update(id: string, dto: TransactionRequestBody) {
-    return await repository.putOne(id, dto)
+  async update(id: string, userId: string, dto: TransactionRequestBody) {
+    return await repository.putOne(id, userId, dto)
   }
 
   async delete(id: string, user_id: string) {

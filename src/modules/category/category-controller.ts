@@ -9,7 +9,7 @@ export default class CategoryController {
   async list(req: Request, res: Response, next: NextFunction) {
     try {
       const { userId, type } = await categoryValidator.findParams.validate({
-        userId: req.params.userId,
+        userId: req.headers.userId,
         type: req.query.type,
       })
       const categories = await service.findMany(userId, type)
@@ -21,7 +21,10 @@ export default class CategoryController {
 
   async listOne(req: Request, res: Response, next: NextFunction) {
     try {
-      const { userId, id } = await paramsValidator.index.validate(req.params)
+      const { userId, id } = await paramsValidator.index.validate({
+        userId: req.headers.userId,
+        id: req.params.id,
+      })
       const category = await service.findOne(id, userId)
       res.status(200).json({ data: category })
     } catch (error) {
@@ -41,9 +44,12 @@ export default class CategoryController {
 
   async update(req: Request, res: Response, next: NextFunction) {
     try {
-      const { id, userId } = await paramsValidator.index.validate(req.params)
+      const { id, userId } = await paramsValidator.index.validate({
+        userId: req.headers.userId,
+        id: req.params.id,
+      })
       await categoryValidator.bodyPut.validate(req.body)
-      const categoryId = await service.update(id, req.body)
+      const categoryId = await service.update(id, userId, req.body)
       res.status(200).json({ data: categoryId })
     } catch (error) {
       next(error)
@@ -52,7 +58,10 @@ export default class CategoryController {
 
   async delete(req: Request, res: Response, next: NextFunction) {
     try {
-      const { id, userId } = await paramsValidator.index.validate(req.params)
+      const { id, userId } = await paramsValidator.index.validate({
+        userId: req.headers.userId,
+        id: req.params.id,
+      })
 
       await service.delete(id, userId)
       res.status(200).json({})

@@ -2,6 +2,7 @@ import { and, eq, gte, lte } from 'drizzle-orm'
 import { db } from '../../config/db'
 import { categorySchema, transactionSchema } from '../../config/db/schema'
 import { Transaction, TransactionRequestBody } from './transaction-entity'
+import { string } from 'yup'
 
 export class TransactionRepository {
   async getAllInPeriod(
@@ -87,21 +88,22 @@ export class TransactionRepository {
     }
   }
 
-  async putOne(id: string, dto: TransactionRequestBody): Promise<Transaction> {
+  async putOne(
+    id: string,
+    userId: string,
+    dto: TransactionRequestBody
+  ): Promise<Transaction> {
     const data = await db
       .update(transactionSchema)
       .set({
         title: dto.title,
         value: dto.value,
-        date: dto.date,
+        date: new Date(dto.date),
         type: dto.type,
         categoryId: dto.categoryId,
       })
       .where(
-        and(
-          eq(transactionSchema.id, id),
-          eq(transactionSchema.userId, dto.userId)
-        )
+        and(eq(transactionSchema.id, id), eq(transactionSchema.userId, userId))
       )
       .returning()
     const transaction = data[0]

@@ -19,7 +19,7 @@ const extractDuplicateKeyDetails = (message: string): string | null => {
 }
 
 const postgresErrorMessages: Record<string, string> = {
-  '23505': 'Valor duplicado para um campo único.', // Código de erro para chave única duplicada
+  '23505': 'Valor duplicado para um campo único.',
 }
 
 const handleError = (
