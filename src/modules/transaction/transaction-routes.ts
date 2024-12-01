@@ -1,16 +1,19 @@
 import { Request, Response, Router } from 'express'
 import { TransactionController } from './transaction-controller'
+import verifyToken from '../../shared/middlewares/verify-token'
 
 const transactionRouter = Router()
 
 const controller = new TransactionController()
 
-transactionRouter.get('/transactions/:userId', controller.list)
+transactionRouter.get('/transactions', verifyToken, controller.list)
 
-transactionRouter.get('/transaction/:id', controller.listOne)
+transactionRouter.get('/transactions/:id', verifyToken, controller.listOne)
 
-transactionRouter.post('/transactions', controller.create)
+transactionRouter.post('/transactions', verifyToken, controller.create)
 
-transactionRouter.delete('/transactions/:id', controller.delete)
+transactionRouter.put('/transactions/:id', verifyToken, controller.edit)
+
+transactionRouter.delete('/transactions/:id', verifyToken, controller.delete)
 
 export default transactionRouter

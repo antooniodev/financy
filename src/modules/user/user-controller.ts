@@ -20,7 +20,7 @@ export class UserController {
     try {
       const { id } = req.params
       const user = await service.findById(id)
-      res.status(200).json(user)
+      res.status(200).json({ data: user })
     } catch (error) {
       next(error)
     }

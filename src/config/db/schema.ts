@@ -18,7 +18,7 @@ export const categorySchema = pgTable('categories', {
   id: text('id')
     .primaryKey()
     .$defaultFn(() => createId()),
-  title: text('title').notNull(),
+  title: text('title').notNull().unique(),
   color: text('color').notNull(),
   icon: text('icon').notNull(),
   type: boolean('type').notNull(),
@@ -28,7 +28,7 @@ export const categorySchema = pgTable('categories', {
     .defaultNow(),
 })
 
-export const transcationSchema = pgTable('transactions', {
+export const transactionSchema = pgTable('transactions', {
   id: text('id')
     .primaryKey()
     .$defaultFn(() => createId()),
@@ -36,7 +36,9 @@ export const transcationSchema = pgTable('transactions', {
   userId: text('user_id')
     .notNull()
     .references(() => userSchema.id),
-  categoryId: text('category_id').references(() => categorySchema.id),
+  categoryId: text('category_id')
+    .references(() => categorySchema.id)
+    .notNull(),
   value: real('value').notNull(),
   type: boolean('type').notNull(),
   date: timestamp('date', { withTimezone: true }).notNull(),

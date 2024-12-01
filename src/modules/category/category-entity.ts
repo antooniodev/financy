@@ -1,29 +1,25 @@
-
 export type Category = {
-    id: string
-    title: string
-    color: string
-    icon: string
-    transactions: {
-        value: number
-    }[]
-    type: boolean
+  id: string
+  title: string
+  color: string
+  icon: string
+  transactionPercentage?: number
+  type: boolean
 }
 
 export type CategoryResponse = {
-    id: string
-    title: string
-    color: string
-    icon: string
-    type: boolean
-    totalValue: number
-    percentage: string
+  id: string
+  title: string
+  color: string
+  icon: string
+  type: boolean
+  totalValue: number
+  percentage: string
 }
 
 export type CategoryRequestBody = {
-    title: string
-    color: string
-    icon: string
-    type: boolean
-    user_id: string
+  title: string
+  color: string
+  icon: string
+  type: boolean
 }

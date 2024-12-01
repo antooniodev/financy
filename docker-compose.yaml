@@ -3,14 +3,16 @@ services:
   db-postgres:
     image: postgres:17
     restart: always
-    container_name: database-postgres
+    container_name: dcoker-database-postgres
     ports:
       - "5432:5432"
     env_file:
       - .env
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
   dcs-pgadmin:
     image: dpage/pgadmin4:latest
-    container_name: dcs-pgadmin
+    container_name: docker-pgadmin
     restart: always
     depends_on:
       - db-postgres
@@ -18,6 +20,8 @@ services:
       - .env
     ports:
       - 8080:80
+    volumes:
+      - ./data/pgadmin:/var/lib/pgadmin
 networks:
   default:
     name: database-network
