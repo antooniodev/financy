@@ -6,15 +6,15 @@ const repository = new CategoryRepository()
 
 export class CategoryService {
   async findMany(userId: string, type: boolean) {
-    return await repository.getAllByType(userId, type)
+    return await repository.getCategoriesToChartByType(userId, type)
   }
 
   async findOne(id: string, userId: string) {
     return await repository.getOne(id, userId)
   }
 
-  async create(dto: CategoryRequestBody) {
-    return await repository.postOne(dto)
+  async create(userId: string, dto: CategoryRequestBody) {
+    return await repository.postOne(userId, dto)
   }
 
   async update(id: string, userId: string, dto: CategoryRequestBody) {

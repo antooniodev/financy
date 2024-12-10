@@ -4,6 +4,7 @@ import { UserAuthenticatedBody } from './authenticate-entity'
 import { AuthenticateRepository } from './authenticate-repostitory'
 import jwt from 'jsonwebtoken'
 const repository = new AuthenticateRepository()
+const privateKey = process.env.SECRET_KEY! as string
 export class AuthenticateService {
   async createSession(
     email: string,
@@ -15,8 +16,8 @@ export class AuthenticateService {
     }
     const token = jwt.sign(
       { userId: user.userId, firstName: user.firstName },
-      process.env.SECRET_KEY!,
-      { algorithm: 'HS256', expiresIn: '12000' }
+      privateKey,
+      { algorithm: 'HS256', expiresIn: '1d' }
     )
     return {
       user: {

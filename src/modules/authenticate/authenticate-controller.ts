@@ -9,7 +9,7 @@ export class AuthenticateController {
         req.body
       )
       const userAuthenticated = await service.createSession(email, password)
-      res.status(200).json({ data: userAuthenticated })
+      res.status(200).json(userAuthenticated)
     } catch (error) {
       next(error)
     }

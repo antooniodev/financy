@@ -12,8 +12,8 @@ export class TransactionService {
     return await repository.getAllInPeriod(user_id, startDate, endDate)
   }
 
-  async create(dto: TransactionRequestBody) {
-    return await repository.postOne(dto)
+  async create(userId: string, dto: TransactionRequestBody) {
+    return await repository.postOne(userId, dto)
   }
 
   async update(id: string, userId: string, dto: TransactionRequestBody) {

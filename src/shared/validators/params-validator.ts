@@ -5,6 +5,8 @@ const index = yup.object().shape({
   userId: yup.string().required('o campo userId é obrigatório'),
 })
 
+const userId = yup.string().required('o campo userId é obrigatório')
 export default {
   index,
+  userId,
 }

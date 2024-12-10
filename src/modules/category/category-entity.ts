@@ -3,10 +3,17 @@ export type Category = {
   title: string
   color: string
   icon: string
-  transactionPercentage?: number
   type: boolean
 }
 
+export type CategoryChart = {
+  id: string
+  label: string
+  icon: string
+  color: string
+  value: number
+  spent: number
+}
 export type CategoryResponse = {
   id: string
   title: string

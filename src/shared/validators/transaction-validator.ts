@@ -6,7 +6,6 @@ const body = yup.object().shape({
   type: yup.string().required("O campo 'type' é obrigatório"),
   date: yup.date().required("O campo 'date' é obrigatório"),
   categoryId: yup.string().required("O campo 'categoryId' é obrigatório"),
-  userId: yup.string().required("O campo 'userId' é obrigatório"),
 })
 
 const findManyParams = yup.object().shape({

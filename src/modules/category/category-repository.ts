@@ -1,12 +1,13 @@
-import { Category, CategoryRequestBody } from './category-entity'
+import { Category, CategoryChart, CategoryRequestBody } from './category-entity'
 import { db } from '../../config/db/index'
 import { categorySchema, transactionSchema } from '../../config/db/schema'
 import { and, eq, sql } from 'drizzle-orm'
+import { double, real } from 'drizzle-orm/mysql-core'
 export class CategoryRepository {
-  public async getAllByType(
+  public async getCategoriesToChartByType(
     userId: string,
     type: boolean
-  ): Promise<Category[]> {
+  ): Promise<CategoryChart[]> {
     const totalTransactions = await db.$count(transactionSchema)
 
     let transactionPercentage = sql`0`.mapWith(Number)
@@ -17,14 +18,19 @@ export class CategoryRepository {
       `.mapWith(Number)
     }
 
+    const totalSpent = sql`
+    COALESCE((SELECT SUM(${transactionSchema}.value) FROM ${transactionSchema} WHERE ${transactionSchema}.category_id = ${categorySchema}.id), 0)`.mapWith(
+      Number
+    )
+
     const data = db
       .select({
         id: categorySchema.id,
-        title: categorySchema.title,
+        label: categorySchema.title,
         icon: categorySchema.icon,
         color: categorySchema.color,
-        type: categorySchema.type,
-        transactionPercentage: transactionPercentage,
+        value: transactionPercentage,
+        spent: totalSpent,
       })
       .from(categorySchema)
       .where(
@@ -48,10 +54,19 @@ export class CategoryRepository {
     return category
   }
 
-  public async postOne(dto: CategoryRequestBody): Promise<string> {
+  public async postOne(
+    userId: string,
+    dto: CategoryRequestBody
+  ): Promise<string> {
     const data = await db
       .insert(categorySchema)
-      .values(dto)
+      .values({
+        userId: userId,
+        title: dto.title,
+        icon: dto.icon,
+        color: dto.color,
+        type: dto.type,
+      })
       .returning({ id: categorySchema.id })
     const categoryId = data[0].id
     return categoryId
