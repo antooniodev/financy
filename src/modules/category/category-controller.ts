@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express'
 
 import { CategoryService } from './category-service'
-import categoryValidator from '../../shared/validators/category-validator'
+import categoryValidator from './category-validator'
 import paramsValidator from '../../shared/validators/params-validator'
 
 const service = new CategoryService()

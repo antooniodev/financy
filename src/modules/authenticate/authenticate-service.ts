@@ -1,10 +1,9 @@
 import { CustomError } from '../../shared/errors/custom-error'
-import handleError from '../../shared/middlewares/handle-error'
 import { UserAuthenticatedBody } from './authenticate-entity'
 import { AuthenticateRepository } from './authenticate-repostitory'
+import 'dotenv/config'
 import jwt from 'jsonwebtoken'
 const repository = new AuthenticateRepository()
-const privateKey = process.env.SECRET_KEY! as string
 export class AuthenticateService {
   async createSession(
     email: string,
@@ -16,7 +15,7 @@ export class AuthenticateService {
     }
     const token = jwt.sign(
       { userId: user.userId, firstName: user.firstName },
-      privateKey,
+      process.env.SECRET_KEY!,
       { algorithm: 'HS256', expiresIn: '1d' }
     )
     return {

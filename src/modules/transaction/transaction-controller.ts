@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express'
 import { CustomError } from '../../shared/errors/custom-error'
 import { TransactionService } from './transaction-service'
-import transactionValidator from '../../shared/validators/transaction-validator'
+import transactionValidator from './transaction-validator'
 import paramsValidator from '../../shared/validators/params-validator'
 const service = new TransactionService()
 export class TransactionController {

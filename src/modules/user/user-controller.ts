@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express'
 import { CustomError } from '../../shared/errors/custom-error'
 import { UserService } from './user-service'
-import userValidator from '../../shared/validators/user-validator'
+import userValidator from './user-validator'
 
 const service = new UserService()
 
