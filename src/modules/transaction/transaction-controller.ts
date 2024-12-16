@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express'
 import { CustomError } from '../../shared/errors/custom-error'
 import { TransactionService } from './transaction-service'
-import transactionValidator from '../../shared/validators/transaction-validator'
+import transactionValidator from './transaction-validator'
 import paramsValidator from '../../shared/validators/params-validator'
 const service = new TransactionService()
 export class TransactionController {
@@ -37,8 +37,10 @@ export class TransactionController {
   async create(req: Request, res: Response, next: NextFunction) {
     try {
       await transactionValidator.body.validate(req.body)
-      const transaction = await service.create(req.body)
-      res.status(201).json({ data: transaction })
+      const userId = await paramsValidator.userId.validate(req.headers.userId)
+
+      const transaction = await service.create(userId, req.body)
+      res.status(201).json({ id: transaction })
     } catch (error) {
       next(error)
     }
@@ -52,7 +54,7 @@ export class TransactionController {
       })
       await transactionValidator.body.validate(req.body)
       const transaction = await service.update(id, userId, req.body)
-      res.status(201).json({ data: transaction })
+      res.status(201).json({ id: transaction })
     } catch (error) {
       next(error)
     }

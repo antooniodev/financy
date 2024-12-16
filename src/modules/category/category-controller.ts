@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express'
 
 import { CategoryService } from './category-service'
-import categoryValidator from '../../shared/validators/category-validator'
+import categoryValidator from './category-validator'
 import paramsValidator from '../../shared/validators/params-validator'
 
 const service = new CategoryService()
@@ -13,7 +13,7 @@ export default class CategoryController {
         type: req.query.type,
       })
       const categories = await service.findMany(userId, type)
-      res.status(200).json({ data: categories })
+      res.status(200).json(categories)
     } catch (error) {
       next(error)
     }
@@ -26,7 +26,7 @@ export default class CategoryController {
         id: req.params.id,
       })
       const category = await service.findOne(id, userId)
-      res.status(200).json({ data: category })
+      res.status(200).json(category)
     } catch (error) {
       next(error)
     }
@@ -35,8 +35,9 @@ export default class CategoryController {
   async create(req: Request, res: Response, next: NextFunction) {
     try {
       await categoryValidator.bodyPost.validate(req.body)
-      const categoryId = await service.create(req.body)
-      res.status(201).json({ data: categoryId })
+      const userId = await paramsValidator.userId.validate(req.headers.userId)
+      const categoryId = await service.create(userId, req.body)
+      res.status(201).json({ id: categoryId })
     } catch (error) {
       next(error)
     }

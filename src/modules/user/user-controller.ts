@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express'
 import { CustomError } from '../../shared/errors/custom-error'
 import { UserService } from './user-service'
-import userValidator from '../../shared/validators/user-validator'
+import userValidator from './user-validator'
 
 const service = new UserService()
 
@@ -20,7 +20,7 @@ export class UserController {
     try {
       const { id } = req.params
       const user = await service.findById(id)
-      res.status(200).json({ data: user })
+      res.status(200).json({ user })
     } catch (error) {
       next(error)
     }

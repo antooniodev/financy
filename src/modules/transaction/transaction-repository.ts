@@ -1,4 +1,4 @@
-import { and, eq, gte, lte } from 'drizzle-orm'
+import { and, desc, eq, gte, lte } from 'drizzle-orm'
 import { db } from '../../config/db'
 import { categorySchema, transactionSchema } from '../../config/db/schema'
 import { Transaction, TransactionRequestBody } from './transaction-entity'
@@ -21,6 +21,7 @@ export class TransactionRepository {
         date: transactionSchema.date,
         category: {
           id: categorySchema.id,
+          title: categorySchema.title,
           color: categorySchema.color,
         },
       })
@@ -36,6 +37,7 @@ export class TransactionRepository {
           lte(transactionSchema.date, endDate)
         )
       )
+      .orderBy(desc(transactionSchema.date))
     return data
   }
 
@@ -61,7 +63,7 @@ export class TransactionRepository {
     return transaction
   }
 
-  async postOne(dto: TransactionRequestBody): Promise<Transaction> {
+  async postOne(userId: string, dto: TransactionRequestBody): Promise<string> {
     const data = await db
       .insert(transactionSchema)
       .values({
@@ -70,29 +72,19 @@ export class TransactionRepository {
         type: dto.type,
         date: new Date(),
         categoryId: dto.categoryId,
-        userId: dto.userId,
+        userId,
       })
-      .returning()
+      .returning({ id: transactionSchema.id })
 
-    const transaction = data[0]
-
-    return {
-      id: transaction.id,
-      title: transaction.title,
-      value: transaction.value,
-      type: transaction.type,
-      date: transaction.date,
-      category: {
-        id: transaction.categoryId,
-      },
-    }
+    const transactionId = data[0].id
+    return transactionId
   }
 
   async putOne(
     id: string,
     userId: string,
     dto: TransactionRequestBody
-  ): Promise<Transaction> {
+  ): Promise<string> {
     const data = await db
       .update(transactionSchema)
       .set({
@@ -105,18 +97,9 @@ export class TransactionRepository {
       .where(
         and(eq(transactionSchema.id, id), eq(transactionSchema.userId, userId))
       )
-      .returning()
-    const transaction = data[0]
-    return {
-      id: transaction.id,
-      title: transaction.title,
-      value: transaction.value,
-      type: transaction.type,
-      date: transaction.date,
-      category: {
-        id: transaction.categoryId,
-      },
-    }
+      .returning({ id: transactionSchema.id })
+    const transactionId = data[0].id
+    return transactionId
   }
 
   async deleteOne(id: string, userId: string): Promise<void> {

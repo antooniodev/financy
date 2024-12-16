@@ -5,6 +5,7 @@ export type Transaction = {
   value: number
   category: {
     id: string
+    title?: string
     color?: string
   }
   type: boolean
@@ -18,6 +19,5 @@ export type TransactionRequestBody = {
   date: Date
   value: number
   categoryId: string
-  userId: string
   type: boolean
 }

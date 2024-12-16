@@ -9,7 +9,7 @@ const PORT = 3333
 
 app.use(cors({ origin: '*' }))
 
-app.use('/api', routes)
+app.use('/api/v1', routes)
 app.use(
   (
     error: PostgresError,
