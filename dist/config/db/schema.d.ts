@@ -308,10 +308,10 @@ export declare const transactionSchema: import("drizzle-orm/pg-core").PgTableWit
         value: import("drizzle-orm/pg-core").PgColumn<{
             name: "value";
             tableName: "transactions";
-            dataType: "number";
-            columnType: "PgReal";
-            data: number;
-            driverParam: string | number;
+            dataType: "string";
+            columnType: "PgNumeric";
+            data: string;
+            driverParam: string;
             notNull: true;
             hasDefault: false;
             isPrimaryKey: false;
