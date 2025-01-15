@@ -3,18 +3,23 @@ import { db } from '../../config/db/index'
 import { categorySchema, transactionSchema } from '../../config/db/schema'
 import { and, eq, sql } from 'drizzle-orm'
 import { double, real } from 'drizzle-orm/mysql-core'
+import { number } from 'yup'
 export class CategoryRepository {
   public async getCategoriesToChartByType(
     userId: string,
     type: boolean
   ): Promise<CategoryChart[]> {
     const totalTransactions = await db.$count(transactionSchema)
-
+    const totalValueOfTransactions = await db
+      .execute(
+        sql`SELECT SUM(${transactionSchema}.value) as total_value FROM ${transactionSchema}`
+      )
+      .then(result => result[0].total_value)
     let transactionPercentage = sql`0`.mapWith(Number)
 
     if ((totalTransactions as number) > 0) {
       transactionPercentage = sql`
-      (((SELECT COUNT(*) FROM ${transactionSchema} WHERE ${transactionSchema}.category_id = ${categorySchema}.id) * 100) / ${totalTransactions})
+      (SELECT (COUNT(*) * 100) / ${totalValueOfTransactions} FROM ${transactionSchema} WHERE ${transactionSchema}.category_id = ${categorySchema}.id)
       `.mapWith(Number)
     }
 

@@ -1,8 +1,12 @@
-import { and, desc, eq, gte, lte } from 'drizzle-orm'
+import { and, desc, eq, gte, lte, sql } from 'drizzle-orm'
 import { db } from '../../config/db'
 import { categorySchema, transactionSchema } from '../../config/db/schema'
-import { Transaction, TransactionRequestBody } from './transaction-entity'
-import { string } from 'yup'
+import {
+  Transaction,
+  TransactionMetrics,
+  TransactionRequestBody,
+} from './transaction-entity'
+import { number, string } from 'yup'
 
 export class TransactionRepository {
   async getAllInPeriod(
@@ -68,7 +72,7 @@ export class TransactionRepository {
       .insert(transactionSchema)
       .values({
         title: dto.title,
-        value: dto.value,
+        value: dto.value.toString(),
         type: dto.type,
         date: new Date(),
         categoryId: dto.categoryId,
@@ -89,7 +93,7 @@ export class TransactionRepository {
       .update(transactionSchema)
       .set({
         title: dto.title,
-        value: dto.value,
+        value: dto.value.toString(),
         date: new Date(dto.date),
         type: dto.type,
         categoryId: dto.categoryId,
@@ -108,5 +112,19 @@ export class TransactionRepository {
       .where(
         and(eq(transactionSchema.id, id), eq(transactionSchema.userId, userId))
       )
+  }
+
+  async selectMetrics(userId: string): Promise<Record<string, unknown>> {
+    const exepense =
+      sql`SELECT COALESCE(SUM(${transactionSchema.value}), 0) as expenses FROM ${transactionSchema} WHERE ${and(eq(transactionSchema.userId, userId), eq(transactionSchema.type, false))}`.mapWith(
+        number
+      )
+    const incomes =
+      sql`SELECT COALESCE(SUM(${transactionSchema.value}), 0) as incomes FROM ${transactionSchema} WHERE ${and(eq(transactionSchema.userId, userId), eq(transactionSchema.type, true))}`.mapWith(
+        number
+      )
+    const [expenseResult] = await db.execute(exepense)
+    const [incomeResult] = await db.execute(incomes)
+    return { ...expenseResult, ...incomeResult }
   }
 }

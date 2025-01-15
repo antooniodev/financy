@@ -1,4 +1,5 @@
 import { createId } from '@paralleldrive/cuid2'
+import { numeric } from 'drizzle-orm/pg-core'
 import { boolean, pgTable, real, text, timestamp } from 'drizzle-orm/pg-core'
 
 export const userSchema = pgTable('users', {
@@ -39,7 +40,7 @@ export const transactionSchema = pgTable('transactions', {
   categoryId: text('category_id')
     .references(() => categorySchema.id)
     .notNull(),
-  value: real('value').notNull(),
+  value: numeric('value', { precision: 15, scale: 2 }).notNull(),
   type: boolean('type').notNull(),
   date: timestamp('date', { withTimezone: true }).notNull(),
   createdAt: timestamp('created_at', { withTimezone: true })
