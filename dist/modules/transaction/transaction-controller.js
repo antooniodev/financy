@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TransactionController = void 0;
 const transaction_service_1 = require("./transaction-service");
-const transaction_validator_1 = __importDefault(require("../../shared/validators/transaction-validator"));
+const transaction_validator_1 = __importDefault(require("./transaction-validator"));
 const params_validator_1 = __importDefault(require("../../shared/validators/params-validator"));
 const service = new transaction_service_1.TransactionService();
 class TransactionController {
@@ -69,6 +69,17 @@ class TransactionController {
             });
             await service.delete(id, userId);
             res.status(200).json({});
+        }
+        catch (error) {
+            next(error);
+        }
+    }
+    async listMetrics(req, res, next) {
+        console.log(req.headers.userId);
+        try {
+            const userId = await params_validator_1.default.userId.validate(req.headers.userId);
+            const metrics = await service.getMetrics(userId);
+            res.status(200).json(metrics);
         }
         catch (error) {
             next(error);

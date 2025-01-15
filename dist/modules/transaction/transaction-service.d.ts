@@ -5,4 +5,9 @@ export declare class TransactionService {
     create(userId: string, dto: TransactionRequestBody): Promise<string>;
     update(id: string, userId: string, dto: TransactionRequestBody): Promise<string>;
     delete(id: string, user_id: string): Promise<void>;
+    getMetrics(userId: string): Promise<{
+        incomes: number;
+        expenses: number;
+        balance: number;
+    }>;
 }

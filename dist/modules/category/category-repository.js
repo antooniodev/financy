@@ -7,10 +7,13 @@ const drizzle_orm_1 = require("drizzle-orm");
 class CategoryRepository {
     async getCategoriesToChartByType(userId, type) {
         const totalTransactions = await index_1.db.$count(schema_1.transactionSchema);
+        const totalValueOfTransactions = await index_1.db
+            .execute((0, drizzle_orm_1.sql) `SELECT SUM(${schema_1.transactionSchema}.value) as total_value FROM ${schema_1.transactionSchema}`)
+            .then(result => result[0].total_value);
         let transactionPercentage = (0, drizzle_orm_1.sql) `0`.mapWith(Number);
         if (totalTransactions > 0) {
             transactionPercentage = (0, drizzle_orm_1.sql) `
-      (((SELECT COUNT(*) FROM ${schema_1.transactionSchema} WHERE ${schema_1.transactionSchema}.category_id = ${schema_1.categorySchema}.id) * 100) / ${totalTransactions})
+      (SELECT (COUNT(*) * 100) / ${totalValueOfTransactions} FROM ${schema_1.transactionSchema} WHERE ${schema_1.transactionSchema}.category_id = ${schema_1.categorySchema}.id)
       `.mapWith(Number);
         }
         const totalSpent = (0, drizzle_orm_1.sql) `

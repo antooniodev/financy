@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const category_service_1 = require("./category-service");
-const category_validator_1 = __importDefault(require("../../shared/validators/category-validator"));
+const category_validator_1 = __importDefault(require("./category-validator"));
 const params_validator_1 = __importDefault(require("../../shared/validators/params-validator"));
 const service = new category_service_1.CategoryService();
 class CategoryController {

@@ -2,7 +2,7 @@ export type Transaction = {
   id: string
   title: string
   date: Date
-  value: number
+  value: string
   category: {
     id: string
     title?: string
@@ -20,4 +20,10 @@ export type TransactionRequestBody = {
   value: number
   categoryId: string
   type: boolean
+}
+
+export type TransactionMetrics = {
+  totalBalances: number
+  totalExpenses: number
+  totalIncomes: number
 }

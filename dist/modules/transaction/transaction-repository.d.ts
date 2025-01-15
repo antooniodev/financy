@@ -5,4 +5,5 @@ export declare class TransactionRepository {
     postOne(userId: string, dto: TransactionRequestBody): Promise<string>;
     putOne(id: string, userId: string, dto: TransactionRequestBody): Promise<string>;
     deleteOne(id: string, userId: string): Promise<void>;
+    selectMetrics(userId: string): Promise<Record<string, unknown>>;
 }

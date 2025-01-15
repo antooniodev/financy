@@ -72,4 +72,16 @@ export class TransactionController {
       next(error)
     }
   }
+
+  async listMetrics(req: Request, res: Response, next: NextFunction) {
+    console.log(req.headers.userId)
+    try {
+      const userId = await paramsValidator.userId.validate(req.headers.userId)
+
+      const metrics = await service.getMetrics(userId)
+      res.status(200).json(metrics)
+    } catch (error) {
+      next(error)
+    }
+  }
 }
