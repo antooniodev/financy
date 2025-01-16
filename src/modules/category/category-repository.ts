@@ -9,38 +9,38 @@ export class CategoryRepository {
     userId: string,
     type: boolean
   ): Promise<CategoryChart[]> {
-    const totalTransactions = await db.$count(transactionSchema)
-    const totalValueOfTransactions = await db
-      .execute(
-        sql`SELECT SUM(${transactionSchema}.value) as total_value FROM ${transactionSchema}`
-      )
-      .then(result => result[0].total_value)
-    let transactionPercentage = sql`0`.mapWith(Number)
-
-    if ((totalTransactions as number) > 0) {
-      transactionPercentage = sql`
-      (SELECT (COUNT(*) * 100) / ${totalValueOfTransactions} FROM ${transactionSchema} WHERE ${transactionSchema}.category_id = ${categorySchema}.id)
-      `.mapWith(Number)
-    }
-
-    const totalSpent = sql`
-    COALESCE((SELECT SUM(${transactionSchema}.value) FROM ${transactionSchema} WHERE ${transactionSchema}.category_id = ${categorySchema}.id), 0)`.mapWith(
-      Number
+    const totalValueOfTransactions = await db.execute(
+      sql`SELECT SUM(${transactionSchema}.value) as total_value_of_transactions FROM ${transactionSchema}`
     )
 
-    const data = db
-      .select({
-        id: categorySchema.id,
-        label: categorySchema.title,
-        icon: categorySchema.icon,
-        color: categorySchema.color,
-        value: transactionPercentage,
-        spent: totalSpent,
-      })
-      .from(categorySchema)
-      .where(
-        and(eq(categorySchema.userId, userId), eq(categorySchema.type, type))
-      )
+    const totalValueInCategory = await db.execute(
+      sql`
+      SELECT ${categorySchema}.id, 
+      ${categorySchema}.title as label, 
+      ${categorySchema}.color, 
+      ${categorySchema}.icon, 
+      COALESCE(SUM(${transactionSchema}.value), 0) as spent_total,
+      COALESCE(SUM(${transactionSchema}.value) * 100 / ${totalValueOfTransactions[0].total_value_of_transactions}, 0) as value
+      FROM ${transactionSchema}
+      RIGHT JOIN ${categorySchema} ON ${transactionSchema}.category_id = ${categorySchema}.id
+      WHERE ${categorySchema}.user_id = ${userId} AND ${categorySchema}.type = ${type}
+      GROUP BY ${categorySchema}.id, ${categorySchema}.title
+      ORDER BY spent_total DESC
+      `
+    )
+    console.log(totalValueInCategory)
+
+    const data: CategoryChart[] = totalValueInCategory.map(category => {
+      return {
+        id: String(category.id),
+        label: String(category.label),
+        color: String(category.color),
+        icon: String(category.icon),
+        value: Number(category.value),
+        spent_total: Number(category.spent_total),
+      }
+    })
+
     return data
   }
 

@@ -14,8 +14,6 @@ export class TransactionRepository {
     startDate: Date,
     endDate: Date
   ): Promise<Transaction[]> {
-    console.log(userId)
-
     const data = db
       .select({
         id: transactionSchema.id,

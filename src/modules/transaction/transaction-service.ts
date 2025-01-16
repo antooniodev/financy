@@ -35,7 +35,7 @@ export class TransactionService {
 
     return {
       incomes: incomeInCents / 100,
-      expenses: (expensesInCents * -1) / 100,
+      expenses: expensesInCents / 100,
       balance: balance / 100,
     }
   }

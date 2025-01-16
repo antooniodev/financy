@@ -12,7 +12,7 @@ export type CategoryChart = {
   icon: string
   color: string
   value: number
-  spent: number
+  spent_total: number
 }
 export type CategoryResponse = {
   id: string
