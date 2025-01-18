@@ -1,12 +1,17 @@
 import { and, desc, eq, gte, lte, sql } from 'drizzle-orm'
 import { db } from '../../config/db'
-import { categorySchema, transactionSchema } from '../../config/db/schema'
+import {
+  categorySchema,
+  transactionSchema,
+  userSchema,
+} from '../../config/db/schema'
 import {
   Transaction,
   TransactionMetrics,
   TransactionRequestBody,
 } from './transaction-entity'
 import { number, string } from 'yup'
+import { CustomError } from '../../shared/errors/custom-error'
 
 export class TransactionRepository {
   async getAllInPeriod(
@@ -14,8 +19,6 @@ export class TransactionRepository {
     startDate: Date,
     endDate: Date
   ): Promise<Transaction[]> {
-    console.log(userId)
-
     const data = db
       .select({
         id: transactionSchema.id,
@@ -68,6 +71,27 @@ export class TransactionRepository {
   }
 
   async postOne(userId: string, dto: TransactionRequestBody): Promise<string> {
+    // Check if the categoryId and userId exist in the database
+    const categoryExists = await db
+      .select({ id: categorySchema.id })
+      .from(categorySchema)
+      .where(eq(categorySchema.id, dto.categoryId))
+      .limit(1)
+
+    if (categoryExists.length === 0) {
+      throw new CustomError(404, 'Essa categoria não existe')
+    }
+
+    const userExists = await db
+      .select({ id: userSchema.id })
+      .from(userSchema)
+      .where(eq(userSchema.id, userId))
+      .limit(1)
+
+    if (userExists.length === 0) {
+      throw new CustomError(404, 'Esse usuário não existe')
+    }
+
     const data = await db
       .insert(transactionSchema)
       .values({
