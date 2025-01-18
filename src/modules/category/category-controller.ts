@@ -25,7 +25,7 @@ export default class CategoryController {
         userId: req.headers.userId,
         id: req.params.id,
       })
-      const category = await service.findOne(id, userId)
+      const category = await service.findOne(id)
       res.status(200).json(category)
     } catch (error) {
       next(error)
@@ -36,7 +36,7 @@ export default class CategoryController {
     try {
       await categoryValidator.bodyPost.validate(req.body)
       const userId = await paramsValidator.userId.validate(req.headers.userId)
-      const categoryId = await service.create(userId, req.body)
+      const categoryId = await service.create(req.body)
       res.status(201).json({ id: categoryId })
     } catch (error) {
       next(error)
@@ -50,7 +50,7 @@ export default class CategoryController {
         id: req.params.id,
       })
       await categoryValidator.bodyPut.validate(req.body)
-      const categoryId = await service.update(id, userId, req.body)
+      const categoryId = await service.update(id, req.body)
       res.status(200).json({ data: categoryId })
     } catch (error) {
       next(error)
@@ -64,7 +64,7 @@ export default class CategoryController {
         id: req.params.id,
       })
 
-      await service.delete(id, userId)
+      await service.delete(id)
       res.status(200).json({})
     } catch (error) {
       next(error)
