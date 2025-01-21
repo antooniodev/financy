@@ -1,25 +1,24 @@
 export interface ICategory {
-    id: string
-    title: string
-    color: string
-    icon: string
-    type: boolean
-    percentage: string 
-    totalValue: number
+  id: string
+  title: string
+  color: string
+  icon: string
+  type: boolean
+  percentage: string
+  totalValue: number
 }
 
 export interface ICategoryChart {
-    id: string
-    label: string
-    value: number
-    color: string
-    icon: string
-    spent: number
+  id: string
+  label: string
+  value: number
+  color: string
+  icon: string
+  spent_total: number
 }
 
-
 export interface IParseCategory {
-    id: string
-    title: string
-    color: string
+  id: string
+  title: string
+  color: string
 }

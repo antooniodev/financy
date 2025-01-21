@@ -10,6 +10,13 @@ const CategoryChart = () => {
   const { data: categories } = useGetCategoriesQuery(false)
   const [chartWidth, setChartWidth] = useState(0)
   const chartContainerRef = useRef<HTMLDivElement>(null)
+  const [chartData, setChartData] = useState<
+    {
+      label: string
+      value: number
+      color: string
+    }[]
+  >([])
 
   useEffect(() => {
     const handleResize = () => {
@@ -24,27 +31,31 @@ const CategoryChart = () => {
     }
   }, [])
 
-  // const data = categories?.map(category => {
-  //   return {
-  //     label: category.title,
-  //     value: category.transactionPercentage, // Convert the value to a number
-  //     color: category.color,
-  //   }
-  // })
+  useEffect(() => {
+    const data = categories?.map(category => {
+      return {
+        label: category.label,
+        value: category.value, // Convert the value to a number
+        color: category.color === '#FFFFFF' ? '#000000' : category.color,
+      }
+    })
+
+    setChartData(data ? [...data] : [])
+  }, [categories])
 
   const series = [
     {
       innerRadius: 60,
       outerRadius: 120,
       id: 'series-2',
-      data: categories ?? [],
+      data: chartData,
       cx: chartWidth / 2.5,
     },
   ]
   return (
     <ContainerChartCategory>
       <p className="title">Gastos por Categoria</p>
-      {categories && categories?.length > 0 ? (
+      {/* {chartData && chartData?.length > 0 ? (
         <div className="chart-container" ref={chartContainerRef}>
           <PieChart
             series={series}
@@ -55,7 +66,7 @@ const CategoryChart = () => {
         </div>
       ) : (
         <span>Crie novas transações de saída.</span>
-      )}
+      )} */}
 
       <CategoryList>
         {categories?.map(item => (
@@ -63,15 +74,19 @@ const CategoryChart = () => {
             <section>
               <div
                 className="container-icon"
-                style={{ backgroundColor: `${item.color}` }}
+                style={{
+                  backgroundColor: `${item.color === '#FFFFF' ? '#000000' : item.color}`,
+                }}
               >
                 <FontAwesomeIcon icon={item.icon as IconProp} />
               </div>
-              <span>{item.label}</span>
             </section>
-            <p className="percentage">
-              {formatCurrency(item.spent)} | {item.value}%
-            </p>
+            <div className="container-info">
+              <span>{item.label}</span>
+              <p className="percentage">
+                {formatCurrency(item.spent_total)} | {item.value.toFixed(2)}%
+              </p>
+            </div>
           </CategoryItem>
         ))}
       </CategoryList>

@@ -33,6 +33,7 @@ const TransactionForm = ({ typeTransaction }: Props) => {
   const onSubmit = async (data: FormFields) => {
     const dto: TransactionDto = {
       ...data,
+      value: data.value * 100,
       type: typeTransaction === 'income',
     }
     await addTransaction(dto).unwrap()
