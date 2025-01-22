@@ -16,8 +16,8 @@ import { CustomError } from '../../shared/errors/custom-error'
 export class TransactionRepository {
   async getAllInPeriod(
     userId: string,
-    startDate: Date,
-    endDate: Date
+    startDate: string,
+    endDate: string
   ): Promise<Transaction[]> {
     const data = db
       .select({
@@ -40,8 +40,8 @@ export class TransactionRepository {
       .where(
         and(
           eq(transactionSchema.userId, userId),
-          gte(transactionSchema.date, startDate),
-          lte(transactionSchema.date, endDate)
+          gte(transactionSchema.date, new Date(startDate)),
+          lte(transactionSchema.date, new Date(endDate))
         )
       )
       .orderBy(desc(transactionSchema.date))
@@ -71,7 +71,6 @@ export class TransactionRepository {
   }
 
   async postOne(userId: string, dto: TransactionRequestBody): Promise<string> {
-    // Check if the categoryId and userId exist in the database
     const categoryExists = await db
       .select({ id: categorySchema.id })
       .from(categorySchema)
@@ -138,13 +137,19 @@ export class TransactionRepository {
       )
   }
 
-  async selectMetrics(userId: string): Promise<Record<string, unknown>> {
+  async selectMetrics(
+    userId: string,
+    startDate: string,
+    endDate: string
+  ): Promise<Record<string, unknown>> {
+    console.log(' aqui👍')
+
     const exepense =
-      sql`SELECT COALESCE(SUM(${transactionSchema.value}), 0) as expenses FROM ${transactionSchema} WHERE ${and(eq(transactionSchema.userId, userId), eq(transactionSchema.type, false))}`.mapWith(
+      sql`SELECT COALESCE(SUM(${transactionSchema.value}), 0) as expenses FROM ${transactionSchema} WHERE ${and(eq(transactionSchema.userId, userId), eq(transactionSchema.type, false))} AND ${transactionSchema.createdAt} BETWEEN ${startDate} AND ${endDate}`.mapWith(
         number
       )
     const incomes =
-      sql`SELECT COALESCE(SUM(${transactionSchema.value}), 0) as incomes FROM ${transactionSchema} WHERE ${and(eq(transactionSchema.userId, userId), eq(transactionSchema.type, true))}`.mapWith(
+      sql`SELECT COALESCE(SUM(${transactionSchema.value}), 0) as incomes FROM ${transactionSchema} WHERE ${and(eq(transactionSchema.userId, userId), eq(transactionSchema.type, true))} AND ${transactionSchema.createdAt} BETWEEN ${startDate} AND ${endDate}`.mapWith(
         number
       )
     const [expenseResult] = await db.execute(exepense)

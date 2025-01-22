@@ -8,11 +8,19 @@ const service = new CategoryService()
 export default class CategoryController {
   async list(req: Request, res: Response, next: NextFunction) {
     try {
-      const { userId, type } = await categoryValidator.findParams.validate({
-        userId: req.headers.userId,
-        type: req.query.type,
-      })
-      const categories = await service.findMany(userId, type)
+      const { userId, type, startDate, endDate } =
+        await categoryValidator.findParams.validate({
+          userId: req.headers.userId,
+          type: req.query.type,
+          startDate: req.query.startDate,
+          endDate: req.query.endDate,
+        })
+      const categories = await service.findMany(
+        userId,
+        type,
+        startDate,
+        endDate
+      )
       res.status(200).json(categories)
     } catch (error) {
       next(error)

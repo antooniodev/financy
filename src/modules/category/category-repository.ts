@@ -5,10 +5,16 @@ import { and, eq, sql } from 'drizzle-orm'
 export class CategoryRepository {
   public async getCategoriesToChartByType(
     userId: string,
-    type: boolean
+    type: boolean,
+    startDate: string,
+    endDate: string
   ): Promise<CategoryChart[]> {
     const totalValueOfTransactions = await db.execute(
-      sql`SELECT COALESCE(SUM(${transactionSchema}.value), 0) as total_value_of_transactions FROM ${transactionSchema} WHERE ${transactionSchema}.user_id = ${userId} AND ${transactionSchema}.type = ${type}`
+      sql`SELECT COALESCE(SUM(${transactionSchema}.value), 0) as total_value_of_transactions 
+      FROM ${transactionSchema} 
+      WHERE ${transactionSchema}.user_id = ${userId} 
+      AND ${transactionSchema}.type = ${type} 
+      AND ${transactionSchema.createdAt} BETWEEN ${startDate} AND ${endDate}`
     )
     const totalValueInCategory = await db.execute(
       sql`
@@ -26,8 +32,9 @@ export class CategoryRepository {
       ON 
         ${transactionSchema}.category_id = ${categorySchema}.id 
         AND ${transactionSchema}.user_id = ${userId}
+        AND ${transactionSchema.createdAt} BETWEEN ${startDate} AND ${endDate}
       WHERE 
-        ${categorySchema}.type = ${type} 
+        ${categorySchema}.type = ${type}
       GROUP BY 
         ${categorySchema}.id, ${categorySchema}.title
       ORDER BY 

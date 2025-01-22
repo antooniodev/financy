@@ -5,8 +5,18 @@ import { CategoryRepository } from './category-repository'
 const repository = new CategoryRepository()
 
 export class CategoryService {
-  async findMany(userId: string, type: boolean) {
-    return await repository.getCategoriesToChartByType(userId, type)
+  async findMany(
+    userId: string,
+    type: boolean,
+    starrtDate: string,
+    endDate: string
+  ) {
+    return await repository.getCategoriesToChartByType(
+      userId,
+      type,
+      starrtDate,
+      endDate
+    )
   }
 
   async findOne(id: string) {
