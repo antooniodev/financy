@@ -1,17 +1,157 @@
-import { useState } from "react"
-import { WrapperFilter } from "./styles"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { IconProp } from "@fortawesome/fontawesome-svg-core"
-
+import { useEffect, useState } from 'react'
+import { SListItem, WrapperFilter } from './styles'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { IconProp } from '@fortawesome/fontawesome-svg-core'
+import 'react-datepicker/dist/react-datepicker.css'
+import DatePicker from 'react-datepicker'
+import dayjs from 'dayjs'
+import { get, set } from 'react-hook-form'
 const FilterPeriod = () => {
   const [period, setPeriod] = useState<number>(1)
+  const [activateCustomPeriod, setActivateCustomPeriod] =
+    useState<boolean>(false)
+  const [dateRange, setDateRange] = useState<[Date | null, Date | null]>([
+    null,
+    null,
+  ])
+  const [customStartDate, customEndDate] = dateRange
+
+  const getPeriod = (periodSelected: number) => {
+    switch (periodSelected) {
+      case 1: {
+        const startDate = dayjs().startOf('month').format('YYYY-MM-DD')
+        const endDate = dayjs().endOf('month').format('YYYY-MM-DD')
+        console.log(startDate, endDate)
+        break
+      }
+      case 2: {
+        const startDateInLastMonth = dayjs()
+          .startOf('month')
+          .subtract(1, 'month')
+          .format('YYYY-MM-DD')
+        const endDateInLastMonth = dayjs()
+          .endOf('month')
+          .subtract(1, 'month')
+          .format('YYYY-MM-DD')
+        console.log(startDateInLastMonth, endDateInLastMonth)
+        break
+      }
+      case 3: {
+        const startDateInThisYear = dayjs().startOf('year').format('YYYY-MM-DD')
+        const endDateInThisYear = dayjs().endOf('year').format('YYYY-MM-DD')
+        console.log(startDateInThisYear, endDateInThisYear)
+        break
+      }
+      case 4: {
+        const startDateInLast12Months = dayjs()
+          .startOf('month')
+          .subtract(12, 'month')
+          .format('YYYY-MM-DD')
+        const endDateInLast12Months = dayjs()
+          .endOf('month')
+          .format('YYYY-MM-DD')
+        console.log(startDateInLast12Months, endDateInLast12Months)
+        break
+      }
+      case 5: {
+        const dateStartFormatted = dayjs(customStartDate).format('YYYY-MM-DD')
+        const dateEndFormatted = dayjs(customEndDate).format('YYYY-MM-DD')
+        console.log(dateStartFormatted, dateEndFormatted)
+      }
+    }
+  }
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  useEffect(() => {
+    if (customEndDate && customStartDate) {
+      getPeriod(5)
+    }
+  }, [dateRange])
+
   return (
     <WrapperFilter>
-      <li className={period === 1 ? 'active' : ''} onClick={() => setPeriod(1)}>Esse mês</li>
-      <li className={period === 2 ? 'active' : ''} onClick={() => setPeriod(2)}>Último mês</li>
-      <li className={period === 3 ? 'active' : ''} onClick={() => setPeriod(3)}>Esse ano</li>
-      <li className={period === 4 ? 'active' : ''} onClick={() => setPeriod(4)}>Últimos 12 meses</li>
-      <li className={period === 5 ? 'active' : ''} onClick={() => setPeriod(5)}> {<FontAwesomeIcon icon={"fa-solid fa-calendar-week" as IconProp} color="#516778" size="lg"/>} Selecione o período</li>
+      <SListItem
+        $isCustomPeriod={false}
+        $isActive={period === 1}
+        onClick={() => {
+          setPeriod(1)
+          getPeriod(1)
+          setActivateCustomPeriod(false)
+        }}
+      >
+        Esse mês
+      </SListItem>
+      <SListItem
+        $isCustomPeriod={false}
+        $isActive={period === 2}
+        onClick={() => {
+          setPeriod(2)
+          getPeriod(2)
+          setActivateCustomPeriod(false)
+        }}
+      >
+        Último mês
+      </SListItem>
+      <SListItem
+        $isCustomPeriod={false}
+        $isActive={period === 3}
+        onClick={() => {
+          setPeriod(3)
+          getPeriod(3)
+          setActivateCustomPeriod(false)
+        }}
+      >
+        Esse ano
+      </SListItem>
+      <SListItem
+        $isCustomPeriod={false}
+        $isActive={period === 4}
+        onClick={() => {
+          setPeriod(4)
+          getPeriod(4)
+          setActivateCustomPeriod(false)
+        }}
+      >
+        Últimos 12 meses
+      </SListItem>
+      <SListItem
+        $isCustomPeriod={true}
+        $isActive={period === 5}
+        onClick={() => {
+          setPeriod(5)
+          getPeriod(5)
+          setActivateCustomPeriod(true)
+        }}
+      >
+        {activateCustomPeriod ? (
+          <DatePicker
+            selectsRange={true}
+            startDate={customStartDate}
+            endDate={customEndDate}
+            onChange={update => {
+              setDateRange(update)
+            }}
+            onBlur={() => {
+              if (!dateRange[0] && !dateRange[1]) {
+                setActivateCustomPeriod(false)
+                setPeriod(1)
+                getPeriod(1)
+              }
+            }}
+            isClearable={true}
+          />
+        ) : (
+          <div onClick={() => setActivateCustomPeriod(true)}>
+            <FontAwesomeIcon
+              style={{ marginRight: '0.25rem' }}
+              icon={'fa-solid fa-calendar-week' as IconProp}
+              color="#516778"
+              size="lg"
+            />
+            Selecione o período
+          </div>
+        )}
+      </SListItem>
     </WrapperFilter>
   )
 }
