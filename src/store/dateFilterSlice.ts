@@ -1,25 +1,31 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from './store'
+import dayjs from 'dayjs'
+
 type StateType = {
   dateStart: string
   dateEnd: string
 }
+
+const startDate = dayjs().startOf('month').format('YYYY-MM-DD')
+const endDate = dayjs().endOf('month').format('YYYY-MM-DD')
 const initialState: StateType = {
-  dateStart: '2025-01-01',
-  dateEnd: '2025-01-31',
+  dateStart: startDate,
+  dateEnd: endDate,
 }
 
 export const dateFilterSlice = createSlice({
   name: 'dateFilter',
   initialState,
   reducers: {
-    addDates: (_, { payload }: PayloadAction<StateType>) => {
-      return payload
+    setDates: (state, { payload }: PayloadAction<StateType>) => {
+      state.dateStart = payload.dateStart
+      state.dateEnd = payload.dateEnd
     },
   },
 })
 
-export const { addDates } = dateFilterSlice.actions
+export const { setDates } = dateFilterSlice.actions
 
 export default dateFilterSlice.reducer
 

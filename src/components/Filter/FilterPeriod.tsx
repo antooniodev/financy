@@ -5,7 +5,8 @@ import { IconProp } from '@fortawesome/fontawesome-svg-core'
 import 'react-datepicker/dist/react-datepicker.css'
 import DatePicker from 'react-datepicker'
 import dayjs from 'dayjs'
-import { get, set } from 'react-hook-form'
+import { useDispatch } from 'react-redux'
+import { setDates } from '../../store/dateFilterSlice'
 const FilterPeriod = () => {
   const [period, setPeriod] = useState<number>(1)
   const [activateCustomPeriod, setActivateCustomPeriod] =
@@ -14,6 +15,8 @@ const FilterPeriod = () => {
     null,
     null,
   ])
+
+  const dispatch = useDispatch()
   const [customStartDate, customEndDate] = dateRange
 
   const getPeriod = (periodSelected: number) => {
@@ -21,7 +24,7 @@ const FilterPeriod = () => {
       case 1: {
         const startDate = dayjs().startOf('month').format('YYYY-MM-DD')
         const endDate = dayjs().endOf('month').format('YYYY-MM-DD')
-        console.log(startDate, endDate)
+        dispatch(setDates({ dateStart: startDate, dateEnd: endDate }))
         break
       }
       case 2: {
@@ -33,13 +36,23 @@ const FilterPeriod = () => {
           .endOf('month')
           .subtract(1, 'month')
           .format('YYYY-MM-DD')
-        console.log(startDateInLastMonth, endDateInLastMonth)
+        dispatch(
+          setDates({
+            dateStart: startDateInLastMonth,
+            dateEnd: endDateInLastMonth,
+          })
+        )
         break
       }
       case 3: {
         const startDateInThisYear = dayjs().startOf('year').format('YYYY-MM-DD')
         const endDateInThisYear = dayjs().endOf('year').format('YYYY-MM-DD')
-        console.log(startDateInThisYear, endDateInThisYear)
+        dispatch(
+          setDates({
+            dateStart: startDateInThisYear,
+            dateEnd: endDateInThisYear,
+          })
+        )
         break
       }
       case 4: {
@@ -50,23 +63,38 @@ const FilterPeriod = () => {
         const endDateInLast12Months = dayjs()
           .endOf('month')
           .format('YYYY-MM-DD')
-        console.log(startDateInLast12Months, endDateInLast12Months)
+        dispatch(
+          setDates({
+            dateStart: startDateInLast12Months,
+            dateEnd: endDateInLast12Months,
+          })
+        )
         break
       }
       case 5: {
         const dateStartFormatted = dayjs(customStartDate).format('YYYY-MM-DD')
         const dateEndFormatted = dayjs(customEndDate).format('YYYY-MM-DD')
-        console.log(dateStartFormatted, dateEndFormatted)
+        if (dateStartFormatted && dateEndFormatted) {
+          dispatch(
+            setDates({
+              dateStart: dateStartFormatted,
+              dateEnd: dateEndFormatted,
+            })
+          )
+        }
       }
     }
   }
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (customEndDate && customStartDate) {
       getPeriod(5)
     }
   }, [dateRange])
+
+  useEffect(() => {
+    getPeriod(1)
+  }, [])
 
   return (
     <WrapperFilter>

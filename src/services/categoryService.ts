@@ -1,11 +1,16 @@
-import { ICategoryChart } from "../entitites"
-import { api } from "./api"
+import { ICategoryChart } from '../entitites'
+import { api } from './api'
+interface GetCategories {
+  type: boolean
+  startDate: string
+  endDate: string
+}
 const CategoryService = api.injectEndpoints({
-  endpoints: (builder) => ({
-    getCategories: builder.query<ICategoryChart[], boolean>({
-      query: (type: boolean) =>
-        `/categories/?type=${type}`,
-      providesTags:['Transaction']
+  endpoints: builder => ({
+    getCategories: builder.query<ICategoryChart[], GetCategories>({
+      query: ({ type, startDate, endDate }) =>
+        `/categories/?type=${type}&startDate=${startDate}&endDate=${endDate}`,
+      providesTags: ['Transaction'],
     }),
   }),
 })

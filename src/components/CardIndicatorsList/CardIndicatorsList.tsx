@@ -2,9 +2,16 @@ import { formatCurrency } from '../../utils/formatterCurrency'
 import { ContainerCardIndicatorsList } from './styles'
 import CardIndicators from './CardIndicators'
 import { useGetMetricsQuery } from '../../services/transactionService'
+import { useSelector } from 'react-redux'
+import { SelectDates } from '../../store/dateFilterSlice'
 
 const CardIndicatorsList = () => {
-  const { data: metrics } = useGetMetricsQuery()
+  const dates = useSelector(SelectDates)
+  const { data: metrics } = useGetMetricsQuery({
+    startDate: dates.dateStart,
+    endDate: dates.dateEnd,
+  })
+
   return (
     <ContainerCardIndicatorsList>
       <CardIndicators

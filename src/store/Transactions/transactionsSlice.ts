@@ -1,6 +1,7 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-import { ICategory, ITransaction } from "../../entitites/Transaction"
-import { RootState } from "../store"
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { ITransaction } from '../../entitites/Transaction'
+import { RootState } from '../store'
+import { ICategory } from '../../entitites'
 
 type TransactionsState = {
   transactions: ITransaction[]
@@ -8,11 +9,11 @@ type TransactionsState = {
 }
 const initialState: TransactionsState = {
   transactions: [],
-  categories: []
+  categories: [],
 }
 
 export const transactionsSlice = createSlice({
-  name: "transactions",
+  name: 'transactions',
   initialState,
   reducers: {
     addTransaction: (state, { payload }: PayloadAction<ITransaction>) => {
