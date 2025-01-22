@@ -8,7 +8,7 @@ export class TransactionService {
   async findOne(id: string, userId: string) {
     return await repository.getOneById(id, userId)
   }
-  async findMany(user_id: string, startDate: Date, endDate: Date) {
+  async findMany(user_id: string, startDate: string, endDate: string) {
     return await repository.getAllInPeriod(user_id, startDate, endDate)
   }
 
@@ -27,8 +27,8 @@ export class TransactionService {
     await repository.deleteOne(id, user_id)
   }
 
-  async getMetrics(userId: string) {
-    const response = await repository.selectMetrics(userId)
+  async getMetrics(userId: string, startDate: string, endDate: string) {
+    const response = await repository.selectMetrics(userId, startDate, endDate)
     const incomeInCents = Math.round(Number(response.incomes) * 100)
     const expensesInCents = Math.round(Number(response.expenses) * 100)
     const balance = incomeInCents - expensesInCents

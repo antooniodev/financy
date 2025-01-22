@@ -76,9 +76,14 @@ export class TransactionController {
   async listMetrics(req: Request, res: Response, next: NextFunction) {
     console.log(req.headers.userId)
     try {
-      const userId = await paramsValidator.userId.validate(req.headers.userId)
+      const { userId, startDate, endDate } =
+        await transactionValidator.findManyParams.validate({
+          userId: req.headers.userId,
+          startDate: req.query.startDate,
+          endDate: req.query.endDate,
+        })
 
-      const metrics = await service.getMetrics(userId)
+      const metrics = await service.getMetrics(userId, startDate, endDate)
       res.status(200).json(metrics)
     } catch (error) {
       next(error)
