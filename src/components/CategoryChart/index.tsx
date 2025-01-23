@@ -2,12 +2,18 @@ import { CategoryItem, CategoryList, ContainerChartCategory } from './styles'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { IconProp } from '@fortawesome/fontawesome-svg-core'
 import { useEffect, useRef, useState } from 'react'
-import { PieChart } from '@mui/x-charts'
 import { formatCurrency } from '../../utils/formatterCurrency'
 import { useGetCategoriesQuery } from '../../services/categoryService'
+import { useSelector } from 'react-redux'
+import { SelectDates } from '../../store/dateFilterSlice'
 const CategoryChart = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { data: categories } = useGetCategoriesQuery(false)
+  const dates = useSelector(SelectDates)
+  const { data: categories } = useGetCategoriesQuery({
+    type: false,
+    startDate: dates.dateStart,
+    endDate: dates.dateEnd,
+  })
   const [chartWidth, setChartWidth] = useState(0)
   const chartContainerRef = useRef<HTMLDivElement>(null)
   const [chartData, setChartData] = useState<

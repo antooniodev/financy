@@ -40,9 +40,9 @@ const TransactionService = api.injectEndpoints({
       }),
       invalidatesTags: ['Transaction'],
     }),
-    getMetrics: builder.query<IMetrics, void>({
-      query: () => ({
-        url: '/transactions/metrics',
+    getMetrics: builder.query<IMetrics, GetTransactionsParams>({
+      query: ({ startDate, endDate }: GetTransactionsParams) => ({
+        url: `/transactions/metrics?startDate=${startDate}&endDate=${endDate}`,
       }),
       providesTags: ['Transaction'],
     }),

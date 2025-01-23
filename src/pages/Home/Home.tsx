@@ -24,6 +24,18 @@ const Home = () => {
           <CardIndicatorsList />
           <SSection>
             <CardTransactions
+              navigateTo="/dashboard/addTranfer"
+              bgdIconColor="#F9FAFB"
+              title="Sua meta mensal"
+              explanation="R$1.000,00 de R$2.000,00"
+              icon={
+                <FontAwesomeIcon
+                  color="#155EEF"
+                  icon={'fa-solid fa-arrow-right-arrow-left' as IconProp}
+                />
+              }
+            />
+            <CardTransactions
               navigateTo="/dashboard/addIncome"
               bgdIconColor="#DCFAE6"
               title="Adicionar entrada"
@@ -44,18 +56,6 @@ const Home = () => {
                 <FontAwesomeIcon
                   color="#D92D20"
                   icon={'fa-solid fa-minus' as IconProp}
-                />
-              }
-            />
-            <CardTransactions
-              navigateTo="/dashboard/addTranfer"
-              bgdIconColor="#F9FAFB"
-              title="Gerenciar categorias"
-              explanation="Crie, edite e apague suas categorias"
-              icon={
-                <FontAwesomeIcon
-                  color="#155EEF"
-                  icon={'fa-solid fa-arrow-right-arrow-left' as IconProp}
                 />
               }
             />
