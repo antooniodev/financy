@@ -5,9 +5,15 @@ import verifyToken from '../../shared/middlewares/verify-token'
 const categoryRouter = Router()
 const controller = new CategoryController()
 
-categoryRouter.get('/categories/', verifyToken, controller.list)
+categoryRouter.get(
+  '/categories/summary/',
+  verifyToken,
+  controller.listSummaryCategories
+)
 
 categoryRouter.get('/categories/:id', verifyToken, controller.listOne)
+
+categoryRouter.get(/categories/, verifyToken, controller.listAllCategories)
 
 categoryRouter.post('/categories', verifyToken, controller.create)
 

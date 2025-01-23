@@ -3,7 +3,7 @@ import { db } from '../../config/db/index'
 import { categorySchema, transactionSchema } from '../../config/db/schema'
 import { and, eq, sql } from 'drizzle-orm'
 export class CategoryRepository {
-  public async getCategoriesToChartByType(
+  public async getCategoriesByPeriodAndType(
     userId: string,
     type: boolean,
     startDate: string,
@@ -52,6 +52,19 @@ export class CategoryRepository {
         spent_total: Number(category.total_spent) ?? 0,
       }
     })
+
+    return data
+  }
+
+  public async getAllCategoriesByType(type: boolean) {
+    const data = await db
+      .select({
+        id: categorySchema.id,
+        title: categorySchema.title,
+        type: categorySchema.type,
+      })
+      .from(categorySchema)
+      .where(eq(categorySchema.type, type))
 
     return data
   }

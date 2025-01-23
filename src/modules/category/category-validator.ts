@@ -1,6 +1,6 @@
 import * as yup from 'yup'
 
-const findParams = yup.object().shape({
+const getSummary = yup.object().shape({
   userId: yup.string().required("O campo 'userId' é obrigatório"),
   type: yup.boolean().required("O campo 'type' é obrigatório"),
   startDate: yup
@@ -24,8 +24,14 @@ const bodyPut = yup.object().shape({
   icon: yup.string().required("O campo 'icon' é obrigatório"),
 })
 
+const findAllParams = yup.object().shape({
+  type: yup.boolean().required("O campo 'type' é obrigatório"),
+  userId: yup.string().required("O campo 'userId' é obrigatório"),
+})
+
 export default {
-  findParams,
+  getSummary,
   bodyPost,
   bodyPut,
+  findAllParams,
 }
