@@ -2,13 +2,14 @@
 import { useFormContext } from 'react-hook-form'
 import { ContainerField, ErrorMessage } from './styles'
 import { ICategoryChart } from '../../entitites'
+import { ICategoryResponse } from '../../entitites/Category'
 
 type Props = {
   label: string
   inputName: string
   defaultValue?: string
   placeholder: string
-  options: ICategoryChart[] | []
+  options: ICategoryResponse[] | []
 }
 const SelectField = ({
   label,
@@ -32,7 +33,7 @@ const SelectField = ({
         <option value="">{placeholder}</option>
         {options.map(opt => (
           <option key={opt.id} value={opt.id}>
-            {opt.label}
+            {opt.title}
           </option>
         ))}
       </select>

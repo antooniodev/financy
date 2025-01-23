@@ -8,6 +8,7 @@ export const ContainerChartCategory = styled.div`
   border: 1px solid ${({ theme }) => theme.colors.gray._200};
   display: flex;
   flex-direction: column;
+  gap: 0.5rem;
   .title {
     font-size: 1rem;
     font-weight: 600;
@@ -27,6 +28,23 @@ export const ContainerChartCategory = styled.div`
   @media (max-width: 768px) {
     order: 2;
   }
+`
+
+export const SelectTypeCategory = styled.div`
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+  justify-content: space-evenly;
+`
+
+export const SelectItem = styled.span<{ $isActive: boolean }>`
+  font-size: 1rem;
+  font-weight: 600;
+  color: ${({ theme, $isActive }) => ($isActive ? theme.colors.blue._600 : theme.colors.gray._500)};
+  border-bottom: ${({ $isActive, theme }) => $isActive && `2px solid ${theme.colors.blue._600}`};
+
+  transition: color 0.2s;
+  cursor: pointer;
 `
 
 export const CategoryList = styled.ul`

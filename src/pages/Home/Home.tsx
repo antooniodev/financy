@@ -1,7 +1,7 @@
 import FilterPeriod from '../../components/Filter/FilterPeriod'
 import { ContainerHome, SSection } from './styles'
 import CardTransactions from '../../components/CardTransactions'
-import CategoryChart from '../../components/CategoryChart'
+import CategoryChart from '../../components/SummaryCard'
 import TransactionsList from '../../components/TransactionsList'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { IconProp } from '@fortawesome/fontawesome-svg-core'

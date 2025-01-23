@@ -10,8 +10,8 @@ import { IconProp } from '@fortawesome/fontawesome-svg-core'
 
 import MoneyValueField from '../../components/Fields/MoneyValueField'
 import { TransactionDto } from '../../entitites/Transaction'
-import { useGetCategoriesQuery } from '../../services/categoryService'
 import { useAddTransactionMutation } from '../../services/transactionService'
+import { useGetAllCategoriesByTypeQuery } from '../../services/categoryService'
 
 type FormFields = {
   title: string
@@ -26,7 +26,7 @@ type Props = {
 const TransactionForm = ({ typeTransaction }: Props) => {
   const navigate = useNavigate()
   const methods = useForm<FormFields>()
-  const { data: categories } = useGetCategoriesQuery(
+  const { data: categories } = useGetAllCategoriesByTypeQuery(
     typeTransaction === 'income'
   )
   const [addTransaction] = useAddTransactionMutation()
