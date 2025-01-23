@@ -1,4 +1,5 @@
 import { ICategoryChart } from '../entitites'
+import { ICategoryResponse } from '../entitites/Category'
 import { api } from './api'
 interface GetCategories {
   type: boolean
@@ -7,12 +8,18 @@ interface GetCategories {
 }
 const CategoryService = api.injectEndpoints({
   endpoints: builder => ({
-    getCategories: builder.query<ICategoryChart[], GetCategories>({
+    getSummaryOfCategories: builder.query<ICategoryChart[], GetCategories>({
       query: ({ type, startDate, endDate }) =>
-        `/categories/?type=${type}&startDate=${startDate}&endDate=${endDate}`,
+        `/categories/summary/?type=${type}&startDate=${startDate}&endDate=${endDate}`,
       providesTags: ['Transaction'],
+    }),
+    getAllCategoriesByType: builder.query<ICategoryResponse[], boolean>({
+      query: type => `/categories/?type=${type}`,
     }),
   }),
 })
 
-export const { useGetCategoriesQuery } = CategoryService
+export const {
+  useGetSummaryOfCategoriesQuery,
+  useGetAllCategoriesByTypeQuery,
+} = CategoryService

@@ -8,13 +8,19 @@ export interface ICategory {
   totalValue: number
 }
 
-export interface ICategoryChart {
+export interface ISummaryResponse {
   id: string
   label: string
   value: number
   color: string
   icon: string
   spent_total: number
+}
+
+export interface ICategoryResponse {
+  id: string
+  title: string
+  type: boolean
 }
 
 export interface IParseCategory {
