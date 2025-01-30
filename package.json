@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "tsx watch --env-file .env src/app/server.ts",
     "start": "node dist/app/server.js",
-    "seed": "tsx --env-file .env src/db/seed.ts"
+    "seed": "tsx --env-file .env src/config/db/seed.ts"
   },
   "keywords": [],
   "author": "",

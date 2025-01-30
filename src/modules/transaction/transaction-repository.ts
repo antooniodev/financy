@@ -9,6 +9,7 @@ import {
   Transaction,
   TransactionMetrics,
   TransactionRequestBody,
+  TransactionWithPagination,
 } from './transaction-entity'
 import { number, string } from 'yup'
 import { CustomError } from '../../shared/errors/custom-error'
@@ -17,9 +18,11 @@ export class TransactionRepository {
   async getAllInPeriod(
     userId: string,
     startDate: string,
-    endDate: string
-  ): Promise<Transaction[]> {
-    const data = db
+    endDate: string,
+    page: number,
+    limit: number
+  ): Promise<TransactionWithPagination> {
+    const data: Transaction[] = await db
       .select({
         id: transactionSchema.id,
         title: transactionSchema.title,
@@ -45,7 +48,31 @@ export class TransactionRepository {
         )
       )
       .orderBy(desc(transactionSchema.date))
-    return data
+      .limit(limit)
+      .offset((page - 1) * limit)
+
+    const totalOfTransactons: number = await db
+      .select({ count: sql`COUNT(${transactionSchema.id})` })
+      .from(transactionSchema)
+      .where(
+        and(
+          eq(transactionSchema.userId, userId),
+          gte(transactionSchema.date, new Date(startDate)),
+          lte(transactionSchema.date, new Date(endDate))
+        )
+      )
+      .then(result => Number(result[0].count))
+
+    const quantityOfPages = Math.ceil(totalOfTransactons / limit)
+    const pagination = {
+      next: page < quantityOfPages,
+      prev: page > 1,
+      total: quantityOfPages,
+    }
+    return {
+      pagination,
+      data,
+    }
   }
 
   async getOneById(id: string, userId: string): Promise<Transaction> {
@@ -91,13 +118,15 @@ export class TransactionRepository {
       throw new CustomError(404, 'Esse usuário não existe')
     }
 
+    console.log('aqui')
+
     const data = await db
       .insert(transactionSchema)
       .values({
         title: dto.title,
         value: dto.value.toString(),
         type: dto.type,
-        date: new Date(),
+        date: new Date(dto.date),
         categoryId: dto.categoryId,
         userId,
       })
@@ -137,19 +166,19 @@ export class TransactionRepository {
       )
   }
 
-  async selectMetrics(
-    userId: string,
-    startDate: string,
-    endDate: string
-  ): Promise<Record<string, unknown>> {
-    console.log(' aqui👍')
-
+  async selectMetrics(userId: string, startDate: string, endDate: string) {
     const exepense =
-      sql`SELECT COALESCE(SUM(${transactionSchema.value}), 0) as expenses FROM ${transactionSchema} WHERE ${and(eq(transactionSchema.userId, userId), eq(transactionSchema.type, false))} AND ${transactionSchema.createdAt} BETWEEN ${startDate} AND ${endDate}`.mapWith(
+      sql`SELECT COALESCE(SUM(${transactionSchema.value}), 0) as expenses 
+      FROM ${transactionSchema} 
+      WHERE ${and(eq(transactionSchema.userId, userId), eq(transactionSchema.type, false))} 
+      AND ${transactionSchema.date} BETWEEN ${startDate} AND ${endDate}`.mapWith(
         number
       )
     const incomes =
-      sql`SELECT COALESCE(SUM(${transactionSchema.value}), 0) as incomes FROM ${transactionSchema} WHERE ${and(eq(transactionSchema.userId, userId), eq(transactionSchema.type, true))} AND ${transactionSchema.createdAt} BETWEEN ${startDate} AND ${endDate}`.mapWith(
+      sql`SELECT COALESCE(SUM(${transactionSchema.value}), 0) as incomes 
+      FROM ${transactionSchema} 
+      WHERE ${and(eq(transactionSchema.userId, userId), eq(transactionSchema.type, true))} 
+      AND ${transactionSchema.date} BETWEEN ${startDate} AND ${endDate}`.mapWith(
         number
       )
     const [expenseResult] = await db.execute(exepense)

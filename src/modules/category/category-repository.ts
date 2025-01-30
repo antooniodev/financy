@@ -14,7 +14,7 @@ export class CategoryRepository {
       FROM ${transactionSchema} 
       WHERE ${transactionSchema}.user_id = ${userId} 
       AND ${transactionSchema}.type = ${type} 
-      AND ${transactionSchema.createdAt} BETWEEN ${startDate} AND ${endDate}`
+      AND ${transactionSchema.date} BETWEEN ${startDate} AND ${endDate}`
     )
     const totalValueInCategory = await db.execute(
       sql`
@@ -32,7 +32,7 @@ export class CategoryRepository {
       ON 
         ${transactionSchema}.category_id = ${categorySchema}.id 
         AND ${transactionSchema}.user_id = ${userId}
-        AND ${transactionSchema.createdAt} BETWEEN ${startDate} AND ${endDate}
+        AND ${transactionSchema.date} BETWEEN ${startDate} AND ${endDate}
       WHERE 
         ${categorySchema}.type = ${type}
       GROUP BY 

@@ -14,6 +14,15 @@ export type Transaction = {
   updated_at?: Date
 }
 
+export type TransactionWithPagination = {
+  pagination: {
+    next: boolean
+    prev: boolean
+    total: number
+  }
+  data: Transaction[]
+}
+
 export type TransactionRequestBody = {
   title: string
   date: Date
