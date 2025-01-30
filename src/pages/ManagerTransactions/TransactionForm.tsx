@@ -12,6 +12,7 @@ import MoneyValueField from '../../components/Fields/MoneyValueField'
 import { TransactionDto } from '../../entitites/Transaction'
 import { useAddTransactionMutation } from '../../services/transactionService'
 import { useGetAllCategoriesByTypeQuery } from '../../services/categoryService'
+import dayjs from 'dayjs'
 
 type FormFields = {
   title: string
@@ -31,8 +32,10 @@ const TransactionForm = ({ typeTransaction }: Props) => {
   )
   const [addTransaction] = useAddTransactionMutation()
   const onSubmit = async (data: FormFields) => {
+    const formatDate = dayjs(data.date, 'DD/MM/YYYY').toISOString()
     const dto: TransactionDto = {
       ...data,
+      date: formatDate,
       value: data.value * 100,
       type: typeTransaction === 'income',
     }

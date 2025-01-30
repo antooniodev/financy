@@ -41,10 +41,32 @@ export const SListItem = styled.li<{
       margin-left: 1rem;
     }
 
+    .container-custom-period {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      .save-button {
+        background-color: ${({ theme }) => theme.colors.blue._600};
+        color: white;
+        border: none;
+        border-radius: 2px;
+        padding: 0.4rem;
+      }
+    }
+
+    .react-datepicker__close-icon::after {
+      background-color: ${({ theme }) => theme.colors.gray._600};
+    }
+
   .react-datepicker__input-container {
     input {
       width: 11rem;
       height: 1.5rem;
+      color: ${({ theme }) => theme.colors.blue._600};
+      border: none;
+      background-color: ${({ theme }) => theme.colors.gray._100};
+      font-size: 0.82rem;
+      font-weight: 600;
     }
   }
   

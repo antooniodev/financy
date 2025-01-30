@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled from 'styled-components'
 
 export const ContainerTransactionsList = styled.div`
   width: 100%;
@@ -14,7 +14,7 @@ export const ContainerTransactionsList = styled.div`
   header {
     margin: 1.5rem;
     display: flex;
-    flex-direction: column;
+    gap: 2rem;
     align-self: flex-start;
     span {
       font-weight: 600;
@@ -27,6 +27,12 @@ export const ContainerTransactionsList = styled.div`
       font-size: 0.875rem;
       line-height: 1.25rem;
       color: ${({ theme }) => theme.colors.gray._600};
+    }
+
+    .container-filter {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
     }
   }
 
@@ -61,13 +67,31 @@ export const ContainerTransactionsList = styled.div`
     cursor: pointer;
     margin-left: 1rem;
   }
-  & > div {
-    display: none;
-  }
+  
 
   .label-noData {
     margin: 1rem;
     align-self: center;
     color: ${({ theme }) => theme.colors.black._900};
+  }
+`
+
+export const ContainerPagination = styled.div`
+  margin: 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.9rem;
+
+  button  {
+    background-color: white;
+    border: none;
+    &:disabled {
+      cursor: not-allowed;
+    }
+  }
+  svg  {
+    margin: 0;
   }
 `

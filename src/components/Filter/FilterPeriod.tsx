@@ -75,6 +75,8 @@ const FilterPeriod = () => {
         const dateStartFormatted = dayjs(customStartDate).format('YYYY-MM-DD')
         const dateEndFormatted = dayjs(customEndDate).format('YYYY-MM-DD')
         if (dateStartFormatted && dateEndFormatted) {
+          console.log('chamou')
+
           dispatch(
             setDates({
               dateStart: dateStartFormatted,
@@ -86,15 +88,19 @@ const FilterPeriod = () => {
     }
   }
 
+  useEffect(() => {}, [customStartDate, customEndDate])
+
   useEffect(() => {
+    console.log('aqui')
+
+    getPeriod(1)
+  }, [])
+
+  const handleSubmitCustomPeriod = () => {
     if (customEndDate && customStartDate) {
       getPeriod(5)
     }
-  }, [dateRange])
-
-  useEffect(() => {
-    getPeriod(1)
-  }, [])
+  }
 
   return (
     <WrapperFilter>
@@ -147,27 +153,36 @@ const FilterPeriod = () => {
         $isActive={period === 5}
         onClick={() => {
           setPeriod(5)
-          getPeriod(5)
           setActivateCustomPeriod(true)
         }}
       >
         {activateCustomPeriod ? (
-          <DatePicker
-            selectsRange={true}
-            startDate={customStartDate}
-            endDate={customEndDate}
-            onChange={update => {
-              setDateRange(update)
-            }}
-            onBlur={() => {
-              if (!dateRange[0] && !dateRange[1]) {
-                setActivateCustomPeriod(false)
-                setPeriod(1)
-                getPeriod(1)
-              }
-            }}
-            isClearable={true}
-          />
+          <div className="container-custom-period">
+            <DatePicker
+              selectsRange={true}
+              placeholderText="Início - Fim"
+              startDate={customStartDate}
+              endDate={customEndDate}
+              onChange={update => {
+                setDateRange(update)
+              }}
+              onBlur={() => {
+                if (!dateRange[0] && !dateRange[1]) {
+                  setActivateCustomPeriod(false)
+                  setPeriod(1)
+                  getPeriod(1)
+                }
+              }}
+              isClearable={true}
+            />
+            <button
+              className="save-button"
+              type="button"
+              onClick={() => handleSubmitCustomPeriod()}
+            >
+              Salvar
+            </button>
+          </div>
         ) : (
           <div onClick={() => setActivateCustomPeriod(true)}>
             <FontAwesomeIcon
