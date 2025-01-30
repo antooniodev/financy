@@ -10,6 +10,19 @@ const body = yup.object().shape({
 
 const findManyParams = yup.object().shape({
   userId: yup.string().required("O campo 'userId' é obrigatório"),
+  page: yup.number().required("O campo 'page' é obrigatório"),
+  limit: yup.number().required("O campo 'limit' é obrigatório"),
+  startDate: yup
+    .string()
+    .matches(/^\d{4}-\d{2}-\d{2}$/)
+    .required("O campo 'startDate' é obrigatório"),
+  endDate: yup
+    .string()
+    .matches(/^\d{4}-\d{2}-\d{2}$/)
+    .required("O campo 'endDate' é obrigatório"),
+})
+const findMetricsParams = yup.object().shape({
+  userId: yup.string().required("O campo 'userId' é obrigatório"),
   startDate: yup
     .string()
     .matches(/^\d{4}-\d{2}-\d{2}$/)
@@ -23,4 +36,5 @@ const findManyParams = yup.object().shape({
 export default {
   body,
   findManyParams,
+  findMetricsParams,
 }

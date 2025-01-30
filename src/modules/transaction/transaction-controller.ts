@@ -7,14 +7,22 @@ const service = new TransactionService()
 export class TransactionController {
   async list(req: Request, res: Response, next: NextFunction) {
     try {
-      const { userId, startDate, endDate } =
+      const { userId, startDate, endDate, page, limit } =
         await transactionValidator.findManyParams.validate({
           userId: req.headers.userId,
           startDate: req.query.startDate,
           endDate: req.query.endDate,
+          page: req.query.page,
+          limit: req.query.limit,
         })
 
-      const transactions = await service.findMany(userId, startDate, endDate)
+      const transactions = await service.findMany(
+        userId,
+        startDate,
+        endDate,
+        page,
+        limit
+      )
       res.status(200).json(transactions)
     } catch (error) {
       next(error)
@@ -77,7 +85,7 @@ export class TransactionController {
     console.log(req.headers.userId)
     try {
       const { userId, startDate, endDate } =
-        await transactionValidator.findManyParams.validate({
+        await transactionValidator.findMetricsParams.validate({
           userId: req.headers.userId,
           startDate: req.query.startDate,
           endDate: req.query.endDate,

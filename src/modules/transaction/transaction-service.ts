@@ -8,8 +8,20 @@ export class TransactionService {
   async findOne(id: string, userId: string) {
     return await repository.getOneById(id, userId)
   }
-  async findMany(user_id: string, startDate: string, endDate: string) {
-    return await repository.getAllInPeriod(user_id, startDate, endDate)
+  async findMany(
+    user_id: string,
+    startDate: string,
+    endDate: string,
+    page: number,
+    limit: number
+  ) {
+    return await repository.getAllInPeriod(
+      user_id,
+      startDate,
+      endDate,
+      page,
+      limit
+    )
   }
 
   async create(userId: string, dto: TransactionRequestBody) {
