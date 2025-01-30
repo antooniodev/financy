@@ -1,7 +1,7 @@
 import {
   EditTransactionDto,
   IMetrics,
-  ITransaction,
+  ITransactionsWithPagination,
   TransactionDto,
 } from '../entitites/Transaction'
 import { api } from './api'
@@ -9,12 +9,28 @@ type GetTransactionsParams = {
   startDate: string
   endDate: string
 }
+type GetTransactionsWithPaginationParams = {
+  startDate: string
+  endDate: string
+  page: number
+  limit: number
+  orderBy: string
+}
 
 const TransactionService = api.injectEndpoints({
   endpoints: builder => ({
-    getTransactions: builder.query<ITransaction[], GetTransactionsParams>({
-      query: ({ startDate, endDate }: GetTransactionsParams) =>
-        `/transactions?startDate=${startDate}&endDate=${endDate}`,
+    getTransactions: builder.query<
+      ITransactionsWithPagination,
+      GetTransactionsWithPaginationParams
+    >({
+      query: ({
+        startDate,
+        endDate,
+        page,
+        limit,
+        orderBy,
+      }: GetTransactionsWithPaginationParams) =>
+        `/transactions?startDate=${startDate}&endDate=${endDate}&page=${page}&limit=${limit}&orderBy=${orderBy}`,
       providesTags: ['Transaction'],
     }),
     addTransaction: builder.mutation<string, TransactionDto>({

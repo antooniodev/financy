@@ -9,6 +9,15 @@ export interface ITransaction {
   category: IParseCategory
 }
 
+export interface ITransactionsWithPagination {
+  pagination: {
+    next: boolean
+    prev: boolean
+    total: number
+  }
+  data: ITransaction[]
+}
+
 export type TransactionDto = {
   title: string
   date: string
