@@ -13,14 +13,16 @@ export class TransactionService {
     startDate: string,
     endDate: string,
     page: number,
-    limit: number
+    limit: number,
+    orderBy: string
   ) {
     return await repository.getAllInPeriod(
       user_id,
       startDate,
       endDate,
       page,
-      limit
+      limit,
+      orderBy
     )
   }
 
