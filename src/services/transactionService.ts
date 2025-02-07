@@ -1,6 +1,7 @@
 import {
   EditTransactionDto,
   IMetrics,
+  ITransaction,
   ITransactionsWithPagination,
   TransactionDto,
 } from '../entitites/Transaction'
@@ -32,6 +33,9 @@ const TransactionService = api.injectEndpoints({
       }: GetTransactionsWithPaginationParams) =>
         `/transactions?startDate=${startDate}&endDate=${endDate}&page=${page}&limit=${limit}&orderBy=${orderBy}`,
       providesTags: ['Transaction'],
+    }),
+    getTransactionById: builder.query<ITransaction, string>({
+      query: (id: string) => `/transactions/${id}`,
     }),
     addTransaction: builder.mutation<string, TransactionDto>({
       query: transaction => ({
@@ -67,6 +71,7 @@ const TransactionService = api.injectEndpoints({
 
 export const {
   useGetTransactionsQuery,
+  useGetTransactionByIdQuery,
   useAddTransactionMutation,
   useEditTransactionMutation,
   useDeleteTransactionMutation,

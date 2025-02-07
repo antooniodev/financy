@@ -45,6 +45,9 @@ export const ContainerTransactionsList = styled.div`
       padding: 0.875rem 1.5rem;
       font-size: 0.875rem;
       color: ${({ theme }) => theme.colors.gray._600};
+
+      white-space: pre-wrap;
+      word-break: break-word;
     }
     .income {
         color: ${({ theme }) => theme.colors.green._500};
@@ -68,7 +71,10 @@ export const ContainerTransactionsList = styled.div`
     margin-left: 1rem;
   }
   
-
+  .actions-column {
+    display: flex;
+    align-items: center;
+  }
   .label-noData {
     margin: 1rem;
     align-self: center;

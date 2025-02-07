@@ -1,5 +1,5 @@
-import { useFormContext } from "react-hook-form"
-import { ContainerField, ErrorMessage } from "./styles"
+import { useFormContext } from 'react-hook-form'
+import { ContainerField, ErrorMessage } from './styles'
 
 type Props = {
   label: string
@@ -8,18 +8,24 @@ type Props = {
   placeholder: string
 }
 const TextField = ({ label, inputName, defaultValue, placeholder }: Props) => {
-  const { register, formState: { errors } } = useFormContext()
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext()
 
   return (
-    <ContainerField >
+    <ContainerField>
       <label htmlFor={inputName}>{label}</label>
       <input
-        {...register(inputName, { required: "Campo obrigatório" })}
-        type='text'
+        {...register(inputName, { required: 'Campo obrigatório' })}
+        type="text"
         defaultValue={defaultValue}
         placeholder={placeholder}
+        maxLength={110}
       />
-      {errors[inputName] && <ErrorMessage>{errors[inputName]?.message?.toString()}</ErrorMessage>}
+      {errors[inputName] && (
+        <ErrorMessage>{errors[inputName]?.message?.toString()}</ErrorMessage>
+      )}
     </ContainerField>
   )
 }

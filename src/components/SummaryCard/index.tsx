@@ -7,16 +7,17 @@ import {
 } from './styles'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { IconProp } from '@fortawesome/fontawesome-svg-core'
-import { useEffect, useRef, useState } from 'react'
+import { useState } from 'react'
 import { formatCurrency } from '../../utils/formatterCurrency'
 import { useSelector } from 'react-redux'
 import { SelectDates } from '../../store/dateFilterSlice'
 import { useGetSummaryOfCategoriesQuery } from '../../services/categoryService'
+import Loading from '../Loading/Loading'
 const CategoryChart = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [typeSelected, setTypeSelected] = useState(false)
   const dates = useSelector(SelectDates)
-  const { data: categories } = useGetSummaryOfCategoriesQuery({
+  const { data: categories, isLoading } = useGetSummaryOfCategoriesQuery({
     type: typeSelected,
     startDate: dates.dateStart,
     endDate: dates.dateEnd,
@@ -95,28 +96,32 @@ const CategoryChart = () => {
           Saídas
         </SelectItem>
       </SelectTypeCategory>
-      <CategoryList>
-        {categories?.map(item => (
-          <CategoryItem key={item.label}>
-            <section>
-              <div
-                className="container-icon"
-                style={{
-                  backgroundColor: `${item.color === '#FFFFF' ? '#000000' : item.color}`,
-                }}
-              >
-                <FontAwesomeIcon icon={item.icon as IconProp} />
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <CategoryList>
+          {categories?.map(item => (
+            <CategoryItem key={item.label}>
+              <section>
+                <div
+                  className="container-icon"
+                  style={{
+                    backgroundColor: `${item.color === '#FFFFF' ? '#000000' : item.color}`,
+                  }}
+                >
+                  <FontAwesomeIcon icon={item.icon as IconProp} />
+                </div>
+              </section>
+              <div className="container-info">
+                <span>{item.label}</span>
+                <p className="percentage">
+                  {formatCurrency(item.spent_total)} | {item.value.toFixed(2)}%
+                </p>
               </div>
-            </section>
-            <div className="container-info">
-              <span>{item.label}</span>
-              <p className="percentage">
-                {formatCurrency(item.spent_total)} | {item.value.toFixed(2)}%
-              </p>
-            </div>
-          </CategoryItem>
-        ))}
-      </CategoryList>
+            </CategoryItem>
+          ))}
+        </CategoryList>
+      )}
     </ContainerChartCategory>
   )
 }
