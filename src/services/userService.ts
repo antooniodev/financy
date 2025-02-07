@@ -1,4 +1,5 @@
-import { UserRequestBody } from '../entitites/User'
+import { ISessionResponse } from '../entitites'
+import { IUserCredentials, UserRequestBody } from '../entitites/User'
 import { api } from './api'
 
 const UserService = api.injectEndpoints({
@@ -10,7 +11,15 @@ const UserService = api.injectEndpoints({
         body,
       }),
     }),
+    registerUserGoal: builder.mutation<void, { goal: number }>({
+      query: body => ({
+        url: '/user/goal',
+        method: 'POST',
+        body,
+      }),
+    }),
   }),
 })
 
-export const { useCreateUserMutation } = UserService
+export const { useCreateUserMutation, useRegisterUserGoalMutation } =
+  UserService

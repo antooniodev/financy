@@ -1,9 +1,11 @@
 import { useForm } from 'react-hook-form'
 import { Container, WrapperForm } from './styles'
 import Logo from '../../assets/Logo.svg'
-import { useLoginMutation } from '../../services/api'
 import { createStandaloneToast } from '@chakra-ui/toast'
 import { useNavigate } from 'react-router-dom'
+import { useLoginMutation } from '../../services/api'
+import { useSelector } from 'react-redux'
+import { selectUserState } from '../../store/auth/authSlice'
 
 const { toast } = createStandaloneToast()
 type FormFields = {
@@ -21,6 +23,8 @@ const Login = () => {
 
   const [login] = useLoginMutation()
 
+  const user = useSelector(selectUserState)
+
   const onSubmit = handleSubmit(async data => {
     await login(data).unwrap()
     toast({
@@ -30,7 +34,8 @@ const Login = () => {
       duration: 5000,
       position: 'top',
     })
-    navigate('/dashboard')
+
+    navigate(user.goal ? '/dashboard' : '/dashboard/register-goal')
   })
 
   return (
@@ -74,7 +79,6 @@ const Login = () => {
           <button type="submit">Entrar</button>
           <p className="account-message">
             Nào possui uma conta?{' '}
-            {/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
             <span onClick={() => navigate('/signup')}>Clique aqui</span> para
             fazer o cadastro.
           </p>
