@@ -2,7 +2,7 @@
 
 ## 📸 Captura de Tela
 
-Abaixo está uma captura de tela do projeto:
+<img src="./Dashboard_image.jpeg" alt="Print da dashboard do projeto.">
 
 ## 📌 Sobre o Projeto
 
@@ -10,7 +10,7 @@ Financy é um projeto de controle financeiro desenvolvido em ReactJS com TypeScr
 
 ## 🌐 Acesso ao Projeto
 
-[Acesse aqui](https://seu-link-aqui.com) (caso tenha um link disponível)
+[Acesse aqui](https://financy-frontend.vercel.app/)
 
 ## 🚀 Funcionalidades
 
@@ -19,6 +19,7 @@ Financy é um projeto de controle financeiro desenvolvido em ReactJS com TypeScr
   - Exibição de saldo atual.
   - Visão geral das receitas e despesas.
   - Comparativos percentuais mensais.
+  - Comparativos por categorias de receitas e despesas.
 
 - **Gestão de Transações:**
 
@@ -37,6 +38,10 @@ Financy é um projeto de controle financeiro desenvolvido em ReactJS com TypeScr
 
   - Filtro para visualização de dados por período (mês atual, mês passado, ano atual, últimos 12 meses, período personalizado).
 
+- **Meta de gastos mensal:**
+
+  - Adição manual de meta de gastos mensal.
+
 ## 🛠 Tecnologias Utilizadas
 
 - **ReactJS**
@@ -48,7 +53,7 @@ Financy é um projeto de controle financeiro desenvolvido em ReactJS com TypeScr
 
 1. Clone o repositório:
    ```sh
-   git clone https://github.com/4ntonio19/financy-frontend.git
+   git clone https://github.com/antooniodev/financy-frontend
    ```
 2. Acesse o diretório do projeto:
    ```sh
@@ -58,7 +63,12 @@ Financy é um projeto de controle financeiro desenvolvido em ReactJS com TypeScr
    ```sh
    npm install  # ou yarn install
    ```
-4. Inicie o projeto:
+4. Variáveis de ambiente:
+    Em um arquivo .env adicione as seguintes variáveis que irão apontar para a api do financy
+    ```sh
+    VITE_BACKEND_URL=""
+    ```   
+5. Inicie o projeto:
    ```sh
    npm run dev  # ou yarn dev
    ```
@@ -75,10 +85,11 @@ http://localhost:5173/
 src/
  ├── assets/         # Imagens, ícones e outros arquivos estáticos
  ├── components/     # Componentes reutilizáveis
- ├── pages/          # Páginas da aplicação
+ ├── pages/          # Páginas da aplicaçãoZ
+ ├── entities/       # Entidades dos dados
+ ├── middlewares/    # Middlewares utilizados nas chamadas à API.
  ├── services/       # Serviços e chamadas à API
  ├── store/          # Gerenciamento de estado com Redux
- ├── hooks/          # Hooks personalizados
  ├── utils/          # Funções utilitárias
  ├── styles/         # Estilizações globais e temas
  ├── main.tsx        # Ponto de entrada da aplicação
@@ -104,5 +115,5 @@ Designer: [Figma](https://www.figma.com/community/file/1357072393691339649/finan
 
 ---
 
-Feito com ❤️ por [Antonio Victor](https://github.com/4ntonio19).
+Feito com ❤️ por [Antonio Victor](https://github.com/antooniodev).
 
