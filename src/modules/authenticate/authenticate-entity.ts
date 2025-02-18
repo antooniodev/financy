@@ -6,7 +6,7 @@ export type UserCredentials = {
 export type UserResponseBody = {
   userId: string
   firstName: string
-  monthlyGoal: string
+  monthlyGoal: number
 }
 
 export type UserAuthenticatedBody = {

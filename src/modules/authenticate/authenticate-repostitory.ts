@@ -24,6 +24,9 @@ export class AuthenticateRepository {
       })
 
     const user = data[0]
-    return user
+    return {
+      ...user,
+      monthlyGoal: Number(user.monthlyGoal),
+    }
   }
 }

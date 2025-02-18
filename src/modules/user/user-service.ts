@@ -1,6 +1,7 @@
 import { CustomError } from '../../shared/errors/custom-error'
 import { IMonthlyGoal, IRegisterUser, IUser } from './user-entity'
 import { UserRepository } from './user-repository'
+import dayjs from 'dayjs'
 const repository = new UserRepository()
 export class UserService {
   async findById(id: string): Promise<IUser> {
@@ -18,8 +19,8 @@ export class UserService {
   }
 
   async getMonthlyGoal(id: string): Promise<IMonthlyGoal> {
-    console.log('id', id)
-
-    return repository.getMonthlyGoal(id)
+    const startDate = dayjs().startOf('month').toString()
+    const endDate = dayjs().endOf('month').toString()
+    return repository.getMonthlyGoal(id, startDate, endDate)
   }
 }

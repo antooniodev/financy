@@ -39,7 +39,11 @@ export class UserRepository {
     return data[0]
   }
 
-  async getMonthlyGoal(id: string): Promise<IMonthlyGoal> {
+  async getMonthlyGoal(
+    id: string,
+    startDate: string,
+    endDate: string
+  ): Promise<IMonthlyGoal> {
     const monthlyGoalData = await db
       .select({ monthlyGoal: userSchema.monthlyGoal })
       .from(userSchema)
@@ -51,6 +55,7 @@ export class UserRepository {
         FROM ${transactionSchema}
         WHERE ${transactionSchema.userId} = ${id}
         AND ${transactionSchema.type} = false
+        AND ${transactionSchema.date} BETWEEN ${startDate} AND ${endDate}
       `
     )
     const totalOfExpenses: number = Number(expenses[0].total)
@@ -59,7 +64,7 @@ export class UserRepository {
     return {
       monthlyGoal,
       totalOfExpenses,
-      percentageOfExpenses,
+      percentageOfExpenses: percentageOfExpenses > 0 ? percentageOfExpenses : 0,
     }
   }
 
