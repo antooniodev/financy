@@ -224,6 +224,8 @@ export class TransactionRepository {
       )
     const [expenseResult] = await db.execute(exepense)
     const [incomeResult] = await db.execute(incomes)
+    console.log({ ...expenseResult, ...incomeResult })
+
     return { ...expenseResult, ...incomeResult }
   }
 }

@@ -12,6 +12,7 @@ export class AuthenticateRepository {
       .select({
         userId: userSchema.id,
         firstName: userSchema.firstName,
+        monthlyGoal: userSchema.monthlyGoal,
       })
       .from(userSchema)
       .where(
