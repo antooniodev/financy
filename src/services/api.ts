@@ -12,7 +12,7 @@ export const api = createApi({
       return headers
     },
   }),
-  tagTypes: ['Transaction'],
+  tagTypes: ['Transaction', 'Goal'],
   endpoints: builder => ({
     login: builder.mutation<ISessionResponse, IUserCredentials>({
       query: credentials => ({

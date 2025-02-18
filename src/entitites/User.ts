@@ -6,7 +6,7 @@ export interface IUserCredentials {
 export interface IUser {
   userId: string
   firstName: string
-  goal: number | null
+  monthlyGoal: number
 }
 
 export interface UserRequestBody {
@@ -14,4 +14,10 @@ export interface UserRequestBody {
   lastName: string
   email: string
   password: string
+}
+
+export interface UserMonthlyGoalResponse {
+  monthlyGoal: number
+  totalOfExpenses: number
+  percentageOfExpenses: number
 }

@@ -1,5 +1,4 @@
-import { ISessionResponse } from '../entitites'
-import { IUserCredentials, UserRequestBody } from '../entitites/User'
+import { UserMonthlyGoalResponse, UserRequestBody } from '../entitites/User'
 import { api } from './api'
 
 const UserService = api.injectEndpoints({
@@ -11,15 +10,23 @@ const UserService = api.injectEndpoints({
         body,
       }),
     }),
-    registerUserGoal: builder.mutation<void, { goal: number }>({
+    registerUserGoal: builder.mutation<void, { monthlyGoal: number }>({
       query: body => ({
-        url: '/user/goal',
-        method: 'POST',
+        url: '/user/monthly-goal',
+        method: 'PUT',
         body,
       }),
+      invalidatesTags: ['Goal'],
+    }),
+    getMonthlyGoal: builder.query<UserMonthlyGoalResponse, void>({
+      query: () => '/user/monthly-goal',
+      providesTags: ['Goal'],
     }),
   }),
 })
 
-export const { useCreateUserMutation, useRegisterUserGoalMutation } =
-  UserService
+export const {
+  useCreateUserMutation,
+  useRegisterUserGoalMutation,
+  useGetMonthlyGoalQuery,
+} = UserService

@@ -8,7 +8,7 @@ const initialState: ISessionResponse = {
   user: {
     userId: '',
     firstName: '',
-    goal: null,
+    monthlyGoal: 0,
   },
 }
 export const authSlice = createSlice({
@@ -20,7 +20,7 @@ export const authSlice = createSlice({
       state.user = {
         userId: '',
         firstName: '',
-        goal: null,
+        monthlyGoal: 0,
       }
       localStorage.clear()
       sessionStorage.clear()

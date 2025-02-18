@@ -48,6 +48,10 @@ export const ContainerTransactionsList = styled.div`
 
       white-space: pre-wrap;
       word-break: break-word;
+      @media (max-width: 900px) {
+        white-space: pre;
+        word-break: break-word;
+      }
     }
     .income {
         color: ${({ theme }) => theme.colors.green._500};
