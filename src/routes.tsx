@@ -10,6 +10,9 @@ import Layout from './components/Layout'
 import TransactionForm from './pages/ManagerTransactions/TransactionForm'
 import Login from './pages/Login/Login'
 import SignUp from './pages/SignUp'
+import EditTransactions from './pages/EditTransactions/EditTransactions'
+import DeleteTransaction from './pages/DeleteTransaction/DeleteTransaction'
+import RegisterGoal from './pages/RegisterGoal/RegisterGoal'
 export const AppRoutes = () => {
   const ProtectedRoutes = () => {
     const token = localStorage.getItem('token')
@@ -34,6 +37,9 @@ export const AppRoutes = () => {
               </Layout>
             }
           >
+            <Route path="register-goal" element={<RegisterGoal />} />
+            <Route path="editTransaction" element={<EditTransactions />} />
+            <Route path="deleteTransaction" element={<DeleteTransaction />} />
             <Route
               path="addIncome"
               element={<TransactionForm typeTransaction="income" />}

@@ -1,5 +1,5 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
-import { ISessionResponse, IUserCredentials } from "../entitites"
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { ISessionResponse, IUserCredentials } from '../entitites'
 
 export const api = createApi({
   baseQuery: fetchBaseQuery({
@@ -13,15 +13,15 @@ export const api = createApi({
     },
   }),
   tagTypes: ['Transaction'],
-  endpoints: (builder) => ({
+  endpoints: builder => ({
     login: builder.mutation<ISessionResponse, IUserCredentials>({
-      query: (credentials) => ({
+      query: credentials => ({
         url: '/auth/session',
         method: 'POST',
         body: credentials,
-      })
-    })
-  })
+      }),
+    }),
+  }),
 })
 
 export const { useLoginMutation } = api

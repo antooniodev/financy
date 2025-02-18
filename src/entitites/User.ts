@@ -6,6 +6,7 @@ export interface IUserCredentials {
 export interface IUser {
   userId: string
   firstName: string
+  goal: number | null
 }
 
 export interface UserRequestBody {

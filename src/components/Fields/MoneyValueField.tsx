@@ -1,11 +1,12 @@
-import { ContainerField, ErrorMessage } from "./styles"
-import CurrencyInput from "react-currency-input-field"
-import { useFormContext } from "react-hook-form"
+import { useEffect } from 'react'
+import { Controller, useFormContext } from 'react-hook-form'
+import CurrencyInput from 'react-currency-input-field'
+import { ContainerField, ErrorMessage } from './styles'
 
 type Props = {
   label: string
   inputName: string
-  defaultValue?: string
+  defaultValue?: number
   placeholder: string
 }
 
@@ -16,25 +17,39 @@ const MoneyValueField = ({
   placeholder,
 }: Props) => {
   const {
+    control,
     setValue,
     formState: { errors },
   } = useFormContext()
+
+  useEffect(() => {
+    if (defaultValue !== undefined) {
+      setValue(inputName, defaultValue)
+    }
+  }, [defaultValue, inputName, setValue])
+
   return (
     <ContainerField>
       <label htmlFor={inputName}>{label}</label>
-      <CurrencyInput
-        id={inputName}
+      <Controller
+        control={control}
         name={inputName}
-        placeholder={placeholder}
-        decimalsLimit={2}
-        decimalSeparator=','
-        groupSeparator='.'
-        prefix='R$ '
-        defaultValue={defaultValue}
-        onValueChange={(values) => {
-          const formatValue = Number(values?.replace(",", "."))
-          setValue(inputName, formatValue)
-        }}
+        defaultValue={defaultValue || 0}
+        render={({ field: { onChange, value } }) => (
+          <CurrencyInput
+            id={inputName}
+            placeholder={placeholder}
+            decimalsLimit={2}
+            decimalSeparator=","
+            groupSeparator="."
+            prefix="R$ "
+            value={value}
+            onValueChange={val => {
+              const formattedValue = Number(val?.replace(',', '.')) || 0
+              onChange(formattedValue)
+            }}
+          />
+        )}
       />
       {errors[inputName] && (
         <ErrorMessage>{errors[inputName]?.message?.toString()}</ErrorMessage>

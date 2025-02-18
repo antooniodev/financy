@@ -1,18 +1,19 @@
-import { FormProvider, useForm } from 'react-hook-form'
-import TextField from '../../components/Fields/TextField'
-import Modal from '../../components/Modal/Modal'
-import { ContainerTransactionForm } from './styles'
-import { useNavigate } from 'react-router-dom'
-import DateField from '../../components/Fields/DateField'
-import SelectField from '../../components/Fields/SelectField'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { IconProp } from '@fortawesome/fontawesome-svg-core'
-
-import MoneyValueField from '../../components/Fields/MoneyValueField'
-import { TransactionDto } from '../../entitites/Transaction'
-import { useAddTransactionMutation } from '../../services/transactionService'
-import { useGetAllCategoriesByTypeQuery } from '../../services/categoryService'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import dayjs from 'dayjs'
+import { useForm, FormProvider } from 'react-hook-form'
+import { useNavigate, useParams } from 'react-router-dom'
+import DateField from '../../components/Fields/DateField'
+import MoneyValueField from '../../components/Fields/MoneyValueField'
+import SelectField from '../../components/Fields/SelectField'
+import { useGetAllCategoriesByTypeQuery } from '../../services/categoryService'
+import { useEditTransactionMutation } from '../../services/transactionService'
+import { ContainerTransactionForm } from '../ManagerTransactions/styles'
+import Modal from '../../components/Modal/Modal'
+import TextField from '../../components/Fields/TextField'
+import { EditTransactionDto } from '../../entitites/Transaction'
+import { useSelector } from 'react-redux'
+import { selectTransactionToEditState } from '../../store/Transactions/transactionsSlice'
 
 type FormFields = {
   title: string
@@ -21,38 +22,47 @@ type FormFields = {
   date: string
 }
 
-type Props = {
-  typeTransaction: 'income' | 'expense'
-}
-const TransactionForm = ({ typeTransaction }: Props) => {
+const EditTransactions = () => {
   const navigate = useNavigate()
   const methods = useForm<FormFields>()
+  const { id } = useParams()
+
+  const transaction = useSelector(selectTransactionToEditState)
+
   const { data: categories } = useGetAllCategoriesByTypeQuery(
-    typeTransaction === 'income'
+    !!transaction?.type
   )
-  const [addTransaction] = useAddTransactionMutation()
+
+  const [editTransaction] = useEditTransactionMutation()
   const onSubmit = async (data: FormFields) => {
     const formatDate = dayjs(data.date, 'DD/MM/YYYY').toISOString()
-    const dto: TransactionDto = {
+    if (!transaction) {
+      return
+    }
+    const dto: EditTransactionDto = {
       ...data,
+      id: transaction.id,
       date: formatDate,
       value: data.value * 100,
-      type: typeTransaction === 'income',
+      type: transaction?.type,
     }
-    await addTransaction(dto).unwrap()
+    await editTransaction(dto).unwrap()
     navigate('/dashboard')
   }
+
+  console.log('renderizou')
+
   return (
     <Modal
       onClickSubmit={methods.handleSubmit(onSubmit)}
       title={
         <>
-          Nova {typeTransaction === 'income' ? 'entrada' : 'saída'}
+          Editar {transaction?.type ? 'entrada' : 'saída'}
           <FontAwesomeIcon
-            color={typeTransaction === 'income' ? '#0B9055' : '#F04438'}
+            color={transaction?.type ? '#0B9055' : '#F04438'}
             icon={
               `${
-                typeTransaction === 'income'
+                transaction?.type
                   ? 'fa-solid fa-arrow-up'
                   : 'fa-solid fa-arrow-down'
               }` as IconProp
@@ -65,21 +75,25 @@ const TransactionForm = ({ typeTransaction }: Props) => {
       <FormProvider {...methods}>
         <ContainerTransactionForm>
           <TextField
+            defaultValue={transaction?.title}
             inputName="title"
             label="Insira o título:"
             placeholder="Digite o título da transação..."
           />
           <MoneyValueField
+            defaultValue={transaction?.value}
             inputName="value"
             label="Insira o valor:"
             placeholder="Digite o valor da transação..."
           />
           <DateField
+            defaultValue={dayjs(transaction?.date).format('YYYY-MM-DD')}
             inputName="date"
             label="Insira a data:"
             placeholder="dd/mm/aaaa"
           />
           <SelectField
+            defaultValue={transaction?.category.id}
             options={categories ?? []}
             inputName="categoryId"
             label="Escolha a categoria:"
@@ -91,4 +105,4 @@ const TransactionForm = ({ typeTransaction }: Props) => {
   )
 }
 
-export default TransactionForm
+export default EditTransactions

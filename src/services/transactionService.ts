@@ -1,41 +1,79 @@
-import { EditTransactionDto, ITransaction, TransactionDto } from "../entitites/Transaction"
-import { api } from "./api"
+import {
+  EditTransactionDto,
+  IMetrics,
+  ITransaction,
+  ITransactionsWithPagination,
+  TransactionDto,
+} from '../entitites/Transaction'
+import { api } from './api'
 type GetTransactionsParams = {
   startDate: string
   endDate: string
 }
+type GetTransactionsWithPaginationParams = {
+  startDate: string
+  endDate: string
+  page: number
+  limit: number
+  orderBy: string
+}
 
 const TransactionService = api.injectEndpoints({
-  endpoints: (builder) => ({
-    getTransactions: builder.query<ITransaction[], GetTransactionsParams>({
-      query: ({ startDate, endDate }: GetTransactionsParams) =>
-        `/transactions?startDate=${startDate}&endDate=${endDate}`,
-      providesTags:['Transaction']
+  endpoints: builder => ({
+    getTransactions: builder.query<
+      ITransactionsWithPagination,
+      GetTransactionsWithPaginationParams
+    >({
+      query: ({
+        startDate,
+        endDate,
+        page,
+        limit,
+        orderBy,
+      }: GetTransactionsWithPaginationParams) =>
+        `/transactions?startDate=${startDate}&endDate=${endDate}&page=${page}&limit=${limit}&orderBy=${orderBy}`,
+      providesTags: ['Transaction'],
+    }),
+    getTransactionById: builder.query<ITransaction, string>({
+      query: (id: string) => `/transactions/${id}`,
     }),
     addTransaction: builder.mutation<string, TransactionDto>({
-      query: (transaction) => ({
-        url: "/transactions",
-        method: "POST",
+      query: transaction => ({
+        url: '/transactions',
+        method: 'POST',
         body: transaction,
       }),
-      invalidatesTags:['Transaction']
+      invalidatesTags: ['Transaction'],
     }),
     editTransaction: builder.mutation<string, EditTransactionDto>({
-      query: (transaction) => ({
+      query: transaction => ({
         url: `/transactions/${transaction.id}`,
-        method: "PUT",
+        method: 'PUT',
         body: transaction,
       }),
-      invalidatesTags:['Transaction']
+      invalidatesTags: ['Transaction'],
     }),
     deleteTransaction: builder.mutation<void, string>({
-      query: ( id ) => ({
+      query: id => ({
         url: `/transactions/${id}`,
         method: 'DELETE',
       }),
-      invalidatesTags:['Transaction']
-    })
+      invalidatesTags: ['Transaction'],
+    }),
+    getMetrics: builder.query<IMetrics, GetTransactionsParams>({
+      query: ({ startDate, endDate }: GetTransactionsParams) => ({
+        url: `/transactions/metrics?startDate=${startDate}&endDate=${endDate}`,
+      }),
+      providesTags: ['Transaction'],
+    }),
   }),
 })
 
-export const { useGetTransactionsQuery, useAddTransactionMutation, useEditTransactionMutation, useDeleteTransactionMutation } = TransactionService
+export const {
+  useGetTransactionsQuery,
+  useGetTransactionByIdQuery,
+  useAddTransactionMutation,
+  useEditTransactionMutation,
+  useDeleteTransactionMutation,
+  useGetMetricsQuery,
+} = TransactionService
