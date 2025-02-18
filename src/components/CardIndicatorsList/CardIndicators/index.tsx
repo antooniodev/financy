@@ -1,6 +1,4 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { CardContainer } from './styles'
-import { IconProp } from '@fortawesome/fontawesome-svg-core'
 
 type Props = {
   title: string

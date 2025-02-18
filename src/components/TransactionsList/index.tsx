@@ -2,17 +2,14 @@ import { ContainerPagination, ContainerTransactionsList } from './styles'
 import { formatCurrency } from '../../utils/formatterCurrency'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { IconProp } from '@fortawesome/fontawesome-svg-core'
-import {
-  useDeleteTransactionMutation,
-  useGetTransactionsQuery,
-} from '../../services/transactionService'
+import { useGetTransactionsQuery } from '../../services/transactionService'
 import { formatterDate } from '../../utils/formatterDate'
 import { ITransaction } from '../../entitites/Transaction'
 import { useDispatch, useSelector } from 'react-redux'
 import { SelectDates } from '../../store/dateFilterSlice'
 import { useEffect, useState } from 'react'
 import Loading from '../Loading/Loading'
-import { Outlet, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import {
   setTransactionToDelete,
   setTransactionToEdit,

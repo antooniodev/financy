@@ -4,8 +4,6 @@ import Logo from '../../assets/Logo.svg'
 import { createStandaloneToast } from '@chakra-ui/toast'
 import { useNavigate } from 'react-router-dom'
 import { useLoginMutation } from '../../services/api'
-import { useSelector } from 'react-redux'
-import { selectUserState } from '../../store/auth/authSlice'
 
 const { toast } = createStandaloneToast()
 type FormFields = {
@@ -22,8 +20,6 @@ const Login = () => {
   const navigate = useNavigate()
 
   const [login] = useLoginMutation()
-
-  const user = useSelector(selectUserState)
 
   const onSubmit = handleSubmit(async data => {
     await login(data).unwrap()

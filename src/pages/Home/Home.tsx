@@ -6,13 +6,12 @@ import TransactionsList from '../../components/TransactionsList'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { IconProp } from '@fortawesome/fontawesome-svg-core'
 
-import { Outlet, useNavigate } from 'react-router-dom'
+import { Outlet } from 'react-router-dom'
 import CardIndicatorsList from '../../components/CardIndicatorsList/CardIndicatorsList'
 import { useGetMonthlyGoalQuery } from '../../services/userService'
 import { formatCurrency } from '../../utils/formatterCurrency'
 const Home = () => {
   // const transactions = useSelector(selectTransactions)
-  const navigate = useNavigate()
   const { data } = useGetMonthlyGoalQuery()
   return (
     <>

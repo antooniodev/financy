@@ -1,9 +1,9 @@
-import Modal from '../../components/Modal/Modal'
 import { useNavigate } from 'react-router-dom'
 import { ContainerDeleteTransaction } from './styles'
 import { useSelector } from 'react-redux'
-import { selectTransactionToDeleteState } from '../../store/Transactions/transactionsSlice'
-import { useDeleteTransactionMutation } from '../../services/transactionService'
+import { useDeleteTransactionMutation } from '../../../services/transactionService'
+import { selectTransactionToDeleteState } from '../../../store/Transactions/transactionsSlice'
+import Modal from '../../../components/Modal/Modal'
 
 const DeleteTransaction = () => {
   const navigate = useNavigate()

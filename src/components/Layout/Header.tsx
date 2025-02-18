@@ -3,7 +3,6 @@ import logoFinancy from '../../assets/Logo_com_nome.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { IconProp } from '@fortawesome/fontawesome-svg-core'
 import Navbar from '../Navbar'
-import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { clearSession } from '../../store/auth/authSlice'
 const Header = () => {

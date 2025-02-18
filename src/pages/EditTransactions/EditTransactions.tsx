@@ -2,7 +2,7 @@ import { IconProp } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import dayjs from 'dayjs'
 import { useForm, FormProvider } from 'react-hook-form'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import DateField from '../../components/Fields/DateField'
 import MoneyValueField from '../../components/Fields/MoneyValueField'
 import SelectField from '../../components/Fields/SelectField'
@@ -25,7 +25,6 @@ type FormFields = {
 const EditTransactions = () => {
   const navigate = useNavigate()
   const methods = useForm<FormFields>()
-  const { id } = useParams()
 
   const transaction = useSelector(selectTransactionToEditState)
 
