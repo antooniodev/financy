@@ -11,6 +11,7 @@ export const userSchema = pgTable('users', {
   lastName: text('last_name').notNull(),
   email: text('email').notNull().unique(),
   password: text('password').notNull(),
+  monthlyGoal: numeric('monthly_goal', { precision: 15, scale: 2 }).notNull(),
   createdAt: timestamp('created_at', { withTimezone: true })
     .notNull()
     .defaultNow(),

@@ -9,6 +9,16 @@ const body = yup.object().shape({
   password: yup.string().required("O campo 'password' é obrigatório"),
 })
 
+const updateMonthlyGoal = yup.object().shape({
+  userId: yup.string().required("O campo 'userId' é obrigatório"),
+  monthlyGoal: yup.number().required("O campo 'monthlyGoal' é obrigatório"),
+})
+
+const getMonthlyGoal = yup.object().shape({
+  userId: yup.string().required("O campo 'userId' é obrigatório"),
+})
 export default {
   body,
+  updateMonthlyGoal,
+  getMonthlyGoal,
 }

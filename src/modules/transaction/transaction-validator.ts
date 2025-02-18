@@ -20,6 +20,7 @@ const findManyParams = yup.object().shape({
     .string()
     .matches(/^\d{4}-\d{2}-\d{2}$/)
     .required("O campo 'endDate' é obrigatório"),
+  orderBy: yup.string().required("O campo 'orderBy' é obrigatório"),
 })
 const findMetricsParams = yup.object().shape({
   userId: yup.string().required("O campo 'userId' é obrigatório"),

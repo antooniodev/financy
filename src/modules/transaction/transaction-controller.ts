@@ -6,14 +6,16 @@ import paramsValidator from '../../shared/validators/params-validator'
 const service = new TransactionService()
 export class TransactionController {
   async list(req: Request, res: Response, next: NextFunction) {
+    console.log('list')
     try {
-      const { userId, startDate, endDate, page, limit } =
+      const { userId, startDate, endDate, page, limit, orderBy } =
         await transactionValidator.findManyParams.validate({
           userId: req.headers.userId,
           startDate: req.query.startDate,
           endDate: req.query.endDate,
           page: req.query.page,
           limit: req.query.limit,
+          orderBy: req.query.orderBy,
         })
 
       const transactions = await service.findMany(
@@ -21,7 +23,8 @@ export class TransactionController {
         startDate,
         endDate,
         page,
-        limit
+        limit,
+        orderBy
       )
       res.status(200).json(transactions)
     } catch (error) {
@@ -30,6 +33,7 @@ export class TransactionController {
   }
 
   async listOne(req: Request, res: Response, next: NextFunction) {
+    console.log('liistOne')
     try {
       const { userId, id } = await paramsValidator.index.validate({
         userId: req.headers.userId,
@@ -43,6 +47,7 @@ export class TransactionController {
   }
 
   async create(req: Request, res: Response, next: NextFunction) {
+    console.log('create')
     try {
       await transactionValidator.body.validate(req.body)
       const userId = await paramsValidator.userId.validate(req.headers.userId)
@@ -69,6 +74,7 @@ export class TransactionController {
   }
 
   async delete(req: Request, res: Response, next: NextFunction) {
+    console.log('delete')
     try {
       const { userId, id } = await paramsValidator.index.validate({
         userId: req.headers.userId,
@@ -82,7 +88,7 @@ export class TransactionController {
   }
 
   async listMetrics(req: Request, res: Response, next: NextFunction) {
-    console.log(req.headers.userId)
+    console.log('controller')
     try {
       const { userId, startDate, endDate } =
         await transactionValidator.findMetricsParams.validate({

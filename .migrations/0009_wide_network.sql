@@ -1,0 +1,1 @@
+ALTER TABLE "users" ADD COLUMN "monthly_goal" numeric(15, 2) NOT NULL;
