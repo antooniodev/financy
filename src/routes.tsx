@@ -12,7 +12,7 @@ import Login from './pages/Login/Login'
 import SignUp from './pages/SignUp'
 import EditTransactions from './pages/EditTransactions/EditTransactions'
 import DeleteTransaction from './pages/DeleteTransaction/DeleteTransaction'
-import RegisterGoal from './pages/RegisterGoal/RegisterGoal'
+import MonthlyGoal from './pages/MonthlyGoal/MonthlyGoal'
 export const AppRoutes = () => {
   const ProtectedRoutes = () => {
     const token = localStorage.getItem('token')
@@ -37,7 +37,7 @@ export const AppRoutes = () => {
               </Layout>
             }
           >
-            <Route path="register-goal" element={<RegisterGoal />} />
+            <Route path="monthlyGoal" element={<MonthlyGoal />} />
             <Route path="editTransaction" element={<EditTransactions />} />
             <Route path="deleteTransaction" element={<DeleteTransaction />} />
             <Route
@@ -50,10 +50,6 @@ export const AppRoutes = () => {
             />
           </Route>
         </Route>
-        <Route path="transactions" element={<Home />} />
-        <Route path="analytics" element={<Home />} />
-        <Route path="accounts" element={<Home />} />
-        <Route path="wallet" element={<Home />} />
         <Route path="*" element={<Navigate to={'/'} />} />
       </Routes>
     </Router>

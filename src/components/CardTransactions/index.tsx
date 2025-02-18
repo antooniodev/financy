@@ -1,5 +1,5 @@
-import { useNavigate } from "react-router-dom"
-import { ContainerTransactions } from "./styles"
+import { useNavigate } from 'react-router-dom'
+import { ContainerTransactions } from './styles'
 
 type Props = {
   title: string
@@ -13,15 +13,15 @@ const CardTransactions = ({
   explanation,
   icon,
   bgdIconColor,
-  navigateTo
+  navigateTo,
 }: Props) => {
   const navigate = useNavigate()
   return (
     <ContainerTransactions onClick={() => navigate(navigateTo)}>
-      <div className='container-icon' style={{ backgroundColor: bgdIconColor }}>
+      <div className="container-icon" style={{ backgroundColor: bgdIconColor }}>
         {icon}
       </div>
-      <section className='container-text'>
+      <section className="container-text">
         <span>{title}</span>
         <p>{explanation}</p>
       </section>

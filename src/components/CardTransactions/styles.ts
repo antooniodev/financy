@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export const ContainerTransactions = styled.div`
     background-color: ${({ theme }) => theme.colors.white};
@@ -21,7 +21,6 @@ export const ContainerTransactions = styled.div`
             display: none;
         }
     }
-
     .container-icon {
         width: 3rem;
         height: 3rem;
@@ -66,4 +65,4 @@ export const ContainerTransactions = styled.div`
             }
         }
     }
-`;
+`

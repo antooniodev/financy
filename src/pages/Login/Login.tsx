@@ -35,7 +35,7 @@ const Login = () => {
       position: 'top',
     })
 
-    navigate(user.goal ? '/dashboard' : '/dashboard/register-goal')
+    navigate('/dashboard')
   })
 
   return (

@@ -6,11 +6,14 @@ import TransactionsList from '../../components/TransactionsList'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { IconProp } from '@fortawesome/fontawesome-svg-core'
 
-import { Outlet } from 'react-router-dom'
+import { Outlet, useNavigate } from 'react-router-dom'
 import CardIndicatorsList from '../../components/CardIndicatorsList/CardIndicatorsList'
+import { useGetMonthlyGoalQuery } from '../../services/userService'
+import { formatCurrency } from '../../utils/formatterCurrency'
 const Home = () => {
   // const transactions = useSelector(selectTransactions)
-
+  const navigate = useNavigate()
+  const { data } = useGetMonthlyGoalQuery()
   return (
     <>
       <ContainerHome>
@@ -24,10 +27,10 @@ const Home = () => {
           <CardIndicatorsList />
           <SSection>
             <CardTransactions
-              navigateTo="/dashboard/addTranfer"
+              navigateTo="/dashboard/monthlyGoal"
               bgdIconColor="#F9FAFB"
               title="Sua meta mensal"
-              explanation="R$1.000,00 de R$2.000,00"
+              explanation={`${formatCurrency(data?.totalOfExpenses ?? 0)} de ${formatCurrency(data?.monthlyGoal ?? 0)} | ${(data?.percentageOfExpenses ?? 0).toFixed(2)}%`}
               icon={
                 <FontAwesomeIcon
                   color="#155EEF"

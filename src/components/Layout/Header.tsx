@@ -7,7 +7,6 @@ import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { clearSession } from '../../store/auth/authSlice'
 const Header = () => {
-  const [openMenu, setIsOpenMenu] = useState(false)
   const dispatch = useDispatch()
   return (
     <ContainerHeader>
@@ -17,25 +16,14 @@ const Header = () => {
         </div>
         <Navbar />
         <div className="account-options">
-          {/* <button>
-          <FontAwesomeIcon icon={"fa-solid fa-gear" as IconProp} size={'xl'} color="#516778"/>
-          </button>
-          <button>
-          <FontAwesomeIcon icon={"fa-regular fa-bell" as IconProp} size={'xl'} color="#516778"/>
-          </button> */}
           <div className="wrapper-user-menu">
             <FontAwesomeIcon
-              icon={'fa-regular fa-circle-user' as IconProp}
+              icon={'fa-solid fa-right-from-bracket' as IconProp}
               size={'xl'}
               color="#516778"
-              onClick={() => setIsOpenMenu(!openMenu)}
+              cursor={'pointer'}
+              onClick={() => dispatch(clearSession())}
             />
-            {openMenu && (
-              <ul className="menu">
-                {/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
-                <li onClick={() => dispatch(clearSession())}>Logout</li>
-              </ul>
-            )}
           </div>
         </div>
       </WrapperHeaderContent>
