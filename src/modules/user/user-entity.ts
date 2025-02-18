@@ -1,11 +1,11 @@
-export type IUser = {
+export interface IUser {
   id: string
   firstName: string
   lastName: string
   email: string
 }
 
-export type IRegisterUser = {
+export interface IRegisterUser {
   firstName: string
   lastName: string
   email: string
@@ -13,7 +13,7 @@ export type IRegisterUser = {
   monthlyGoal: string
 }
 
-export type IMonthlyGoal = {
+export interface IMonthlyGoal {
   monthlyGoal: number
   totalOfExpenses: number
   percentageOfExpenses: number

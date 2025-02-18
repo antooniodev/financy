@@ -7,7 +7,7 @@ const service = new UserService()
 export class UserController {
   async register(req: Request, res: Response, next: NextFunction) {
     try {
-      await userValidator.body.validate(req.body)
+      await userValidator.register.validate(req.body)
       const userId = await service.create(req.body)
       res.status(201).json({ id: userId })
     } catch (error) {
@@ -41,7 +41,7 @@ export class UserController {
 
   async getMonthlyGoal(req: Request, res: Response, next: NextFunction) {
     try {
-      const { userId } = await userValidator.getMonthlyGoal.validate({
+      const { userId } = await userValidator.findMonthlyGoal.validate({
         userId: req.headers.userId,
       })
       const monthlyGoal = await service.getMonthlyGoal(userId)

@@ -11,14 +11,6 @@ categoryRouter.get(
   controller.listSummaryCategories
 )
 
-categoryRouter.get('/categories/:id', verifyToken, controller.listOne)
-
 categoryRouter.get(/categories/, verifyToken, controller.listAllCategories)
-
-categoryRouter.post('/categories', verifyToken, controller.create)
-
-categoryRouter.delete('/categories/:id', verifyToken, controller.delete)
-
-categoryRouter.put('/categories/:id', verifyToken, controller.update)
 
 export default categoryRouter
