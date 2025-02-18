@@ -50,11 +50,10 @@ exports.client = (0, postgres_1.default)({
 });
 async function testConnection() {
     try {
-        const result = await (0, exports.client) `SELECT 1 AS test`;
-        console.log('Conexão bem-sucedida:', result);
+        console.log('(Database) Connect');
     }
     catch (error) {
-        console.error('Erro na conexão:', error);
+        console.error('(Database) Error', error);
     }
 }
 exports.db = (0, postgres_js_1.drizzle)(exports.client, { schema, logger: true });

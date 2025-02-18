@@ -11,5 +11,17 @@ declare const _default: {
         email: undefined;
         password: undefined;
     }, "">;
+    updateMonthlyGoal: yup.ObjectSchema<{
+        userId: string;
+        monthlyGoal: number;
+    }, yup.AnyObject, {
+        userId: undefined;
+        monthlyGoal: undefined;
+    }, "">;
+    getMonthlyGoal: yup.ObjectSchema<{
+        userId: string;
+    }, yup.AnyObject, {
+        userId: undefined;
+    }, "">;
 };
 export default _default;

@@ -7,8 +7,8 @@ class TransactionService {
     async findOne(id, userId) {
         return await repository.getOneById(id, userId);
     }
-    async findMany(user_id, startDate, endDate) {
-        return await repository.getAllInPeriod(user_id, startDate, endDate);
+    async findMany(user_id, startDate, endDate, page, limit, orderBy) {
+        return await repository.getAllInPeriod(user_id, startDate, endDate, page, limit, orderBy);
     }
     async create(userId, dto) {
         return await repository.postOne(userId, { ...dto, value: dto.value / 100 });
@@ -22,14 +22,14 @@ class TransactionService {
     async delete(id, user_id) {
         await repository.deleteOne(id, user_id);
     }
-    async getMetrics(userId) {
-        const response = await repository.selectMetrics(userId);
+    async getMetrics(userId, startDate, endDate) {
+        const response = await repository.selectMetrics(userId, startDate, endDate);
         const incomeInCents = Math.round(Number(response.incomes) * 100);
         const expensesInCents = Math.round(Number(response.expenses) * 100);
         const balance = incomeInCents - expensesInCents;
         return {
             incomes: incomeInCents / 100,
-            expenses: (expensesInCents * -1) / 100,
+            expenses: expensesInCents / 100,
             balance: balance / 100,
         };
     }

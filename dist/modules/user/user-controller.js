@@ -28,6 +28,31 @@ class UserController {
             next(error);
         }
     }
+    async updateMonthlyGoal(req, res, next) {
+        try {
+            const { userId, monthlyGoal } = await user_validator_1.default.updateMonthlyGoal.validate({
+                userId: req.headers.userId,
+                monthlyGoal: req.body.monthlyGoal,
+            });
+            await service.updateMonthlyGoal(userId, monthlyGoal);
+            res.status(204).json({});
+        }
+        catch (error) {
+            next(error);
+        }
+    }
+    async getMonthlyGoal(req, res, next) {
+        try {
+            const { userId } = await user_validator_1.default.getMonthlyGoal.validate({
+                userId: req.headers.userId,
+            });
+            const monthlyGoal = await service.getMonthlyGoal(userId);
+            res.status(200).json(monthlyGoal);
+        }
+        catch (error) {
+            next(error);
+        }
+    }
 }
 exports.UserController = UserController;
 exports.default = UserController;

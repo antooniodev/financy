@@ -87,6 +87,23 @@ export declare const userSchema: import("drizzle-orm/pg-core").PgTableWithColumn
             identity: undefined;
             generated: undefined;
         }, {}, {}>;
+        monthlyGoal: import("drizzle-orm/pg-core").PgColumn<{
+            name: "monthly_goal";
+            tableName: "users";
+            dataType: "string";
+            columnType: "PgNumeric";
+            data: string;
+            driverParam: string;
+            notNull: true;
+            hasDefault: false;
+            isPrimaryKey: false;
+            isAutoincrement: false;
+            hasRuntimeDefault: false;
+            enumValues: undefined;
+            baseColumn: never;
+            identity: undefined;
+            generated: undefined;
+        }, {}, {}>;
         createdAt: import("drizzle-orm/pg-core").PgColumn<{
             name: "created_at";
             tableName: "users";
@@ -106,6 +123,9 @@ export declare const userSchema: import("drizzle-orm/pg-core").PgTableWithColumn
         }, {}, {}>;
     };
     dialect: "pg";
+}>;
+export declare const userRelations: import("drizzle-orm").Relations<"users", {
+    transactions: import("drizzle-orm").Many<"transactions">;
 }>;
 export declare const categorySchema: import("drizzle-orm/pg-core").PgTableWithColumns<{
     name: "categories";
@@ -196,23 +216,6 @@ export declare const categorySchema: import("drizzle-orm/pg-core").PgTableWithCo
             identity: undefined;
             generated: undefined;
         }, {}, {}>;
-        userId: import("drizzle-orm/pg-core").PgColumn<{
-            name: "user_id";
-            tableName: "categories";
-            dataType: "string";
-            columnType: "PgText";
-            data: string;
-            driverParam: string;
-            notNull: false;
-            hasDefault: false;
-            isPrimaryKey: false;
-            isAutoincrement: false;
-            hasRuntimeDefault: false;
-            enumValues: [string, ...string[]];
-            baseColumn: never;
-            identity: undefined;
-            generated: undefined;
-        }, {}, {}>;
         createdAt: import("drizzle-orm/pg-core").PgColumn<{
             name: "created_at";
             tableName: "categories";
@@ -232,6 +235,9 @@ export declare const categorySchema: import("drizzle-orm/pg-core").PgTableWithCo
         }, {}, {}>;
     };
     dialect: "pg";
+}>;
+export declare const categoryRelations: import("drizzle-orm").Relations<"categories", {
+    transactions: import("drizzle-orm").Many<"transactions">;
 }>;
 export declare const transactionSchema: import("drizzle-orm/pg-core").PgTableWithColumns<{
     name: "transactions";
@@ -375,4 +381,8 @@ export declare const transactionSchema: import("drizzle-orm/pg-core").PgTableWit
         }, {}, {}>;
     };
     dialect: "pg";
+}>;
+export declare const transactionsRelations: import("drizzle-orm").Relations<"transactions", {
+    category: import("drizzle-orm").One<"categories", true>;
+    user: import("drizzle-orm").One<"users", true>;
 }>;

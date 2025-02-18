@@ -15,8 +15,23 @@ declare const _default: {
     }, "">;
     findManyParams: yup.ObjectSchema<{
         userId: string;
-        startDate: Date;
-        endDate: Date;
+        page: number;
+        limit: number;
+        startDate: string;
+        endDate: string;
+        orderBy: string;
+    }, yup.AnyObject, {
+        userId: undefined;
+        page: undefined;
+        limit: undefined;
+        startDate: undefined;
+        endDate: undefined;
+        orderBy: undefined;
+    }, "">;
+    findMetricsParams: yup.ObjectSchema<{
+        userId: string;
+        startDate: string;
+        endDate: string;
     }, yup.AnyObject, {
         userId: undefined;
         startDate: undefined;

@@ -1,8 +1,13 @@
 import { CategoryRequestBody } from './category-entity';
 export declare class CategoryService {
-    findMany(userId: string, type: boolean): Promise<import("./category-entity").CategoryChart[]>;
-    findOne(id: string, userId: string): Promise<import("./category-entity").Category>;
-    create(userId: string, dto: CategoryRequestBody): Promise<string>;
-    update(id: string, userId: string, dto: CategoryRequestBody): Promise<string>;
-    delete(id: string, userId: string): Promise<void>;
+    getSummaryOfCategoriesByPeriod(userId: string, type: boolean, starrtDate: string, endDate: string): Promise<import("./category-entity").CategoryChart[]>;
+    findAllCategoriesByType(type: boolean): Promise<{
+        id: string;
+        title: string;
+        type: boolean;
+    }[]>;
+    findOne(id: string): Promise<import("./category-entity").Category>;
+    create(dto: CategoryRequestBody): Promise<string>;
+    update(id: string, dto: CategoryRequestBody): Promise<string>;
+    delete(id: string): Promise<void>;
 }

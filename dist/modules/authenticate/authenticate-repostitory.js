@@ -10,6 +10,7 @@ class AuthenticateRepository {
             .select({
             userId: schema_1.userSchema.id,
             firstName: schema_1.userSchema.firstName,
+            monthlyGoal: schema_1.userSchema.monthlyGoal,
         })
             .from(schema_1.userSchema)
             .where((0, drizzle_orm_1.and)((0, drizzle_orm_1.eq)(schema_1.userSchema.email, email), (0, drizzle_orm_1.eq)(schema_1.userSchema.password, password)))
@@ -18,7 +19,10 @@ class AuthenticateRepository {
             return [];
         });
         const user = data[0];
-        return user;
+        return {
+            ...user,
+            monthlyGoal: Number(user.monthlyGoal),
+        };
     }
 }
 exports.AuthenticateRepository = AuthenticateRepository;

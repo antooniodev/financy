@@ -20,6 +20,7 @@ class AuthenticateService {
             user: {
                 userId: user.userId,
                 firstName: user.firstName,
+                monthlyGoal: user.monthlyGoal,
             },
             token,
         };
