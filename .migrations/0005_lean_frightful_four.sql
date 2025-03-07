@@ -1,1 +1,0 @@
-ALTER TABLE "transactions" ALTER COLUMN "value" SET DATA TYPE numeric(15, 2);

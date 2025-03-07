@@ -1,1 +1,0 @@
-ALTER TABLE "users" ALTER COLUMN "monthly_goal" SET NOT NULL;
