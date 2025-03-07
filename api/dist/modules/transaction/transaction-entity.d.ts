@@ -1,4 +1,4 @@
-export type Transaction = {
+export interface Transaction {
     id: string;
     title: string;
     date: Date;
@@ -12,24 +12,24 @@ export type Transaction = {
     user_id?: string;
     created_at?: Date;
     updated_at?: Date;
-};
-export type TransactionWithPagination = {
+}
+export interface TransactionWithPagination {
     pagination: {
         next: boolean;
         prev: boolean;
         total: number;
     };
     data: Transaction[];
-};
-export type TransactionRequestBody = {
+}
+export interface TransactionRequestBody {
     title: string;
     date: Date;
     value: number;
     categoryId: string;
     type: boolean;
-};
-export type TransactionMetrics = {
+}
+export interface TransactionMetrics {
     totalBalances: number;
     totalExpenses: number;
     totalIncomes: number;
-};
+}

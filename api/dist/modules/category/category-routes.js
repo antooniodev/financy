@@ -9,10 +9,6 @@ const verify_token_1 = __importDefault(require("../../shared/middlewares/verify-
 const categoryRouter = (0, express_1.Router)();
 const controller = new category_controller_1.default();
 categoryRouter.get('/categories/summary/', verify_token_1.default, controller.listSummaryCategories);
-categoryRouter.get('/categories/:id', verify_token_1.default, controller.listOne);
 categoryRouter.get(/categories/, verify_token_1.default, controller.listAllCategories);
-categoryRouter.post('/categories', verify_token_1.default, controller.create);
-categoryRouter.delete('/categories/:id', verify_token_1.default, controller.delete);
-categoryRouter.put('/categories/:id', verify_token_1.default, controller.update);
 exports.default = categoryRouter;
 //# sourceMappingURL=category-routes.js.map

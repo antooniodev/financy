@@ -1,19 +1,19 @@
-export type Category = {
+export interface Category {
     id: string;
     title: string;
     color: string;
     icon: string;
     type: boolean;
-};
-export type CategoryChart = {
+}
+export interface CategoryChart {
     id: string;
     label: string;
     icon: string;
     color: string;
     value: number;
     spent_total: number;
-};
-export type CategoryResponse = {
+}
+export interface CategoryResponse {
     id: string;
     title: string;
     color: string;
@@ -21,10 +21,10 @@ export type CategoryResponse = {
     type: boolean;
     totalValue: number;
     percentage: string;
-};
-export type CategoryRequestBody = {
+}
+export interface CategoryRequestBody {
     title: string;
     color: string;
     icon: string;
     type: boolean;
-};
+}

@@ -11,27 +11,7 @@ declare const _default: {
         startDate: undefined;
         endDate: undefined;
     }, "">;
-    bodyPost: yup.ObjectSchema<{
-        title: string;
-        color: string;
-        icon: string;
-        type: NonNullable<boolean | undefined>;
-    }, yup.AnyObject, {
-        title: undefined;
-        color: undefined;
-        icon: undefined;
-        type: undefined;
-    }, "">;
-    bodyPut: yup.ObjectSchema<{
-        title: string;
-        color: string;
-        icon: string;
-    }, yup.AnyObject, {
-        title: undefined;
-        color: undefined;
-        icon: undefined;
-    }, "">;
-    findAllParams: yup.ObjectSchema<{
+    findAll: yup.ObjectSchema<{
         type: NonNullable<boolean | undefined>;
         userId: string;
     }, yup.AnyObject, {

@@ -1,6 +1,6 @@
 import * as yup from 'yup';
 declare const _default: {
-    body: yup.ObjectSchema<{
+    register: yup.ObjectSchema<{
         firstName: string;
         lastName: string;
         email: string;
@@ -18,7 +18,7 @@ declare const _default: {
         userId: undefined;
         monthlyGoal: undefined;
     }, "">;
-    getMonthlyGoal: yup.ObjectSchema<{
+    findMonthlyGoal: yup.ObjectSchema<{
         userId: string;
     }, yup.AnyObject, {
         userId: undefined;

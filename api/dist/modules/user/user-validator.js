@@ -34,7 +34,7 @@ var __importStar = (this && this.__importStar) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 const yup = __importStar(require("yup"));
-const body = yup.object().shape({
+const register = yup.object().shape({
     firstName: yup.string().required("O campo 'firstName' é obrigatório"),
     lastName: yup.string().required("O campo 'lastName' é obrigatório"),
     email: yup
@@ -47,12 +47,12 @@ const updateMonthlyGoal = yup.object().shape({
     userId: yup.string().required("O campo 'userId' é obrigatório"),
     monthlyGoal: yup.number().required("O campo 'monthlyGoal' é obrigatório"),
 });
-const getMonthlyGoal = yup.object().shape({
+const findMonthlyGoal = yup.object().shape({
     userId: yup.string().required("O campo 'userId' é obrigatório"),
 });
 exports.default = {
-    body,
+    register,
     updateMonthlyGoal,
-    getMonthlyGoal,
+    findMonthlyGoal,
 };
 //# sourceMappingURL=user-validator.js.map

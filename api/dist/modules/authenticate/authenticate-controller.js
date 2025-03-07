@@ -10,7 +10,7 @@ const service = new authenticate_service_1.AuthenticateService();
 class AuthenticateController {
     async createSession(req, res, next) {
         try {
-            const { email, password } = await authenticate_validator_1.default.body.validate(req.body);
+            const { email, password } = await authenticate_validator_1.default.createSession.validate(req.body);
             const userAuthenticated = await service.createSession(email, password);
             res.status(200).json(userAuthenticated);
         }

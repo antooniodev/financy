@@ -57,49 +57,6 @@ class CategoryRepository {
             .where((0, drizzle_orm_1.eq)(schema_1.categorySchema.type, type));
         return data;
     }
-    async getOne(id) {
-        const data = await index_1.db
-            .select({
-            id: schema_1.categorySchema.id,
-            title: schema_1.categorySchema.title,
-            icon: schema_1.categorySchema.icon,
-            color: schema_1.categorySchema.color,
-            type: schema_1.categorySchema.type,
-        })
-            .from(schema_1.categorySchema)
-            .where((0, drizzle_orm_1.eq)(schema_1.categorySchema.id, id));
-        const category = data[0];
-        return category;
-    }
-    async postOne(dto) {
-        const data = await index_1.db
-            .insert(schema_1.categorySchema)
-            .values({
-            title: dto.title,
-            icon: dto.icon,
-            color: dto.color,
-            type: dto.type,
-        })
-            .returning({ id: schema_1.categorySchema.id });
-        const categoryId = data[0].id;
-        return categoryId;
-    }
-    async putOne(id, dto) {
-        const data = await index_1.db
-            .update(schema_1.categorySchema)
-            .set({
-            title: dto.title,
-            icon: dto.icon,
-            color: dto.color,
-        })
-            .where((0, drizzle_orm_1.eq)(schema_1.categorySchema.id, id))
-            .returning({ id: schema_1.categorySchema.id });
-        const categoryId = data[0].id;
-        return categoryId;
-    }
-    async deleteOne(id) {
-        await index_1.db.delete(schema_1.categorySchema).where((0, drizzle_orm_1.eq)(schema_1.categorySchema.id, id));
-    }
 }
 exports.CategoryRepository = CategoryRepository;
 //# sourceMappingURL=category-repository.js.map

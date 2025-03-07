@@ -1,6 +1,6 @@
 import * as yup from 'yup';
 declare const _default: {
-    body: yup.ObjectSchema<{
+    createSession: yup.ObjectSchema<{
         email: string;
         password: string;
     }, yup.AnyObject, {

@@ -34,11 +34,11 @@ var __importStar = (this && this.__importStar) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 const yup = __importStar(require("yup"));
-const body = yup.object().shape({
+const createSession = yup.object().shape({
     email: yup.string().email().required(),
     password: yup.string().required(),
 });
 exports.default = {
-    body,
+    createSession,
 };
 //# sourceMappingURL=authenticate-validator.js.map

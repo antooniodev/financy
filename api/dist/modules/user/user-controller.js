@@ -10,7 +10,7 @@ const service = new user_service_1.UserService();
 class UserController {
     async register(req, res, next) {
         try {
-            await user_validator_1.default.body.validate(req.body);
+            await user_validator_1.default.register.validate(req.body);
             const userId = await service.create(req.body);
             res.status(201).json({ id: userId });
         }
@@ -43,7 +43,7 @@ class UserController {
     }
     async getMonthlyGoal(req, res, next) {
         try {
-            const { userId } = await user_validator_1.default.getMonthlyGoal.validate({
+            const { userId } = await user_validator_1.default.findMonthlyGoal.validate({
                 userId: req.headers.userId,
             });
             const monthlyGoal = await service.getMonthlyGoal(userId);
