@@ -1,0 +1,14 @@
+{
+    "private": true,
+    "workspaces": [
+        "dashboard",
+        "api"
+    ],
+    "scripts": {
+        "dev": "turbo run dev"
+    },
+    "packageManager": "yarn@1.22.22",
+    "devDependencies": {
+        "turbo": "^2.4.4"
+    }
+}
