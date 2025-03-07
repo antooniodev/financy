@@ -1,8 +1,8 @@
-export type Transaction = {
+export interface Transaction {
   id: string
   title: string
   date: Date
-  value: number
+  value: string
   category: {
     id: string
     title?: string
@@ -14,10 +14,25 @@ export type Transaction = {
   updated_at?: Date
 }
 
-export type TransactionRequestBody = {
+export interface TransactionWithPagination {
+  pagination: {
+    next: boolean
+    prev: boolean
+    total: number
+  }
+  data: Transaction[]
+}
+
+export interface TransactionRequestBody {
   title: string
   date: Date
   value: number
   categoryId: string
   type: boolean
+}
+
+export interface TransactionMetrics {
+  totalBalances: number
+  totalExpenses: number
+  totalIncomes: number
 }

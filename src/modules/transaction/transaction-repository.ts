@@ -1,18 +1,69 @@
-import { and, desc, eq, gte, lte } from 'drizzle-orm'
+import { and, asc, desc, eq, gte, lte, SQL, sql, SQLWrapper } from 'drizzle-orm'
 import { db } from '../../config/db'
-import { categorySchema, transactionSchema } from '../../config/db/schema'
-import { Transaction, TransactionRequestBody } from './transaction-entity'
-import { string } from 'yup'
+import {
+  categorySchema,
+  transactionSchema,
+  userSchema,
+} from '../../config/db/schema'
+import {
+  Transaction,
+  TransactionMetrics,
+  TransactionRequestBody,
+  TransactionWithPagination,
+} from './transaction-entity'
+import { number, string } from 'yup'
+import { CustomError } from '../../shared/errors/custom-error'
+import { AnyColumn } from 'drizzle-orm'
+import { PgColumn } from 'drizzle-orm/pg-core'
+import { ColumnBaseConfig } from 'drizzle-orm'
+import { ColumnDataType } from 'drizzle-orm'
+type IOrderObject = {
+  [key: string]: {
+    column: AnyColumn
+    order: (column: SQLWrapper | AnyColumn) =>
+      | SQL<unknown>
+      // biome-ignore lint/complexity/noBannedTypes: <explanation>
+      | PgColumn<ColumnBaseConfig<ColumnDataType, string>, {}, {}>
+  }
+}
+
+const orderObject: IOrderObject = {
+  latest: {
+    column: transactionSchema.date,
+    order: desc,
+  },
+  oldest: {
+    column: transactionSchema.date,
+    order: asc,
+  },
+  lowestValue: {
+    column: transactionSchema.value,
+    order: asc,
+  },
+  highestValue: {
+    column: transactionSchema.value,
+    order: desc,
+  },
+  type: {
+    column: transactionSchema.type,
+    order: asc,
+  },
+  category: {
+    column: categorySchema.title,
+    order: asc,
+  },
+}
 
 export class TransactionRepository {
   async getAllInPeriod(
     userId: string,
-    startDate: Date,
-    endDate: Date
-  ): Promise<Transaction[]> {
-    console.log(userId)
-
-    const data = db
+    startDate: string,
+    endDate: string,
+    page: number,
+    limit: number,
+    orderBy: keyof typeof orderObject
+  ): Promise<TransactionWithPagination> {
+    const data: Transaction[] = await db
       .select({
         id: transactionSchema.id,
         title: transactionSchema.title,
@@ -33,12 +84,36 @@ export class TransactionRepository {
       .where(
         and(
           eq(transactionSchema.userId, userId),
-          gte(transactionSchema.date, startDate),
-          lte(transactionSchema.date, endDate)
+          gte(transactionSchema.date, new Date(startDate)),
+          lte(transactionSchema.date, new Date(endDate))
         )
       )
-      .orderBy(desc(transactionSchema.date))
-    return data
+      .orderBy(orderObject[orderBy].order(orderObject[orderBy].column))
+      .limit(limit)
+      .offset((page - 1) * limit)
+
+    const totalOfTransactons: number = await db
+      .select({ count: sql`COUNT(${transactionSchema.id})` })
+      .from(transactionSchema)
+      .where(
+        and(
+          eq(transactionSchema.userId, userId),
+          gte(transactionSchema.date, new Date(startDate)),
+          lte(transactionSchema.date, new Date(endDate))
+        )
+      )
+      .then(result => Number(result[0].count))
+
+    const quantityOfPages = Math.ceil(totalOfTransactons / limit)
+    const pagination = {
+      next: page < quantityOfPages,
+      prev: page > 1,
+      total: quantityOfPages,
+    }
+    return {
+      pagination,
+      data,
+    }
   }
 
   async getOneById(id: string, userId: string): Promise<Transaction> {
@@ -64,13 +139,35 @@ export class TransactionRepository {
   }
 
   async postOne(userId: string, dto: TransactionRequestBody): Promise<string> {
+    const categoryExists = await db
+      .select({ id: categorySchema.id })
+      .from(categorySchema)
+      .where(eq(categorySchema.id, dto.categoryId))
+      .limit(1)
+
+    if (categoryExists.length === 0) {
+      throw new CustomError(404, 'Essa categoria não existe')
+    }
+
+    const userExists = await db
+      .select({ id: userSchema.id })
+      .from(userSchema)
+      .where(eq(userSchema.id, userId))
+      .limit(1)
+
+    if (userExists.length === 0) {
+      throw new CustomError(404, 'Esse usuário não existe')
+    }
+
+    console.log('aqui')
+
     const data = await db
       .insert(transactionSchema)
       .values({
         title: dto.title,
-        value: dto.value,
+        value: dto.value.toString(),
         type: dto.type,
-        date: new Date(),
+        date: new Date(dto.date),
         categoryId: dto.categoryId,
         userId,
       })
@@ -89,7 +186,7 @@ export class TransactionRepository {
       .update(transactionSchema)
       .set({
         title: dto.title,
-        value: dto.value,
+        value: dto.value.toString(),
         date: new Date(dto.date),
         type: dto.type,
         categoryId: dto.categoryId,
@@ -108,5 +205,27 @@ export class TransactionRepository {
       .where(
         and(eq(transactionSchema.id, id), eq(transactionSchema.userId, userId))
       )
+  }
+
+  async selectMetrics(userId: string, startDate: string, endDate: string) {
+    const exepense =
+      sql`SELECT COALESCE(SUM(${transactionSchema.value}), 0) as expenses 
+      FROM ${transactionSchema} 
+      WHERE ${and(eq(transactionSchema.userId, userId), eq(transactionSchema.type, false))} 
+      AND ${transactionSchema.date} BETWEEN ${startDate} AND ${endDate}`.mapWith(
+        number
+      )
+    const incomes =
+      sql`SELECT COALESCE(SUM(${transactionSchema.value}), 0) as incomes 
+      FROM ${transactionSchema} 
+      WHERE ${and(eq(transactionSchema.userId, userId), eq(transactionSchema.type, true))} 
+      AND ${transactionSchema.date} BETWEEN ${startDate} AND ${endDate}`.mapWith(
+        number
+      )
+    const [expenseResult] = await db.execute(exepense)
+    const [incomeResult] = await db.execute(incomes)
+    console.log({ ...expenseResult, ...incomeResult })
+
+    return { ...expenseResult, ...incomeResult }
   }
 }

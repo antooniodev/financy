@@ -9,9 +9,10 @@ const verify_token_1 = __importDefault(require("../../shared/middlewares/verify-
 const transactionRouter = (0, express_1.Router)();
 const controller = new transaction_controller_1.TransactionController();
 transactionRouter.get('/transactions', verify_token_1.default, controller.list);
-transactionRouter.get('/transactions/:id', verify_token_1.default, controller.listOne);
+transactionRouter.get('/transactions/metrics', verify_token_1.default, controller.listMetrics);
 transactionRouter.post('/transactions', verify_token_1.default, controller.create);
 transactionRouter.put('/transactions/:id', verify_token_1.default, controller.edit);
 transactionRouter.delete('/transactions/:id', verify_token_1.default, controller.delete);
+transactionRouter.get('/transactions/:id', verify_token_1.default, controller.listOne);
 exports.default = transactionRouter;
 //# sourceMappingURL=transaction-routes.js.map

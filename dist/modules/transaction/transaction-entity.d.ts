@@ -2,7 +2,7 @@ export type Transaction = {
     id: string;
     title: string;
     date: Date;
-    value: number;
+    value: string;
     category: {
         id: string;
         title?: string;
@@ -13,10 +13,23 @@ export type Transaction = {
     created_at?: Date;
     updated_at?: Date;
 };
+export type TransactionWithPagination = {
+    pagination: {
+        next: boolean;
+        prev: boolean;
+        total: number;
+    };
+    data: Transaction[];
+};
 export type TransactionRequestBody = {
     title: string;
     date: Date;
     value: number;
     categoryId: string;
     type: boolean;
+};
+export type TransactionMetrics = {
+    totalBalances: number;
+    totalExpenses: number;
+    totalIncomes: number;
 };

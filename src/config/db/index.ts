@@ -12,10 +12,9 @@ export const client = postgres({
 
 export async function testConnection() {
   try {
-    const result = await client`SELECT 1 AS test`
-    console.log('Conexão bem-sucedida:', result)
+    console.log('(Database) Connect')
   } catch (error) {
-    console.error('Erro na conexão:', error)
+    console.error('(Database) Error', error)
   }
 }
 export const db = drizzle(client, { schema, logger: true })

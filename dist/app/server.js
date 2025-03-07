@@ -16,7 +16,7 @@ app.use((error, request, response, next) => {
     (0, handle_error_1.default)(error, request, response, next);
 });
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+    console.log(`(Server) running on port ${PORT}`);
     (0, db_1.testConnection)();
 });
 //# sourceMappingURL=server.js.map

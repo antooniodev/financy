@@ -5,4 +5,5 @@ export declare class TransactionController {
     create(req: Request, res: Response, next: NextFunction): Promise<void>;
     edit(req: Request, res: Response, next: NextFunction): Promise<void>;
     delete(req: Request, res: Response, next: NextFunction): Promise<void>;
+    listMetrics(req: Request, res: Response, next: NextFunction): Promise<void>;
 }

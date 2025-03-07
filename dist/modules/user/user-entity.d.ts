@@ -9,4 +9,10 @@ export type IRegisterUser = {
     lastName: string;
     email: string;
     password: string;
+    monthlyGoal: string;
+};
+export type IMonthlyGoal = {
+    monthlyGoal: number;
+    totalOfExpenses: number;
+    percentageOfExpenses: number;
 };

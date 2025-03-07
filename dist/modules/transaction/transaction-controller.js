@@ -5,18 +5,22 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TransactionController = void 0;
 const transaction_service_1 = require("./transaction-service");
-const transaction_validator_1 = __importDefault(require("../../shared/validators/transaction-validator"));
+const transaction_validator_1 = __importDefault(require("./transaction-validator"));
 const params_validator_1 = __importDefault(require("../../shared/validators/params-validator"));
 const service = new transaction_service_1.TransactionService();
 class TransactionController {
     async list(req, res, next) {
+        console.log('list');
         try {
-            const { userId, startDate, endDate } = await transaction_validator_1.default.findManyParams.validate({
+            const { userId, startDate, endDate, page, limit, orderBy } = await transaction_validator_1.default.findManyParams.validate({
                 userId: req.headers.userId,
                 startDate: req.query.startDate,
                 endDate: req.query.endDate,
+                page: req.query.page,
+                limit: req.query.limit,
+                orderBy: req.query.orderBy,
             });
-            const transactions = await service.findMany(userId, startDate, endDate);
+            const transactions = await service.findMany(userId, startDate, endDate, page, limit, orderBy);
             res.status(200).json(transactions);
         }
         catch (error) {
@@ -24,6 +28,7 @@ class TransactionController {
         }
     }
     async listOne(req, res, next) {
+        console.log('liistOne');
         try {
             const { userId, id } = await params_validator_1.default.index.validate({
                 userId: req.headers.userId,
@@ -37,6 +42,7 @@ class TransactionController {
         }
     }
     async create(req, res, next) {
+        console.log('create');
         try {
             await transaction_validator_1.default.body.validate(req.body);
             const userId = await params_validator_1.default.userId.validate(req.headers.userId);
@@ -62,6 +68,7 @@ class TransactionController {
         }
     }
     async delete(req, res, next) {
+        console.log('delete');
         try {
             const { userId, id } = await params_validator_1.default.index.validate({
                 userId: req.headers.userId,
@@ -69,6 +76,21 @@ class TransactionController {
             });
             await service.delete(id, userId);
             res.status(200).json({});
+        }
+        catch (error) {
+            next(error);
+        }
+    }
+    async listMetrics(req, res, next) {
+        console.log('controller');
+        try {
+            const { userId, startDate, endDate } = await transaction_validator_1.default.findMetricsParams.validate({
+                userId: req.headers.userId,
+                startDate: req.query.startDate,
+                endDate: req.query.endDate,
+            });
+            const metrics = await service.getMetrics(userId, startDate, endDate);
+            res.status(200).json(metrics);
         }
         catch (error) {
             next(error);

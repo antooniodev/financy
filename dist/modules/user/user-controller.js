@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserController = void 0;
 const user_service_1 = require("./user-service");
-const user_validator_1 = __importDefault(require("../../shared/validators/user-validator"));
+const user_validator_1 = __importDefault(require("./user-validator"));
 const service = new user_service_1.UserService();
 class UserController {
     async register(req, res, next) {
@@ -23,6 +23,31 @@ class UserController {
             const { id } = req.params;
             const user = await service.findById(id);
             res.status(200).json({ user });
+        }
+        catch (error) {
+            next(error);
+        }
+    }
+    async updateMonthlyGoal(req, res, next) {
+        try {
+            const { userId, monthlyGoal } = await user_validator_1.default.updateMonthlyGoal.validate({
+                userId: req.headers.userId,
+                monthlyGoal: req.body.monthlyGoal,
+            });
+            await service.updateMonthlyGoal(userId, monthlyGoal);
+            res.status(204).json({});
+        }
+        catch (error) {
+            next(error);
+        }
+    }
+    async getMonthlyGoal(req, res, next) {
+        try {
+            const { userId } = await user_validator_1.default.getMonthlyGoal.validate({
+                userId: req.headers.userId,
+            });
+            const monthlyGoal = await service.getMonthlyGoal(userId);
+            res.status(200).json(monthlyGoal);
         }
         catch (error) {
             next(error);

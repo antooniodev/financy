@@ -9,6 +9,8 @@ const verify_token_1 = __importDefault(require("../../shared/middlewares/verify-
 const userRouter = (0, express_1.Router)();
 const controller = new user_controller_1.default();
 userRouter.post('/user', controller.register);
+userRouter.put('/user/monthly-goal', verify_token_1.default, controller.updateMonthlyGoal);
+userRouter.get('/user/monthly-goal', verify_token_1.default, controller.getMonthlyGoal);
 userRouter.get('/user/:id', verify_token_1.default, controller.listById);
 exports.default = userRouter;
 //# sourceMappingURL=user-routes.js.map

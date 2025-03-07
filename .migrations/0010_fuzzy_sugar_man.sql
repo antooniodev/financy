@@ -1,0 +1,1 @@
+ALTER TABLE "users" ALTER COLUMN "monthly_goal" DROP NOT NULL;

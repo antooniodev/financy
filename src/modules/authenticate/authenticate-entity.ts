@@ -1,14 +1,15 @@
-export type UserCredentials = {
+export interface UserCredentials {
   email: string
   password: string
 }
 
-export type UserResponseBody = {
+export interface UserResponseBody {
   userId: string
   firstName: string
+  monthlyGoal: number
 }
 
-export type UserAuthenticatedBody = {
+export interface UserAuthenticatedBody {
   user: UserResponseBody
   token: string
 }

@@ -12,6 +12,7 @@ export class AuthenticateRepository {
       .select({
         userId: userSchema.id,
         firstName: userSchema.firstName,
+        monthlyGoal: userSchema.monthlyGoal,
       })
       .from(userSchema)
       .where(
@@ -23,6 +24,9 @@ export class AuthenticateRepository {
       })
 
     const user = data[0]
-    return user
+    return {
+      ...user,
+      monthlyGoal: Number(user.monthlyGoal),
+    }
   }
 }

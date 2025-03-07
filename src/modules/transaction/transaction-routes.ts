@@ -8,12 +8,17 @@ const controller = new TransactionController()
 
 transactionRouter.get('/transactions', verifyToken, controller.list)
 
-transactionRouter.get('/transactions/:id', verifyToken, controller.listOne)
-
+transactionRouter.get(
+  '/transactions/metrics',
+  verifyToken,
+  controller.listMetrics
+)
 transactionRouter.post('/transactions', verifyToken, controller.create)
 
 transactionRouter.put('/transactions/:id', verifyToken, controller.edit)
 
 transactionRouter.delete('/transactions/:id', verifyToken, controller.delete)
+
+transactionRouter.get('/transactions/:id', verifyToken, controller.listOne)
 
 export default transactionRouter

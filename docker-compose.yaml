@@ -19,7 +19,7 @@ services:
     env_file:
       - .env
     ports:
-      - 8080:80
+      - 3434:80
     volumes:
       - ./data/pgadmin:/var/lib/pgadmin
 networks:
