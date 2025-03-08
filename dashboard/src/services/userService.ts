@@ -5,21 +5,21 @@ const UserService = api.injectEndpoints({
   endpoints: builder => ({
     createUser: builder.mutation<void, UserRequestBody>({
       query: body => ({
-        url: '/user',
+        url: '/users',
         method: 'POST',
         body,
       }),
     }),
     registerUserGoal: builder.mutation<void, { monthlyGoal: number }>({
       query: body => ({
-        url: '/user/monthly-goal',
+        url: '/users/monthly-goal',
         method: 'PUT',
         body,
       }),
       invalidatesTags: ['Goal'],
     }),
     getMonthlyGoal: builder.query<UserMonthlyGoalResponse, void>({
-      query: () => '/user/monthly-goal',
+      query: () => '/users/monthly-goal',
       providesTags: ['Goal'],
     }),
   }),
