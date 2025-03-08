@@ -2,7 +2,6 @@ version: '3.8'
 services:
   postgresdb:
     image: postgres:17
-    restart: always
     ports:
       - "5432:5432"
     environment:
@@ -14,7 +13,6 @@ services:
   api:
     build: ./api
     container_name: financy-api
-    restart: always
     depends_on:
       - postgresdb
     environment:
@@ -32,7 +30,6 @@ services:
   dashboard:
     build: ./dashboard
     container_name: financy-dashboard
-    restart: always
     depends_on:
       - api
     ports:

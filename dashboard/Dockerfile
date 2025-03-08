@@ -12,6 +12,8 @@ RUN yarn build
 # Usa uma imagem do Nginx para servir o frontend
 FROM nginx:alpine
 
+COPY ./.nginx/default.conf /etc/nginx/conf.d/default.conf
+
 COPY --from=builder /app/dist /usr/share/nginx/html
 
 EXPOSE 80
