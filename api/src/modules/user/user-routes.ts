@@ -5,11 +5,11 @@ import verifyToken from '../../shared/middlewares/verify-token'
 const userRouter = Router()
 const controller = new UserController()
 
-userRouter.post('/user', controller.register)
-userRouter.put('/user/monthly-goal', verifyToken, controller.updateMonthlyGoal)
+userRouter.post('/users', controller.register)
+userRouter.put('/users/monthly-goal', verifyToken, controller.updateMonthlyGoal)
 
-userRouter.get('/user/monthly-goal', verifyToken, controller.getMonthlyGoal)
+userRouter.get('/users/monthly-goal', verifyToken, controller.getMonthlyGoal)
 
-userRouter.get('/user/:id', verifyToken, controller.listById)
+userRouter.get('/users/:id', verifyToken, controller.listById)
 
 export default userRouter

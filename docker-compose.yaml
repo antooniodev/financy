@@ -2,7 +2,6 @@ version: '3.8'
 services:
   postgresdb:
     image: postgres:17
-    restart: always
     ports:
       - "5432:5432"
     environment:
@@ -10,36 +9,39 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: financy
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres-data:/var/lib/postgresql/data
   api:
-    build: 
-      context: ./api
-      dockerfile: dockerfile
+    build: ./api
     container_name: financy-api
-    restart: always
     depends_on:
       - postgresdb
     environment:
       DATABASE_URL: postgres://postgres:postgres@postgresdb:5432/financy
+      DATABASE_HOST: postgresdb
+      DATABASE_PORT: 5432
+      DATABASE_DB: financy
+      DATABASE_USER: postgres
+      DATABASE_PASS: postgres
+      SECRET_KEY: evuirvfjvskvuvrukifskdvscasawfiefnee
     ports:
       - "3333:3333"
     volumes:
       - ./api:/app
-    command: [ "npm", "run", "start" ]
   dashboard:
-    build: 
-      context: ./dashboard
-      dockerfile: dockerfile
+    build: ./dashboard
     container_name: financy-dashboard
-    restart: always
     depends_on:
       - api
     ports:
-      - "5173:5173"
+      - "5173:80"
     volumes:
       - ./dashboard:/app
     environment:
-      VITE_API_URL: http://localhost:3333
+      VITE_API_URL: http://localhost:3333/api/v1
 
 volumes:
-  postgres_data:
+  postgres-data:
+    driver: local
+    driver_opts:
+      type: tmpfs
+      device: tmpfs

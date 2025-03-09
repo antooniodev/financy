@@ -1,17 +1,13 @@
-FROM node:20.17.0
+FROM node:20-alpine
 
-COPY package.json package-lock.json ./
+# WORKDIR /app
 
-RUN npm install
+COPY package.json yarn.lock ./
+
+RUN yarn install --production=false
 
 COPY . .
 
-RUN npm run build
+RUN yarn build
 
-RUN npx drizzle-kit push
-
-RUN npm run seed
-
-EXPOSE 3333
-
-CMD ["npm", "run", "start"]
+CMD ["sh", "-c", "sleep 5 && npx drizzle-kit push && node dist/config/db/seed.js && yarn start"]

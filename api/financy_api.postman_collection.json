@@ -1,0 +1,2110 @@
+{
+	"info": {
+		"_postman_id": "84358468-4e18-4d7b-acdc-a51eba417779",
+		"name": "Financy API",
+		"description": "This API provides a comprehensive set of endpoints for managing users, transactions, and categories. It allows users to register, update their goals, track and categorize transactions, and perform various metrics calculations. The API also includes endpoints for authentication, where users must log in to obtain a token for accessing certain endpoints.\n\n**Authentication**: To interact with the endpoints that require a token, users must authenticate by logging in. After successful login, a token will be provided, which must be included in the `Authorization` header for subsequent requests that require authentication.\n\nAll requests that require authentication will need the token to be passed in the request header under `Authorization: Bearer` .",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23306405"
+	},
+	"item": [
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "find by id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{local_url}}/users/v2fbqr3q1bwj0bmz8htzlqlf",
+							"host": [
+								"{{local_url}}"
+							],
+							"path": [
+								"users",
+								"v2fbqr3q1bwj0bmz8htzlqlf"
+							]
+						},
+						"description": "Retrieves user details by ID."
+					},
+					"response": [
+						{
+							"name": "Response 404 Not Found",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3333/api/v1/user/mplg5qb2mxf53510ultmqozrw",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3333",
+									"path": [
+										"api",
+										"v1",
+										"user",
+										"mplg5qb2mxf53510ultmqozrw"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "37"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"25-aqHJ+30BSr09yhSkVILHeIcIBNw\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 15 Jan 2025 00:17:25 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"Usuário não encontrado.\"\n}"
+						},
+						{
+							"name": "Response 200 - Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{local_url}}/users/v2fbqr3q1bwj0bmz8htzlqlf",
+									"host": [
+										"{{local_url}}"
+									],
+									"path": [
+										"users",
+										"v2fbqr3q1bwj0bmz8htzlqlf"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "109"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"6d-Ptg5QQDqJIwonvO9+bpNWK46bmY\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 08 Mar 2025 21:53:06 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"user\": {\n        \"id\": \"v2fbqr3q1bwj0bmz8htzlqlf\",\n        \"firstName\": \"Antonio\",\n        \"lastName\": \"Victor\",\n        \"email\": \"toin@email.com\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "create user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Successful POST request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFudG9uaW9AZW1haWwuY29tIiwiaWF0IjoxNzEyNDU0MDYyLCJleHAiOjE3MTI0NTc2NjJ9.HBDMHs8tQ7K4pVuk_IPP21MvhjIAfiRUWgPtpFzFXG9aGfu2DSLbIvUInTix4KaB8370RTkrFpHMSBfXYGthKw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"firstName\": \"Vitor\",\n    \"lastName\": \"Carvalho\",\n    \"email\": \"teste@email.com\",\n    \"password\": \"123456\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{local_url}}/users",
+							"host": [
+								"{{local_url}}"
+							],
+							"path": [
+								"users"
+							]
+						},
+						"description": "Register a new user."
+					},
+					"response": [
+						{
+							"name": "200 OK Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"firstName\": \"Vitor\",\n    \"lastName\": \"Carvalho\",\n    \"email\": \"teste@email.com\",\n    \"password\": \"123456\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3333/api/v1/users",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3333",
+									"path": [
+										"api",
+										"v1",
+										"users"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "33"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"21-zKhOBDN91swXWFJRH5sETYfebV8\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 06 Mar 2025 22:22:30 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"zwp0liqqurw7maajs9w1ay2m\"\n}"
+						},
+						{
+							"name": "409 Conflict of email",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"firstName\": \"Vitor\",\n    \"lastName\": \"Carvalho\",\n    \"email\": \"teste@email.com\",\n    \"password\": \"123456\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{local_url}}/users",
+									"host": [
+										"{{local_url}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"status": "Conflict",
+							"code": 409,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "56"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"38-8giEkzQ74PAMDo3TXNZwE3xn2DI\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 06 Mar 2025 22:22:46 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"Já existe uma conta vinculada a este email.\"\n}"
+						},
+						{
+							"name": "400 Bad Request - Propertie required",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\n    \"lastName\": \"Carvalho\",\n    \"email\": \"teste@email.com\",\n    \"password\": \"123456\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{local_url}}/users",
+									"host": [
+										"{{local_url}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "47"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"2f-oh9NXlYT0q5iVvBW1QMu9fwrXGE\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 06 Mar 2025 22:23:22 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"O campo 'firstName' é obrigatório\"\n}"
+						}
+					]
+				},
+				{
+					"name": "update user monthly goal",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"monthlyGoal\": \"2200\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{local_url}}/users/monthly-goal",
+							"host": [
+								"{{local_url}}"
+							],
+							"path": [
+								"users",
+								"monthly-goal"
+							]
+						},
+						"description": "Updates a user montlhy goal."
+					},
+					"response": [
+						{
+							"name": "Response 204 No content",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"monthlyGoal\": \"2200\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3333/api/v1/users/monthly-goal",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3333",
+									"path": [
+										"api",
+										"v1",
+										"users",
+										"monthly-goal"
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"2-vyGp6PvFo4RvsFtPoIWeCReyIC8\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 06 Mar 2025 22:27:16 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Response 404 Bad Request - Propertie required",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{local_url}}/users/monthly-goal",
+									"host": [
+										"{{local_url}}"
+									],
+									"path": [
+										"users",
+										"monthly-goal"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "49"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"31-2bKgToJDmKAAPqc3QxQmsJg6Ctk\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 06 Mar 2025 22:30:59 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"O campo 'monthlyGoal' é obrigatório\"\n}"
+						}
+					]
+				},
+				{
+					"name": "find user monthly goal",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{local_url}}/users/monthly-goal",
+							"host": [
+								"{{local_url}}"
+							],
+							"path": [
+								"users",
+								"monthly-goal"
+							]
+						},
+						"description": "Retrieves a user monthly goal."
+					},
+					"response": [
+						{
+							"name": "Response 200 - Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3333/api/v1/users/monthly-goal",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3333",
+									"path": [
+										"api",
+										"v1",
+										"users",
+										"monthly-goal"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "65"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"41-VK7Fe4prpUg134NwHx38iW0naTo\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 08 Mar 2025 21:57:10 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"monthlyGoal\": 2200,\n    \"totalOfExpenses\": 0,\n    \"percentageOfExpenses\": 0\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "categories",
+			"item": [
+				{
+					"name": "find categories summary",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{local_url}}/categories/summary/?type=false&startDate=2025-01-01&endDate=2025-01-31&page=2&limit=10",
+							"host": [
+								"{{local_url}}"
+							],
+							"path": [
+								"categories",
+								"summary",
+								""
+							],
+							"query": [
+								{
+									"key": "type",
+									"value": "false"
+								},
+								{
+									"key": "startDate",
+									"value": "2025-01-01"
+								},
+								{
+									"key": "endDate",
+									"value": "2025-01-31"
+								},
+								{
+									"key": "page",
+									"value": "2"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						},
+						"description": "Retrieves a summary of a user categories for a specific period."
+					},
+					"response": [
+						{
+							"name": "Response 200 - Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3333/api/v1/categories/summary/?type=false&startDate=2025-01-01&endDate=2025-01-31&page=2&limit=10",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3333",
+									"path": [
+										"api",
+										"v1",
+										"categories",
+										"summary",
+										""
+									],
+									"query": [
+										{
+											"key": "type",
+											"value": "false"
+										},
+										{
+											"key": "startDate",
+											"value": "2025-01-01"
+										},
+										{
+											"key": "endDate",
+											"value": "2025-01-31"
+										},
+										{
+											"key": "page",
+											"value": "2"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "946"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"3b2-Ox2yB5e3OZ3SoGEBN1Uku8EIHbU\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 08 Mar 2025 21:58:06 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": \"tpqi06opoy0ja51g99b6ndpq\",\n        \"label\": \"Transporte\",\n        \"color\": \"#03CA1A\",\n        \"icon\": \"fa-bus\",\n        \"value\": 0,\n        \"spent_total\": 0\n    },\n    {\n        \"id\": \"rbc8ef9rsem3s77c20nm7kw2\",\n        \"label\": \"Cartão de crédito\",\n        \"color\": \"#F60505\",\n        \"icon\": \"fa-credit-card\",\n        \"value\": 0,\n        \"spent_total\": 0\n    },\n    {\n        \"id\": \"yfe69rqc097mxhdsl8tcnao9\",\n        \"label\": \"Casa\",\n        \"color\": \"#5C4ED2\",\n        \"icon\": \"fa-house\",\n        \"value\": 0,\n        \"spent_total\": 0\n    },\n    {\n        \"id\": \"w6upo30t9rnpholzjwsrzk6w\",\n        \"label\": \"Saúde\",\n        \"color\": \"#0000EE\",\n        \"icon\": \"fa-suitcase-medical\",\n        \"value\": 0,\n        \"spent_total\": 0\n    },\n    {\n        \"id\": \"x5pjotmsjt80vpspevq5itra\",\n        \"label\": \"Alimentação\",\n        \"color\": \"#FF741E\",\n        \"icon\": \"fa-utensils\",\n        \"value\": 0,\n        \"spent_total\": 0\n    },\n    {\n        \"id\": \"f3fz8piz9hbka0aeg992alfw\",\n        \"label\": \"Outros\",\n        \"color\": \"#8C8C88\",\n        \"icon\": \"fa-hashtag\",\n        \"value\": 0,\n        \"spent_total\": 0\n    },\n    {\n        \"id\": \"zw5z03pkenhme4ywiqnqrddh\",\n        \"label\": \"Lazer\",\n        \"color\": \"#F6DE05\",\n        \"icon\": \"fa-tv\",\n        \"value\": 0,\n        \"spent_total\": 0\n    },\n    {\n        \"id\": \"tz9kdibokgn771hwz9e01ixn\",\n        \"label\": \"Educação\",\n        \"color\": \"#F51870\",\n        \"icon\": \"fa-book\",\n        \"value\": 0,\n        \"spent_total\": 0\n    }\n]"
+						},
+						{
+							"name": "404 Bad request - Required Field",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{local_url}}/categories/summary/?type=false&page=2&limit=10",
+									"host": [
+										"{{local_url}}"
+									],
+									"path": [
+										"categories",
+										"summary",
+										""
+									],
+									"query": [
+										{
+											"key": "type",
+											"value": "false"
+										},
+										{
+											"key": "page",
+											"value": "2"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "45"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"2d-4oGINylH8CHa6yiVuODo0wKNvGM\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 08 Mar 2025 21:58:46 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"O campo 'endDate' é obrigatório\"\n}"
+						}
+					]
+				},
+				{
+					"name": "find all categories",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{local_url}}/categories/?type=false",
+							"host": [
+								"{{local_url}}"
+							],
+							"path": [
+								"categories",
+								""
+							],
+							"query": [
+								{
+									"key": "type",
+									"value": "false"
+								}
+							]
+						},
+						"description": "Retrieves all categories for a user filtered by type."
+					},
+					"response": [
+						{
+							"name": "Response 200 - Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3333/api/v1/categories/?type=true",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3333",
+									"path": [
+										"api",
+										"v1",
+										"categories",
+										""
+									],
+									"query": [
+										{
+											"key": "type",
+											"value": "true"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "278"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"116-m8bXxtTdXsXC/dQy4xz81S62Bno\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 08 Mar 2025 22:04:51 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": \"shgq8zto61804qf77bh2by8z\",\n        \"title\": \"Salário\",\n        \"type\": true\n    },\n    {\n        \"id\": \"gae15rde326rrhvdij1lwd05\",\n        \"title\": \"Outras rendas\",\n        \"type\": true\n    },\n    {\n        \"id\": \"jbxu91zrjk23esh6ydltmnvv\",\n        \"title\": \"Investimentos\",\n        \"type\": true\n    },\n    {\n        \"id\": \"i4n9v65ofzcsmk2kvc3xhl2d\",\n        \"title\": \"Transferências\",\n        \"type\": true\n    }\n]"
+						},
+						{
+							"name": "404 Bad request - Required field",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{local_url}}/categories/",
+									"host": [
+										"{{local_url}}"
+									],
+									"path": [
+										"categories",
+										""
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "42"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"2a-M5/ww9D1ayFifP4YgW8c0xrwRAY\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 08 Mar 2025 22:05:44 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"O campo 'type' é obrigatório\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "transactions",
+			"item": [
+				{
+					"name": "transactions",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{local_url}}/transactions?startDate=2025-03-01&endDate=2025-03-31&page=1&limit=10&orderBy=type",
+							"host": [
+								"{{local_url}}"
+							],
+							"path": [
+								"transactions"
+							],
+							"query": [
+								{
+									"key": "startDate",
+									"value": "2025-03-01"
+								},
+								{
+									"key": "endDate",
+									"value": "2025-03-31"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "orderBy",
+									"value": "type"
+								}
+							]
+						},
+						"description": "Retrieves a list of transactions for a user based on filter parameters."
+					},
+					"response": [
+						{
+							"name": "Response 200 Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3333/api/v1/transactions?startDate=2025-03-01&endDate=2025-03-31&page=1&limit=10&orderBy=type",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3333",
+									"path": [
+										"api",
+										"v1",
+										"transactions"
+									],
+									"query": [
+										{
+											"key": "startDate",
+											"value": "2025-03-01"
+										},
+										{
+											"key": "endDate",
+											"value": "2025-03-31"
+										},
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										},
+										{
+											"key": "orderBy",
+											"value": "type"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "254"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"fe-sAUsi9AgnNTA+Ysu6GnFpDuT1B4\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 08 Mar 2025 22:09:53 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"pagination\": {\n        \"next\": false,\n        \"prev\": false,\n        \"total\": 1\n    },\n    \"data\": [\n        {\n            \"id\": \"jit9skaeayeleku2rwfe09ha\",\n            \"title\": \"Internet\",\n            \"value\": \"0.50\",\n            \"type\": false,\n            \"date\": \"2025-03-08T00:00:00.000Z\",\n            \"category\": {\n                \"id\": \"yfe69rqc097mxhdsl8tcnao9\",\n                \"title\": \"Casa\",\n                \"color\": \"#5C4ED2\"\n            }\n        }\n    ]\n}"
+						},
+						{
+							"name": "404 Bad request - Required field",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{local_url}}/transactions?startDate=2025-03-01&endDate=2025-03-31&page=1&limit=10",
+									"host": [
+										"{{local_url}}"
+									],
+									"path": [
+										"transactions"
+									],
+									"query": [
+										{
+											"key": "startDate",
+											"value": "2025-03-01"
+										},
+										{
+											"key": "endDate",
+											"value": "2025-03-31"
+										},
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "45"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"2d-BEhKDJpDAdn75h2QtM3vXYyX8cM\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 08 Mar 2025 22:11:25 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"O campo 'orderBy' é obrigatório\"\n}"
+						}
+					]
+				},
+				{
+					"name": "metrics",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "userid",
+								"value": "mplg5qb2mxf53510ultmqozr",
+								"description": "mplg5qb2mxf53510ultmqozr",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{local_url}}/transactions/metrics?startDate=2025-03-01&endDate=2025-03-30",
+							"host": [
+								"{{local_url}}"
+							],
+							"path": [
+								"transactions",
+								"metrics"
+							],
+							"query": [
+								{
+									"key": "startDate",
+									"value": "2025-03-01"
+								},
+								{
+									"key": "endDate",
+									"value": "2025-03-30"
+								}
+							]
+						},
+						"description": "Retrieves transaction metrics for a user over specif period."
+					},
+					"response": [
+						{
+							"name": "Response 200 - Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "userid",
+										"value": "mplg5qb2mxf53510ultmqozr",
+										"description": "mplg5qb2mxf53510ultmqozr",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:3333/api/v1/transactions/metrics?startDate=2025-03-01&endDate=2025-03-30",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3333",
+									"path": [
+										"api",
+										"v1",
+										"transactions",
+										"metrics"
+									],
+									"query": [
+										{
+											"key": "startDate",
+											"value": "2025-03-01"
+										},
+										{
+											"key": "endDate",
+											"value": "2025-03-30"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "43"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"2b-VtAToraRb7hqukKP+3uU7dukS7Y\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 08 Mar 2025 22:12:46 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"incomes\": 0,\n    \"expenses\": 0.5,\n    \"balance\": -0.5\n}"
+						},
+						{
+							"name": "404 Bad Request - Required field",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "userid",
+										"value": "mplg5qb2mxf53510ultmqozr",
+										"description": "mplg5qb2mxf53510ultmqozr",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{local_url}}/transactions/metrics",
+									"host": [
+										"{{local_url}}"
+									],
+									"path": [
+										"transactions",
+										"metrics"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "45"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"2d-4oGINylH8CHa6yiVuODo0wKNvGM\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 08 Mar 2025 22:13:15 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"O campo 'endDate' é obrigatório\"\n}"
+						}
+					]
+				},
+				{
+					"name": "transactionsById",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{local_url}}/transactions/jit9skaeayeleku2rwfe09ha",
+							"host": [
+								"{{local_url}}"
+							],
+							"path": [
+								"transactions",
+								"jit9skaeayeleku2rwfe09ha"
+							]
+						},
+						"description": "Retrieves a specific transaction by ID."
+					},
+					"response": [
+						{
+							"name": "Response 200 - Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{local_url}}/transactions/jit9skaeayeleku2rwfe09ha",
+									"host": [
+										"{{local_url}}"
+									],
+									"path": [
+										"transactions",
+										"jit9skaeayeleku2rwfe09ha"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "159"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"9f-g6/0X0yKN3RrC2mdEYe2STr2Z8w\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 08 Mar 2025 22:14:25 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"jit9skaeayeleku2rwfe09ha\",\n    \"title\": \"Internet\",\n    \"value\": \"0.50\",\n    \"type\": false,\n    \"date\": \"2025-03-08T00:00:00.000Z\",\n    \"category\": {\n        \"id\": \"yfe69rqc097mxhdsl8tcnao9\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "transaction",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Internet\",\r\n    \"date\": \"2025-03-08\",\r\n    \"value\": 50,\r\n    \"type\": false,\r\n    \"categoryId\": \"yfe69rqc097mxhdsl8tcnao9\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{local_url}}/transactions",
+							"host": [
+								"{{local_url}}"
+							],
+							"path": [
+								"transactions"
+							]
+						},
+						"description": "Creates a new transaction"
+					},
+					"response": [
+						{
+							"name": "Response 200 - Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"Internet\",\r\n    \"date\": \"2025-03-08\",\r\n    \"value\": 50,\r\n    \"type\": false,\r\n    \"categoryId\": \"yfe69rqc097mxhdsl8tcnao9\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{local_url}}/transactions",
+									"host": [
+										"{{local_url}}"
+									],
+									"path": [
+										"transactions"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "33"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"21-dXGr5cYJsCEEM+OTWRag09XP2Lk\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 08 Mar 2025 22:08:43 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"jit9skaeayeleku2rwfe09ha\"\n}"
+						},
+						{
+							"name": "404 Bad Request - Required field",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"date\": \"2025-03-08\",\r\n    \"value\": 50,\r\n    \"type\": false,\r\n    \"categoryId\": \"yfe69rqc097mxhdsl8tcnao9\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{local_url}}/transactions",
+									"host": [
+										"{{local_url}}"
+									],
+									"path": [
+										"transactions"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "43"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"2b-j+EbqXtJ2x85uaGaVkbUww0pAGQ\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 08 Mar 2025 22:15:42 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"O campo 'title' é obrigatório\"\n}"
+						}
+					]
+				},
+				{
+					"name": "transactions",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{local_url}}/transactions/jit9skaeayeleku2rwfe09ha",
+							"host": [
+								"{{local_url}}"
+							],
+							"path": [
+								"transactions",
+								"jit9skaeayeleku2rwfe09ha"
+							]
+						},
+						"description": "Deletes a transaction by ID."
+					},
+					"response": [
+						{
+							"name": "Response 200 - Success",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{local_url}}/transactions/jit9skaeayeleku2rwfe09ha",
+									"host": [
+										"{{local_url}}"
+									],
+									"path": [
+										"transactions",
+										"jit9skaeayeleku2rwfe09ha"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "2"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"2-vyGp6PvFo4RvsFtPoIWeCReyIC8\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 08 Mar 2025 22:16:51 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{}"
+						}
+					]
+				},
+				{
+					"name": "transaction",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Mercado\",\r\n    \"value\": \"0.50\",\r\n    \"type\": false,\r\n    \"date\": \"2025-03-08T00:00:00.000Z\",\r\n    \"categoryId\": \"yfe69rqc097mxhdsl8tcnao9\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{local_url}}/transactions/u256gq4uyg2cte28chbq6dks",
+							"host": [
+								"{{local_url}}"
+							],
+							"path": [
+								"transactions",
+								"u256gq4uyg2cte28chbq6dks"
+							]
+						},
+						"description": "Ediits an existing transaction."
+					},
+					"response": [
+						{
+							"name": "Response 200 - Success",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"Mercado\",\r\n    \"value\": \"0.50\",\r\n    \"type\": false,\r\n    \"date\": \"2025-03-08T00:00:00.000Z\",\r\n    \"categoryId\": \"yfe69rqc097mxhdsl8tcnao9\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{local_url}}/transactions/u256gq4uyg2cte28chbq6dks",
+									"host": [
+										"{{local_url}}"
+									],
+									"path": [
+										"transactions",
+										"u256gq4uyg2cte28chbq6dks"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "33"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"21-yiKnsVhmeCR5a5q9w6hjmLu6eCM\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 08 Mar 2025 22:19:32 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"u256gq4uyg2cte28chbq6dks\"\n}"
+						},
+						{
+							"name": "404 Bad Request - Required field",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"value\": \"0.50\",\r\n    \"type\": false,\r\n    \"date\": \"2025-03-08T00:00:00.000Z\",\r\n    \"categoryId\": \"yfe69rqc097mxhdsl8tcnao9\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{local_url}}/transactions/u256gq4uyg2cte28chbq6dks",
+									"host": [
+										"{{local_url}}"
+									],
+									"path": [
+										"transactions",
+										"u256gq4uyg2cte28chbq6dks"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "43"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"2b-j+EbqXtJ2x85uaGaVkbUww0pAGQ\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 08 Mar 2025 22:20:10 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"O campo 'title' é obrigatório\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "session",
+			"item": [
+				{
+					"name": "session",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Get token from Body\", function () {\r",
+									"    const response = pm.response.json()\r",
+									"\r",
+									"    pm.collectionVariables.set(\"TOKEN\", response.token);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"teste@email.com\",\r\n    \"password\": \"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{local_url}}/auth/session",
+							"host": [
+								"{{local_url}}"
+							],
+							"path": [
+								"auth",
+								"session"
+							]
+						},
+						"description": "Authenticates a user and creates a session."
+					},
+					"response": [
+						{
+							"name": "Response 200 - Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"teste@email.com\",\r\n    \"password\": \"123456\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{local_url}}/auth/session",
+									"host": [
+										"{{local_url}}"
+									],
+									"path": [
+										"auth",
+										"session"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "299"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"12b-Q6oUk3Yd89ppV38cjj6fnumHbo0\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 08 Mar 2025 22:23:15 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"user\": {\n        \"userId\": \"ttimv8co08ipavh9p3ciud03\",\n        \"firstName\": \"Vitor\",\n        \"monthlyGoal\": 2200\n    },\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ0dGltdjhjbzA4aXBhdmg5cDNjaXVkMDMiLCJmaXJzdE5hbWUiOiJWaXRvciIsImlhdCI6MTc0MTQ3MjU5NSwiZXhwIjoxNzQxNTU4OTk1fQ.GOAjQW4Z_ysgKga7r86C1Lo0ZR_7dDz5J1b-66u08ok\"\n}"
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "id",
+			"value": "1"
+		},
+		{
+			"key": "backend-render",
+			"value": "https://finance-control-backend.onrender.com",
+			"type": "string"
+		},
+		{
+			"key": "local_url",
+			"value": "http://localhost:3333/api/v1",
+			"type": "string"
+		},
+		{
+			"key": "TOKEN",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
