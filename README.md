@@ -63,7 +63,7 @@ Financy é um projeto de controle financeiro composto por uma Dashboard desenvol
    
 ## 📜 Documentação da API
 
-A documentação da API foi gerada via Postman. Você pode acessá-la pelo link abaixo ou importar o arquivo `.json` disponível em /api/financy.postman.json
+A documentação da API foi gerada via Postman. Você pode acessá-la pelo link abaixo ou importar o arquivo `.json` disponível em /api/financy_api.postman_collection.json
 
 🔗 [Documentação Postman](https://documenter.getpostman.com/view/23306405/2sAYdoFT8b)
 
