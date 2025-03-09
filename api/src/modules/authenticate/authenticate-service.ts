@@ -10,7 +10,8 @@ export class AuthenticateService {
     password: string
   ): Promise<UserAuthenticatedBody> {
     const user = await repository.getUserByEmail({ email, password })
-    if (!user) {
+      
+    if (!user || Object.keys(user).length === 0) {
       throw new CustomError(404, 'Email ou senha incorretos.')
     }
     const token = jwt.sign(
@@ -22,7 +23,7 @@ export class AuthenticateService {
       user: {
         userId: user.userId,
         firstName: user.firstName,
-        monthlyGoal: user.monthlyGoal,
+        monthlyGoal: user.monthlyGoal ?? 0,
       },
       token,
     }

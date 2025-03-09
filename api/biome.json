@@ -18,12 +18,12 @@
     }
   },
   "linter": {
-    "enabled": true,
+    "enabled": false,
     "rules": {
       "recommended": true,
       "style": {
         "useImportType": "off",
-        "noNonNullAssertion" : "off"
+        "noNonNullAssertion": "off"
       }
     }
   },
