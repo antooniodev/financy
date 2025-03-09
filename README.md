@@ -22,10 +22,10 @@ Financy é um projeto de controle financeiro composto por uma Dashboard desenvol
 
 ### API
 - **Endpoints para CRUD de transações**
-- **Endpoints para CRUD de categorias**
+- **Endpoints para busca de categorias**
 - **Autenticação via JWT**
 - **Persistência de dados com PostgreSQL**
-- **Validação de dados com Zod**
+- **Validação de dados com Yup**
 
 ## 🛠 Tecnologias Utilizadas
 
@@ -65,7 +65,7 @@ Financy é um projeto de controle financeiro composto por uma Dashboard desenvol
 
 A documentação da API foi gerada via Postman. Você pode acessá-la pelo link abaixo ou importar o arquivo `.json` disponível em /api/financy.postman.json
 
-🔗 [Documentação Postman](http://link-da-documentacao-postman.com)
+🔗 [Documentação Postman](https://documenter.getpostman.com/view/23306405/2sAYdoFT8b)
 
 ## 📜 Estrutura do Projeto
 
