@@ -1,15 +1,15 @@
-import express, { NextFunction, Request, Response } from 'express'
-import routes from './routes'
-import cors from 'cors'
-import handleError from '../shared/middlewares/handle-error'
-import { Error as PostgresError } from 'postgres'
-import { testConnection } from '../config/db'
+import express, { NextFunction, Request, Response } from "express"
+import routes from "./routes"
+import cors from "cors"
+import handleError from "../shared/middlewares/handle-error"
+import { Error as PostgresError } from "postgres"
+import { testConnection } from "../config/db"
 const app = express()
-const PORT = 3333
+const PORT = 3000
 
-app.use(cors({ origin: '*' }))
+app.use(cors({ origin: "*" }))
 
-app.use('/api/v1', routes)
+app.use("/api/v1", routes)
 app.use(
   (
     error: PostgresError,
