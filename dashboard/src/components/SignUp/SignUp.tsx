@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form"
-import { Container, WrapperSignUpForm } from "./styles"
+import { WrapperSignUpForm } from "./styles"
 import Logo from "../../assets/Logo.svg"
 import { createStandaloneToast } from "@chakra-ui/toast"
 import { useNavigate } from "react-router-dom"
@@ -43,110 +43,106 @@ const SignUp = () => {
     navigate("/login")
   })
   return (
-    <Container>
-      <WrapperSignUpForm>
-        <div className='wrapper-logo'>
-          <img src={Logo} alt='Financy' />
-          <span>Financy</span>
+    <WrapperSignUpForm>
+      <div className='wrapper-logo'>
+        <img src={Logo} alt='Financy' />
+        <span>Financy</span>
+      </div>
+      <form onSubmit={onSubmit} className='form-content'>
+        <div className='wrapper-input'>
+          <label htmlFor='email'>Nome</label>
+          <input
+            type='text'
+            {...register("firstName", {
+              required: { message: "* campo obrigatório", value: true },
+              minLength: {
+                message: "O nome precisa ter no mínimo 3 caracteres",
+                value: 3,
+              },
+            })}
+            placeholder='Nome'
+          />
+          {errors.firstName && (
+            <span className='error-message'>{errors.firstName.message}</span>
+          )}
         </div>
-        <form onSubmit={onSubmit} className='form-content'>
-          <div className='wrapper-input'>
-            <label htmlFor='email'>Nome</label>
-            <input
-              type='text'
-              {...register("firstName", {
-                required: { message: "* campo obrigatório", value: true },
-                minLength: {
-                  message: "O nome precisa ter no mínimo 3 caracteres",
-                  value: 3,
-                },
-              })}
-              placeholder='Nome'
-            />
-            {errors.firstName && (
-              <span className='error-message'>{errors.firstName.message}</span>
-            )}
-          </div>
-          <div className='wrapper-input'>
-            <label htmlFor='email'>Sobrenome</label>
-            <input
-              type='text'
-              {...register("lastName", {
-                required: { message: "* campo obrigatório", value: true },
-                minLength: {
-                  message: "O sobrenome precisa ter no mínimo 3 caracteres",
-                  value: 3,
-                },
-              })}
-              placeholder='Sobrenome'
-            />
-            {errors.lastName && (
-              <span className='error-message'>{errors.lastName.message}</span>
-            )}
-          </div>
-          <div className='wrapper-input'>
-            <label htmlFor='email'>Email</label>
-            <input
-              type='email'
-              {...register("email", {
-                required: { message: "* campo obrigatório", value: true },
-                pattern: {
-                  message: "* insira um email válido",
-                  value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                },
-              })}
-              placeholder='Email'
-            />
-            {errors.email && (
-              <span className='error-message'>{errors.email.message}</span>
-            )}
-          </div>
-          <div className='wrapper-input'>
-            <label htmlFor='password'>Senha</label>
-            <input
-              type='password'
-              {...register("password", {
-                required: { message: "* campo obrigatório", value: true },
-              })}
-              placeholder='Senha'
-            />
-            {errors.password && (
-              <span className='error-message'>{errors.password.message}</span>
-            )}
-          </div>
-          <div className='wrapper-input'>
-            <label htmlFor='password'>Confirmar senha</label>
-            <input
-              type='password'
-              {...register("confirmPass", {
-                required: { message: "* campo obrigatório", value: true },
-                validate: (value, formValues) => {
-                  const isValid = value === formValues.password
-                  if (!isValid) {
-                    setError("confirmPass", {
-                      message: "Insira a senha corretamente",
-                    })
-                  }
-                  return isValid || "Insira a senha corretamente"
-                },
-              })}
-              placeholder='Confirmar senha'
-            />
-            {errors.confirmPass && (
-              <span className='error-message'>
-                {errors.confirmPass.message}
-              </span>
-            )}
-          </div>
-          <button type='submit'>Cadastrar</button>
-          <p className='account-message'>
-            Já possui uma conta?{" "}
-            <span onClick={() => navigate("/login")}>Clique aqui</span> para
-            fazer o login.
-          </p>
-        </form>
-      </WrapperSignUpForm>
-    </Container>
+        <div className='wrapper-input'>
+          <label htmlFor='email'>Sobrenome</label>
+          <input
+            type='text'
+            {...register("lastName", {
+              required: { message: "* campo obrigatório", value: true },
+              minLength: {
+                message: "O sobrenome precisa ter no mínimo 3 caracteres",
+                value: 3,
+              },
+            })}
+            placeholder='Sobrenome'
+          />
+          {errors.lastName && (
+            <span className='error-message'>{errors.lastName.message}</span>
+          )}
+        </div>
+        <div className='wrapper-input'>
+          <label htmlFor='email'>Email</label>
+          <input
+            type='email'
+            {...register("email", {
+              required: { message: "* campo obrigatório", value: true },
+              pattern: {
+                message: "* insira um email válido",
+                value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+              },
+            })}
+            placeholder='Email'
+          />
+          {errors.email && (
+            <span className='error-message'>{errors.email.message}</span>
+          )}
+        </div>
+        <div className='wrapper-input'>
+          <label htmlFor='password'>Senha</label>
+          <input
+            type='password'
+            {...register("password", {
+              required: { message: "* campo obrigatório", value: true },
+            })}
+            placeholder='Senha'
+          />
+          {errors.password && (
+            <span className='error-message'>{errors.password.message}</span>
+          )}
+        </div>
+        <div className='wrapper-input'>
+          <label htmlFor='password'>Confirmar senha</label>
+          <input
+            type='password'
+            {...register("confirmPass", {
+              required: { message: "* campo obrigatório", value: true },
+              validate: (value, formValues) => {
+                const isValid = value === formValues.password
+                if (!isValid) {
+                  setError("confirmPass", {
+                    message: "Insira a senha corretamente",
+                  })
+                }
+                return isValid || "Insira a senha corretamente"
+              },
+            })}
+            placeholder='Confirmar senha'
+          />
+          {errors.confirmPass && (
+            <span className='error-message'>{errors.confirmPass.message}</span>
+          )}
+        </div>
+        <button type='submit'>Cadastrar</button>
+        <p className='account-message'>
+          Já possui uma conta?{" "}
+          <span onClick={() => navigate("/login")}>Clique aqui</span> para fazer
+          o login.
+        </p>
+      </form>
+    </WrapperSignUpForm>
   )
 }
 
