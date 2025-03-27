@@ -24,7 +24,7 @@ export const authSlice = createSlice({
       }
       localStorage.clear()
       sessionStorage.clear()
-      window.location.href = "/login"
+      window.location.href = "/welcome"
     },
   },
   extraReducers: (builder) => {

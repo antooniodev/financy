@@ -1,9 +1,9 @@
-import { ContainerLoading } from './styles'
-import CircularProgress from '@mui/material/CircularProgress'
+import { ContainerLoading } from "./styles"
+import MoonLoader from "react-spinners/MoonLoader"
 const Loading = () => {
   return (
     <ContainerLoading>
-      <CircularProgress size={80} />
+      <MoonLoader size={80} />
     </ContainerLoading>
   )
 }
